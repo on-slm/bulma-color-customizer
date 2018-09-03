@@ -1,4 +1,7 @@
 // COMMAND LINE NOTES:
+// how to run the app - just enter:
+// nodemon
+
 // how to start mongod:
 // sudo service mongod start
 // how to connect via shell:
@@ -115,7 +118,7 @@ app.get('/label', function(req, res, next) {
   async.parallel({
       sass: function(callback) {
           Sass.findById('5b3820d7f473d4696cf0f560')
-          .exec(callback)
+          .exec(callback);
       }, // BULLSHIT:
       labels: function(callback) {
         SassLabel.find({ 'label': '5b3820d7f473d4696cf0f55a' },'code')
@@ -124,7 +127,7 @@ app.get('/label', function(req, res, next) {
   }, function(err, results) {
       if (err) { return next(err); } // Error in API usage.
       if (results.label==null) { // No results.
-          var err = new Error('Label not found');
+          err = new Error('Label not found');
           err.status = 404;
           return next(err);
       }
