@@ -1,0 +1,21 @@
+
+extends layout.pug
+block hp-head
+  div.hero-body
+    div.container(class='has-text-centered')
+      h1 #{title}
+  div.hero-foot(class='has-text-centered')
+      h1 patri do hero-foot
+block main
+  section.section(class='hp-main')
+    div.columns
+      div.column(class='is-four-fifths')
+        div.container
+          h2.subtitle #{label}
+          p #{labels_sasses}
+      div.column
+        div.box
+          a(class='button is-warning is-active is-large' href='/customize')
+            span.icon(class='has-text-danger is-large')
+              i(class='fas fa-terminal')
+            span Do it!
