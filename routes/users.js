@@ -23,14 +23,20 @@ router.get('/user/create', user_controller.user_create_get);
 // POST request for creating User profile...
 router.post('/user/create', user_controller.user_create_post);
 
-// GET
+// GET delete
+router.get('/user/:id/delete', user_controller.user_delete_get);
 
+// POST delete
+router.post('/user/:id/delete', user_controller.user_delete_post);
 
-// POST etc
+// GET update
+router.get('/user/:id/update', user_controller.user_update_get);
 
+// POST update
+router.get('/user/:id/update', user_controller.user_update_get);
 
-// GET request to display user profile/details page
-router.get('/user/:userId');
+// GET request to display user profile/detail
+router.get('/user/:id');
 
 // catalog/<object>/create — The form to create a new book, bookinstance, genre, or author (e.g. /catalog/book/create).
 // = /users/<user>/create - sem hned redirect kdyz user zmackne cerveny button "delete my account and all its containing data"

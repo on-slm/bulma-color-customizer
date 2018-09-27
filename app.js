@@ -9,6 +9,9 @@
 
 // mongodb://127.0.0.1:27017/bulma_db
 
+// WHERE TO CONTINUE!!!!!!!
+// https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes - at the end almost
+
 // requires
 const express = require('express');
 const bodyParser = require('body-parser');
