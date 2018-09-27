@@ -20,7 +20,7 @@ exports.index = function(req, res) {
 }
 
 // list user profile
-// (tyhlety exporty pak vlozit do app.get('/users/:userId', list_user_details))
+// (tyhlety exporty pak vlozit do app.get('/users/:userId', user_detail))
 exports.user_detail = function(req, res, next) {
   res.send('NOT IMPLEMENTED: User detail: ' + req.params.id);
   // ... 
