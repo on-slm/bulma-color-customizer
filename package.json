@@ -4,8 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+    "scripts": {
+      "start": "node ./bin/www",
+      "devstart": "nodemon ./bin/www"
+    },
   "author": "onslm",
   "license": "Unlicense",
   "dependencies": {
