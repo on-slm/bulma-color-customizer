@@ -12,6 +12,9 @@
 // WHERE TO CONTINUE!!!!!!!
 // https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes - at the end almost
 
+// to do
+// add debug, morgan etc https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website
+
 // requires
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -86,12 +89,7 @@ app.set('view engine', 'pug');
 
 // ROUTES
 app.get('/', function (req, res) {
-
-res.render('index', { title: 'HOMEPAGE', 
-                        message: 'Hello there!',
-                        pageviews: req.session.views[pathnm(req)],
-                        pathnm: pathnm(req)
-                      });
+  res.redirect('/customize');
 });
 
 app.get('/customize', function (req, res) {  
