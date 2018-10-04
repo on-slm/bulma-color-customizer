@@ -1,20 +1,20 @@
 const express = require('express');
 const async = require('async');
 
+// NEEDS COMPLETE REVISION [2018-10-04]
+
 // primary models = User's own css and sass to list/del
 const Css = require('../models/css');
 
 // secondary model = User
-const User = require('../models/user');
+const User = require('../models/user'); // not sure if needed
 
-
-
-// display list of user's csses 
-exports.list_users_css = function(req, res, next) {
+// display list of (user's) csses
+exports.css_list = function(req, res, next) {
   res.send('NOT IMPLEMENTED: list of users themselves codes');
 };
 
-// display details for specific CSS code 
+// display details for specific CSS code
 exports.css_detail = function(req, res, next) {
   res.send('NOT IMPLEMENTED: list of users csses codes');
 }
@@ -48,4 +48,3 @@ exports.css_update_get = function(req, res, next) {
 exports.css_update_post = function(req, res, next) {
   res.send('NOT IMPLEMENTED: handle update form')
 }
-

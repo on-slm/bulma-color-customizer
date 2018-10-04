@@ -9,13 +9,9 @@ var sass_label_controller = require('../controllers/sassLabelController');
 var css_label_controller = require('../controllers/cssLabelController');
 
 // catalog/ — The home/index page.
-// = '/users/' - user's home page = hned forward na /users/<user>/<id>; NO USERS HOMEPAGE
+// = '/user' - The home/index page of an user = immediate redirect to /users/<user>/<id>
 
-// catalog/<objects>/ — The list of all books, bookinstances, genres, or authors (e.g. /catalog/books/, /catalog/genres/, etc.)
-// = /users/<user> - list of all users - NEBUDU MIT
-
-// catalog/<object>/<id> — The detail page for a specific book, bookinstance, genre, or author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37).
-// = /users/user/<id> - detail page of current user
+router.get('/', user_controller.index); // TO DO: EDIT, MUST IMMEDIATELY REDIRECT TO GET [users]/<user>/<id>
 
 // GET request for creating a User profile (All these "creates" must come before routes displaying what was created; obviously)
 router.get('/user/create', user_controller.user_create_get);
@@ -33,16 +29,38 @@ router.post('/user/:id/delete', user_controller.user_delete_post);
 router.get('/user/:id/update', user_controller.user_update_get);
 
 // POST update
-router.get('/user/:id/update', user_controller.user_update_get);
+router.post('/user/:id/update', user_controller.user_update_get);
 
+// [catalog]/<object>/<id> — The detail page for a specific book, bookinstance, genre, or author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37).
 // GET request to display user profile/detail
 router.get('/user/:id');
 
+// catalog/<objects>/ — The list of all books, bookinstances, genres, or authors (e.g. /catalog/books/, /catalog/genres/, etc.)
+// = /users - list of all users - NEBUDU MIT
+// NO: router.get('/users', user_controller.user_list);
+
 // catalog/<object>/create — The form to create a new book, bookinstance, genre, or author (e.g. /catalog/book/create).
 // = /users/<user>/create - sem hned redirect kdyz user zmackne cerveny button "delete my account and all its containing data"
-// = /users/<user>/<id>/update - the form to upadate users's details - basically only own custom name 
+// = /users/<user>/<id>/update - the form to upadate users's details - basically only own custom name
 // = /users/<user>/<id>/delete - the form to delete: 1. user and all its data (hned pak redirect na create), 2. del user's own custom name
 
+// CSS ROUTES
+
+router.get('/css/create', css_controller.css_create_get); // not sure if needed on /users/
+
+router.post('/css/create', css_controller.css_create_post); // not sure if needed on /users/
+
+router.get('/css/:id/delete', css_controller.css_delete_get); // maybe - should an user be allowed to delete his csss from /users/ page (aka hp)?
+
+router.post('/css/:id/delete', css_controller.css_delete_post); // maybe - should an user be allowed to delete his csss from /users/ page (aka hp)?
+
+router.get('/css/:id/update', css_controller.css_update_get); // not sure if needed on /users/
+
+router.post('/css/:id/update', css_controller.css_update_post); // dtto
+
+router.get('/css/:id', css_controller.css_detail);
+
+router.get('/csses', css_controller.css_list);
 
 
 
