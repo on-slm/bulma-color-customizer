@@ -1,11 +1,11 @@
 const express = require('express');
-var async = require('async');
+const async = require('async');
 
 // primary model = labels of Sasses
-var SassLabel = require('../models/sasslabel');
+const SassLabel = require('../models/sasslabel');
 
 // ?? secondary model = sasses themselves
-var Sass = require('../models/sass')
+const Sass = require('../models/sass')
 
 
 // display list of all sass labels 

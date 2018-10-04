@@ -9,6 +9,12 @@
 
 // mongodb://127.0.0.1:27017/bulma_db
 
+// WHERE TO CONTINUE!!!!!!!
+// https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes - at the end almost
+
+// to do
+// add debug, morgan etc https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website
+
 // requires
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -68,6 +74,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // get value for textarea
+// TO DO LATER: put this sync function just before it's actually needed
 var defaultTxtFile = 'defaultSass.txt';
 var defaultSass = fs.readFileSync(defaultTxtFile, 'utf8');
 
@@ -82,12 +89,7 @@ app.set('view engine', 'pug');
 
 // ROUTES
 app.get('/', function (req, res) {
-
-  res.render('index', { title: 'HOMEPAGE', 
-                        message: 'Hello there!',
-                        pageviews: req.session.views[pathnm(req)],
-                        pathnm: pathnm(req)
-                      });
+  res.redirect('/customize');
 });
 
 app.get('/customize', function (req, res) {  
@@ -114,8 +116,8 @@ app.post('/customize', (req, res) => {
 });
 
 app.get('/label', function(req, res, next) {
-  console.log(req.params.id);
-  async.parallel({
+ 
+  /*async.parallel({
       sass: function(callback) {
           Sass.findById('5b3820d7f473d4696cf0f560')
           .exec(callback);
@@ -133,7 +135,7 @@ app.get('/label', function(req, res, next) {
       }
       // Successful, so render.
       res.render('label', { title: 'Author Detail', label: results.label, labels_sasses: results.labels_sasses } );
-  });
+  });*/
 });
 
 // USERS ROUTER
