@@ -7,12 +7,12 @@ const Sass = require('../models/sass');
 // secondary model = User
 const User = require('../models/user');
 
-// display list of user's sasses 
-exports.list_users_sass = function(req, res, next) {
+// display list of user's sasses
+exports.sass_list = function(req, res, next) {
   res.send('NOT IMPLEMENTED: list of users themselves codes');
 };
 
-// display details for specific SASS code 
+// display details for specific SASS code
 exports.sass_detail = function(req, res, next) {
   res.send('NOT IMPLEMENTED: list of users sasses codes');
 }
@@ -46,4 +46,3 @@ exports.sass_update_get = function(req, res, next) {
 exports.sass_update_post = function(req, res, next) {
   res.send('NOT IMPLEMENTED: handle update form')
 }
-

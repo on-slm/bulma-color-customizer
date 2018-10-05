@@ -46,13 +46,13 @@ router.get('/user/:id');
 
 // CSS ROUTES
 
-router.get('/css/create', css_controller.css_create_get); // not sure if needed on /users/
+router.get('/css/create', css_controller.css_create_get); // not sure if needed on /users/, probably not
 
-router.post('/css/create', css_controller.css_create_post); // not sure if needed on /users/
+router.post('/css/create', css_controller.css_create_post); // not sure if needed on /users/, probably not
 
-router.get('/css/:id/delete', css_controller.css_delete_get); // maybe - should an user be allowed to delete his csss from /users/ page (aka hp)?
+router.get('/css/:id/delete', css_controller.css_delete_get); // maybe... it depends on question: should an user be allowed to delete his csss from /users/ page (aka hp)?
 
-router.post('/css/:id/delete', css_controller.css_delete_post); // maybe - should an user be allowed to delete his csss from /users/ page (aka hp)?
+router.post('/css/:id/delete', css_controller.css_delete_post); // maybe... it depends on question: should an user be allowed to delete his csss from /users/ page (aka hp)?
 
 router.get('/css/:id/update', css_controller.css_update_get); // not sure if needed on /users/
 
@@ -62,6 +62,60 @@ router.get('/css/:id', css_controller.css_detail);
 
 router.get('/csses', css_controller.css_list);
 
+// SaSS ROUTES
+
+router.get('/sass/create', sass_controller.sass_create_get); // not sure if needed on /users/, probably not
+
+router.post('/sass/create', sass_controller.sass_create_post); // not sure if needed on /users/, probably not
+
+router.get('/sass/:id/delete', sass_controller.sass_delete_get); // maybe... it depends on question: should an user be allowed to delete his sasss from /users/ page (aka hp)?
+
+router.post('/sass/:id/delete', sass_controller.sass_delete_post); // maybe... it depends on question: should an user be allowed to delete his sasss from /users/ page (aka hp)?
+
+router.get('/sass/:id/update', sass_controller.sass_update_get); // not sure if needed on /users/
+
+router.post('/sass/:id/update', sass_controller.sass_update_post); // dtto
+
+router.get('/sass/:id', sass_controller.sass_detail);
+
+router.get('/sasses', sass_controller.sass_list);
+
+// CSS LABELS ROUTES
+
+router.get('/csslabel/create', css_label_controller.css_label_create_get); // probably not needed here
+
+router.post('/csslabel/create', css_label_controller.css_label_create_post); // probably not needed here
+
+router.get('/csslbael/:id/delete', css_label_controller.css_label_delete_get); // certainly not needed here on /users/ route
+
+router.post('/csslabel/:id/delete', css_label_controller.css_label_delete_post); // dtto
+
+router.get('/csslabel/:id/update', css_label_controller.css_label_update_get); // dtto
+
+router.post('/csslabel/:id/update', css_label_controller.css_label_update_post); // dtto
+
+router.get('/csslabel/:id', css_label_controller.css_label_detail); // dont know
+
+router.get('/csslabels', css_label_controller.css_label_list); // probably yes
+
+
+// SaSS LABELS ROUTES
+
+router.get('/sasslabel/create', sass_label_controller.sass_label_create_get); // probably not needed here
+
+router.post('/sasslabel/create', sass_label_controller.sass_label_create_post); // probably not needed here
+
+router.get('/sasslbael/:id/delete', sass_label_controller.sass_label_delete_get); // certainly not needed here on /users/ route
+
+router.post('/sasslabel/:id/delete', sass_label_controller.sass_label_delete_post); // dtto
+
+router.get('/sasslabel/:id/update', sass_label_controller.sass_label_update_get); // dtto
+
+router.post('/sasslabel/:id/update', sass_label_controller.sass_label_update_post); // dtto
+
+router.get('/sasslabel/:id', sass_label_controller.sass_label_detail); // dont know
+
+router.get('/sasslabels', sass_label_controller.sass_label_list); // probably yes
 
 
 module.exports = router;

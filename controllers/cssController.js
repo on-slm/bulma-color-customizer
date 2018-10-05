@@ -1,13 +1,13 @@
 const express = require('express');
 const async = require('async');
 
-// NEEDS COMPLETE REVISION [2018-10-04]
+// NEEDS COMPLETE REVISION [2018-10-04] - DONE
 
 // primary models = User's own css and sass to list/del
 const Css = require('../models/css');
-
 // secondary model = User
 const User = require('../models/user'); // not sure if needed
+
 
 // display list of (user's) csses
 exports.css_list = function(req, res, next) {
