@@ -7,21 +7,20 @@ const User = require('../models/user');
 const Css = require('../models/css');
 const Sass = require('../models/sass');
 
-// 1.7.2018 23:56 TADY POKRACOVAT, NEUVAZOVAT NAD TIM:
-
 // OBECNE TU PRIJDOU VSECHNY CRUD (budou-li potreba) OPERACE VC VYRENDROVANI PRO /users/:userId
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
 
 
-// oproti ostatnim controllerum tady bude navic index() funkce, tj. zobrazeni site welcome page
-// fakticky pujde o merge zobrazeni funkci "list_users_css" a "list_users_sass"
 exports.index = function (req, res) {
-   res.send('NOT YET IMPLEMENTED: site home page');
-  // SECOND REDIRECT HERE:
-  // res.redirect('/user/:id'); // not sure if ok
+  res.send('NOT YET IMPLEMENTED: this is URL /users/');
 };
 
-// list user profile
+// page listing all users
+exports.users_list = function (req, res, next) {
+  res.send('not implemented YET - page listing all users');
+};
+
+// detail page for a specific profile
 // (tyhlety exporty pak vlozit do app.get('/users/:userId', user_detail))
 exports.user_detail = function (req, res, next) {
   res.send('NOT IMPLEMENTED: User detail: ' + req.params.id);
@@ -32,7 +31,8 @@ exports.user_detail = function (req, res, next) {
   // nakonec vyrendrovat s res.render (do objektu ty informace)
 };
 
-/* SPATNY NAVRH DESIGNu - OPRAVA - toto pujde pod domain.cz/css[/list]
+/*
+SPATNY NAVRH DESIGNu - OPRAVA - toto pujde pod domain.cz/css[/list]
   // dale pokracovat napr. timto (VLOZIT DO app.get('/users/:userId/css/:cssId', list_user_css))
   exports.list_user_css = function(req, res, next) {
     aync // NUTNE POUZIT, JE TREBA HLEDAT VE DVOU KOLEKCICH
@@ -71,11 +71,5 @@ exports.user_update_post = function (req, res, next) {
   res.send('NOT IMPLEMENTED: User delete POST');
 };
 
-
 // update some of user's info
-
-
 // delete user from server (warn him, all css and sass will be lost)
-
-
-// ???

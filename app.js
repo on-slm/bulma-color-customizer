@@ -85,8 +85,8 @@ app.get('/', function (req, res) {
 });
 */
 
-app.get('/', indexRouter);
-app.get('/users', usersRouter);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
 
 app.get('/customize', function (req, res) {

@@ -11,7 +11,7 @@ var css_label_controller = require('../controllers/cssLabelController');
 // catalog/ — The home/index page.
 // = '/user' - The home/index page of an user = immediate redirect to /users/<user>/<id>
 
-router.get('/', user_controller.index); // TO DO (SECOND REDIRECT): EDIT, MUST IMMEDIATELY REDIRECT TO GET [users]/<user>/<id>
+router.get('/', user_controller.index);
 
 // GET request for creating a User profile (All these "creates" must come before routes displaying what was created; obviously)
 router.get('/user/create', user_controller.user_create_get);
@@ -32,15 +32,12 @@ router.get('/user/:id/update', user_controller.user_update_get);
 router.post('/user/:id/update', user_controller.user_update_get);
 
 // [catalog]/<object>/<id> — The detail page for a specific book, bookinstance, genre, or author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37).
-// GET request to display user profile/detail
-router.get('/user/:id');
+// GET request to display detail of specific user profile
+router.get('/user/:id', user_controller.user_detail);
 
-// catalog/<objects>/ — The list of all books, bookinstances, genres, or authors (e.g. /catalog/books/, /catalog/genres/, etc.)
-// = /users - list of all users - NEBUDU MIT
-// NO: router.get('/users', user_controller.user_list);
+// = /users/list - list of all users - BUDU MIT NAKONEC
+router.get('/list', user_controller.users_list);
 
-// catalog/<object>/create — The form to create a new book, bookinstance, genre, or author (e.g. /catalog/book/create).
-// = /users/<user>/create - sem hned redirect kdyz user zmackne cerveny button "delete my account and all its containing data"
 // = /users/<user>/<id>/update - the form to upadate users's details - basically only own custom name
 // = /users/<user>/<id>/delete - the form to delete: 1. user and all its data (hned pak redirect na create), 2. del user's own custom name
 
