@@ -16,9 +16,9 @@ const Sass = require('../models/sass');
 // oproti ostatnim controllerum tady bude navic index() funkce, tj. zobrazeni site welcome page
 // fakticky pujde o merge zobrazeni funkci "list_users_css" a "list_users_sass"
 exports.index = function (req, res) {
-  // res.send('NOT YET IMPLEMENTED: site home page');
+   res.send('NOT YET IMPLEMENTED: site home page');
   // SECOND REDIRECT HERE:
-  res.redirect('/user/:id'); // not sure if ok
+  // res.redirect('/user/:id'); // not sure if ok
 };
 
 // list user profile

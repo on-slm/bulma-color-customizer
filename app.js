@@ -1,50 +1,41 @@
-// WHERE TO CONTINUE!!!!!!!
-// https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes#Testing_the_routes
+// where to continue:
+// files: users.js & userController.js
+// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes#Testing_the_routes
 
-// COMMAND LINE NOTES:
-// how to run the app - just enter:
-// nodemon
+// how to start mongod: sudo service mongod start
+// how to run the app:  nodemon
+// how to connect into db via shell: mongo --host 127.0.0.1:27017[/bulma_db]
 
-// how to start mongod:
-// sudo service mongod start
-// how to connect via shell:
-// mongo --host 127.0.0.1:27017
+// TO DO:
+// 1. add debug, morgan
+// viz https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website
 
-// mongodb://127.0.0.1:27017/bulma_db
-
-// to do
-// add debug, morgan etc https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website
-
-// requires
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const cookieParser = require('cookie-parser');
-const session = require('express-session'); // tohle je primarne na zajisteni server side session logiky, a musi se k tomu pridat sefovani store tech sessionu, ale i tak to funguje jako dobry prirazovac unikatni cookie ID, takze to vyuziju jen pro managovani cookies samotnych
+const session = require('express-session'); // can be used for assigning unique cookie ID
 const parseurl = require('parseurl');
-
 var async = require('async');
 
-// db model requires
+// db models
 var User = require('./models/user');
 var Sass = require('./models/sass');
 var Css = require('./models/css');
 var SassLabel = require('./models/sasslabel');
 var CssLabel = require('./models/csslabel');
 
-// routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
-// config...
 const app = express();
 const port = 3000;
 const mongoDB = 'mongodb://localhost/bulma_db';
-let timestampHuman = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+let timestampHuman = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); // remove
 
 // session + cookies
-// middleware specific for whole app (VS middleware specific for router only)
+// `app.use` == middleware specific for whole app
 app.use(session({
   secret: 'some key for signing cookie values',
   resave: false,
@@ -58,7 +49,6 @@ function pathnm(reqObj) {
   return parseurl(reqObj).pathname;
 }
 
-// middleware specific for whole app (VS middleware specific for router only)
 app.use(function (req, res, next) {
   if (!req.session.views) {
     req.session.views = {};
@@ -109,9 +99,7 @@ app.get('/customize', function (req, res) {
                           });
 });
 
-// TODO: after that (render) show 2 options: 1. download css; 2. preview :
 app.post('/customize', (req, res) => {
-
   res.render('customize', { title: 'DONE - RESULTS:',
                             draftName: req.body.draftName,
                             inputAreaCode: req.body.inputAreaCode,
@@ -122,51 +110,9 @@ app.post('/customize', (req, res) => {
                            });
 });
 
-app.get('/label', function(req, res, next) {
-
-  /*async.parallel({
-      sass: function(callback) {
-          Sass.findById('5b3820d7f473d4696cf0f560')
-          .exec(callback);
-      }, // BULLSHIT:
-      labels: function(callback) {
-        SassLabel.find({ 'label': '5b3820d7f473d4696cf0f55a' },'code')
-        .exec(callback);
-      },
-  }, function(err, results) {
-      if (err) { return next(err); } // Error in API usage.
-      if (results.label==null) { // No results.
-          err = new Error('Label not found');
-          err.status = 404;
-          return next(err);
-      }
-      // Successful, so render.
-      res.render('label', { title: 'Author Detail', label: results.label, labels_sasses: results.labels_sasses } );
-  });*/
-});
-
-// USERS ROUTER
-const users = require('./routes/users');
-
-app.use('/users', users);
-
-
-/*
-
-// SASS ROUTER
-const sass = require('./routes/sass');
-app.use('/sass', sass);
-
-// CSS ROUTER
-const css = require('./routes/css');
-app.use('/css', css);
-
-// SASS LABELS ROUTER
-
-
-*/
 app.listen(3000, () => console.log(`${timestampHuman}  Listening on port ${port}!`));
 
+// OFF TOPIC
 // dalsi napad - jednoducha appka fetchujici nove prirustky v knihovnach
 // a zobrazujici je na jednoduchem frontendu (napr. za posledni mesic)
 // filtry napr. podle knihovna / obor / mkn / apod
@@ -177,7 +123,6 @@ app.listen(3000, () => console.log(`${timestampHuman}  Listening on port ${port}
 // https://www.svkos.cz/data/novinky/leden/msvk-index.html
 // na hp knihoven jsou asi vetsinou novinky / prirustky
 // http://www.knihovny.net/
-
 
 // DALSI A SUVERENNE NEJLEPSI
 // APLIKACE NA DOPORUCOVANI KNIZEK PODLE DATABAZEKNIH
@@ -213,9 +158,7 @@ app.listen(3000, () => console.log(`${timestampHuman}  Listening on port ${port}
 // o) docist info o zakonech v ramci antropickeho principu (kolik a jake) a jeden z nich upravit.. jak by pak vypadal vesmir?
 // https://en.wikipedia.org/wiki/Fine-tuned_Universe If, for example, the strong nuclear force were 2% stronger than it is (for example, if the coupling constant representing its strength were 2% larger), while the other constants were left unchanged, diprotons would be stable; according to physicist Paul Davies, hydrogen would fuse into them instead of deuterium and helium.[9] This would drastically alter the physics of stars, and presumably preclude the existence of life similar to what we observe on Earth. The existence of the diproton would short-circuit the slow fusion of hydrogen into deuterium.
 
-
 // AD IDEJE K ALGO+ML TRADING BOTU
 // * vyhledavat klicova slova (bitcoin, btc apod) v https://npmcharts.com/
 // * u jednotlivych zdroju sledovat - geolokaci, muz/zena apod.
 // * neustale sebezhodnocovani a na zaklade toho vzdycky little adjust - napr. sledovat vsechny mozne i nemozne veliciny (napr. geolokace nejcastejsich tweetu), prubezne je sledovat a zpetnou vazbou promitat do parametru bota (napr. pri uspesnem prodeji v case t=x vyhodnotit nejen napr mnozstvi tweetu, ale i odkud prisly, a pokud prisly z nejakeho urciteho mista, napr. v Atlante jich bylo tehdy vice (sledovat vzdycky nejake ANOMALIE, vyboceni z rady), tak na zaklade toho i do budoucna pro vsechny casy t=x+n davat tweetum pochazejicim z Atlanty vetsi vahu... ale i toto do budoucna neustale revidovat a tunit)
-//
