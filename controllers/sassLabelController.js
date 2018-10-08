@@ -14,9 +14,11 @@ exports.sass_label_list = function(req, res, next) {
   };
 
 // Display detail page for a specific Label.
-// tady pokus udelat to samostatne - PAK DODELAT
 exports.sass_label_detail = function(req, res, next) {
-
+  res.send('NOT IMPLEMENTED YET: detail of single sass label: ' + req.params.id);
+  // tady pokus udelat to samostatne - PAK ZKUSIT DODELAT
+  // 2018-10-08 - zatim vzdavam
+  /*
     async.parallel({
         label: function(callback) {
           SassLabel.findById(req.params.id)
@@ -36,17 +38,18 @@ exports.sass_label_detail = function(req, res, next) {
         // Successful, so render.
         res.render('author_detail', { title: 'Author Detail', label: results.label, labels_sasses: results.labels_sasses } );
     });
+    */
 };
 
 
   // display Sass label create form on GET
 exports.sass_label_create_get = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: display create form')
+  res.send('NOT IMPLEMENTED: display create form');
 };
 
   // handle Sass label create form on POST
 exports.sass_label_create_post = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: handle create form')
+  res.send('NOT IMPLEMENTED: handle create form');
 };
 
   // display Sass label delete form on GET
@@ -56,15 +59,15 @@ exports.sass_label_delete_get = function (req, res, next) {
 
   // handle Sass label delete form on POST
 exports.sass_label_delete_post = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: handle delete form')
+  res.send('NOT IMPLEMENTED: handle delete form');
 };
 
   // display Sass label update form on GET
 exports.sass_label_update_get = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: display update form')
+  res.send('NOT IMPLEMENTED: display update form');
 };
 
   // handle Sass label update form on POST
 exports.sass_label_update_post = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: handle update form')
+  res.send('NOT IMPLEMENTED: handle update form');
 };

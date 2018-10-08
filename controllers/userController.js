@@ -17,11 +17,11 @@ exports.index = function (req, res) {
 
 // page listing all users
 exports.users_list = function (req, res, next) {
-  res.send('not implemented YET - page listing all users');
+  res.send('not YET implemented - a page listing all users');
 };
 
 // detail page for a specific profile
-// (tyhlety exporty pak vlozit do app.get('/users/:userId', user_detail))
+// (tyhlety exporty pak vlozit do app.get('/users/user/:userId', user_detail))
 exports.user_detail = function (req, res, next) {
   res.send('NOT IMPLEMENTED: User detail: ' + req.params.id);
   // ...

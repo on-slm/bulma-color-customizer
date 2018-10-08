@@ -11,7 +11,7 @@ exports.css_label_list = function(req, res, next) {
 };
 
 exports.css_label_detail = function (req, res, next) {
-  res.send('NOT IMPLEMENTED YET: display detail of single css label');
+  res.send('NOT IMPLEMENTED YET: detail of single css label');
 };
 
 // display Css label create form on GET
