@@ -1,0 +1,29 @@
+extends layout.pug
+block hp-head
+  div.hero-body
+    div.container(class='has-text-centered')
+      h1 #{title}
+  div.hero-foot(class='has-text-centered')
+      h1 patri do hero-foot
+block main
+  section.section(class='hp-main')
+    div.columns(class='is-multiline')
+      div.column(class='is-four-fifths')
+        div.container
+          h2.subtitle Lets look at SaSS with ID
+          h3.subtitle(class='is-large has-text-weight-bold has-background-primary has-text-warning has-text-centered') #{subtitle}
+          p At the host
+            span.tag(class='is-info') #{hstnm}
+          p with the IP address
+            span.tag(class='is-link') #{hstip}
+          p when the method #{mthd} at the path
+            span.tag(class='is-warning') #{pth}
+          p for a SaSS with this ID (aka route's parameter)
+            span.tag(class='is-warning') #{sassId}
+          p a COUNT function returned number:
+            span.tag(class='is-danger is-large') #{cnt}
+      div.column(class='is-four-fifths')
+        div.container
+          div.box
+            h3.subtitle(class="is-medium") Current ROUTE for controlling purpose:
+            p #{rtOutput}

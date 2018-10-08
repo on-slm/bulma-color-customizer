@@ -13,7 +13,7 @@ var SassSchema = new Schema({
 SassSchema
 .virtual('url')
 .get( () => {
-  return '/sasses/' + this._id;
+  return '/sasses/' + this._id; // this is BS. REWRITE later!
 });
 
 module.exports = mongoose.model('Sass', SassSchema);

@@ -7,43 +7,58 @@ const Sass = require('../models/sass');
 // secondary model = User
 const User = require('../models/user');
 
-// display list of user's sasses 
-exports.list_users_sass = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: list of users themselves codes');
+// display list of user's sasses
+exports.sass_list = function(req, res, next) {
+  res.send('NOT IMPLEMENTED: list of user\'s sass codes\n<br />(sass)');
 };
 
-// display details for specific SASS code 
-exports.sass_detail = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: list of users sasses codes');
-}
+// display details for specific SASS code
+exports.sass_detail = function (req, res, next) {
+  // another playground (ONE async operation to get required operation => then simply render the template in the callback, ie. calback function = count itself)
+  Sass.count({ _id: req.params.id }, function(err, count) {
+    if (err) throw err;
+    console.log(req.route);
+    res.render('sass', {
+      title: 'SaSS DB view TEST - returns 1 if there\'s the given SaSS code in the DB',
+      subtitle: req.params.id,
+      hstnm: req.hostname,
+      hstip: req.ip,
+      pth: req.path,
+      sassId: req.params.id,
+      rtOutput: req.route,
+      cnt: count
+    });
+  });
+
+  // res.send('NOT IMPLEMENTED: detail of a specific css code: ' + req.params.id + '\n<br />(sass)');
+};
 
 // display Sass create form on GET
-exports.sass_create_get = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: display create form')
-}
+exports.sass_create_get = function (req, res, next) {
+  res.send('NOT IMPLEMENTED: display create form\n<br />(sass)');
+};
 
 // handle Sass create form on POST
-exports.sass_create_post = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: handle create form')
-}
+exports.sass_create_post = function (req, res, next) {
+  res.send('NOT IMPLEMENTED: handle create form\n<br />(sass)');
+};
 
 // display Sass delete form on GET
-exports.sass_delete_get = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: display delete form')
-}
+exports.sass_delete_get = function (req, res, next) {
+  res.send('NOT IMPLEMENTED: display delete form\n<br />(sass)');
+};
 
 // handle Sass delete form on POST
-exports.sass_delete_post = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: handle delete form')
-}
+exports.sass_delete_post = function (req, res, next) {
+  res.send('NOT IMPLEMENTED: handle delete form\n<br />(sass)')
+};
 
 // display Sass update form on GET
-exports.sass_update_get = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: display update form')
-}
+exports.sass_update_get = function (req, res, next) {
+  res.send('NOT IMPLEMENTED: display update form\n<br />(sass)');
+};
 
 // handle Sass update form on POST
-exports.sass_update_post = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: handle update form')
-}
-
+exports.sass_update_post = function (req, res, next) {
+  res.send('NOT IMPLEMENTED: handle update form\n<br />(sass)');
+};
