@@ -14,7 +14,23 @@ exports.sass_list = function(req, res, next) {
 
 // display details for specific SASS code
 exports.sass_detail = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: detail of a specific css code: ' + req.params.id + '\n<br />(sass)');
+  // another playground (ONE async operation to get required operation => then simply render the template in the callback, ie. calback function = count itself)
+  Sass.count({ _id: req.params.id }, function(err, count) {
+    if (err) throw err;
+    console.log(req.route);
+    res.render('sass', {
+      title: 'SaSS DB view TEST - returns 1 if there\'s the given SaSS code in the DB',
+      subtitle: req.params.id,
+      hstnm: req.hostname,
+      hstip: req.ip,
+      pth: req.path,
+      sassId: req.params.id,
+      rtOutput: req.route,
+      cnt: count
+    });
+  });
+
+  // res.send('NOT IMPLEMENTED: detail of a specific css code: ' + req.params.id + '\n<br />(sass)');
 };
 
 // display Sass create form on GET

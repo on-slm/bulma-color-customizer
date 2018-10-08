@@ -1,6 +1,8 @@
 // where to continue:
 // files: users.js & userController.js
-// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/routes#Testing_the_routes
+// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async
+//  from this menu of subarticles:
+//  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data#Displaying_library_data_tutorial_subarticles
 
 // how to start mongod: sudo service mongod start
 // how to run the app:  nodemon

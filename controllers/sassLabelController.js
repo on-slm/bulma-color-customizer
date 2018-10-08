@@ -16,6 +16,7 @@ exports.sass_label_list = function(req, res, next) {
 // Display detail page for a specific Label.
 exports.sass_label_detail = function(req, res, next) {
   res.send('NOT IMPLEMENTED YET: detail of single sass label: ' + req.params.id);
+
   // tady pokus udelat to samostatne - PAK ZKUSIT DODELAT
   // 2018-10-08 - zatim vzdavam
   /*
