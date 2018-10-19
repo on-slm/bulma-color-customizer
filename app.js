@@ -1,6 +1,6 @@
 // where to continue:
 // files: users.js & userController.js
-// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async
+// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async#Asynchronous_operations_in_parallel
 //  from this menu of subarticles:
 //  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data#Displaying_library_data_tutorial_subarticles
 
@@ -78,6 +78,7 @@ var assignNumber = Date.now();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('views'));
 
+app.set('views', pathn.join(__dirname + '/views'));
 app.set('view engine', 'pug');
 
 // ROUTES - 2018-10-04 LETS ASSUME THAT FIRST PAGE PPL OPEN IS USERS aka USER DETAIL (NOT CUSTOMIZER /CUSTOMIZE)
