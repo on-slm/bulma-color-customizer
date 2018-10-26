@@ -1,6 +1,41 @@
 extends layout.pug
 block main
-  section.section(class="is-large")
-    h1.title A list of last sign-in users
-    h2.subtitle The webpage's visited by exactly #{count} users in last 7 days.
-    div.container
+  div.container(class='users-main')
+    if error
+      h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
+    else
+      h1.title= title
+    div.columns
+      div.column(class='is-4')
+        nav.level
+          div.level-left
+            div.box(class='/*is-paddingless*/')
+              span(class='has-background-primary')
+                a.level-item
+                  span.icon(class='is-success')
+                    i.fas(class='fas fa-angle-double-right')
+              span(class='has-background-light')
+                a.pagination-link(class='is-current') data.users_count
+          div.level-right
+            p(class='is-4 has-text-left') users' count in a db!
+        div
+          aside.menu
+            p.menu-label All-time stats
+            ul.menu-list
+              li #[strong CSS] count: !{data.css_count}
+              li #[strong SaSS] count: !{data.sass_count}
+              li #[strong Users] count: !{data.users_count}
+            p.menu-label Your profile
+            ul.menu-list
+              li Info
+              li CSS
+              li Remove
+              li Log out
+      div.column(class='is-8')
+        div.container(class='')
+          div.
+            #[button.delete]
+            blba
+          div
+            p #{containerStyle.width}
+            p= containerStyle.width

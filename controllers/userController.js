@@ -1,18 +1,43 @@
 const express = require('express');
-const async = require('async');
+
+
 // main model = User
 const User = require('../models/user');
-
-// secondary models = User's own css and sass to list/del
+// "secondary" models = User's own css and sass to list/del
 const Css = require('../models/css');
 const Sass = require('../models/sass');
+
+const async = require('async');
 
 // OBECNE TU PRIJDOU VSECHNY CRUD (budou-li potreba) OPERACE VC VYRENDROVANI PRO /users/:userId
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
 
+User.count({}, function (err, rslt) {
+  if (err) console.error(err);
+  console.log(rslt);
+});
 
 exports.index = function (req, res) {
-  res.send('NOT YET IMPLEMENTED: this is URL /users/');
+  console.log('begining of controller ok');
+  async.parallel({
+    users_count: function (callback) {
+      User.count({ repo: 'Private' }, callback);
+    },
+    css_count: function (callback) {
+      Css.count({}, callback);
+    },
+    sass_count: function (callback) {
+      Sass.count({}, callback);
+    }
+  }, function (err, results) {
+    console.log('async\'s callback');
+    res.render('users', {
+      title: 'Color Customiser Homepage',
+      error: err,
+      data: results,
+      containerStyle: flexBoxContainer
+    });
+  });
 };
 
 // page listing all users
@@ -73,3 +98,15 @@ exports.user_update_post = function (req, res, next) {
 
 // update some of user's info
 // delete user from server (warn him, all css and sass will be lost)
+
+
+var flexBoxContainer = {};
+flexBoxContainer.width = '968px';
+flexBoxContainer.height = '2500px';
+flexBoxContainer['background-color'] = 'yellow';
+flexBoxContainer.display = 'flex';
+flexBoxContainer['flex-wrap'] = 'wrap';
+flexBoxContainer['align-content'] = 'flex-start';
+flexBoxContainer['align-items'] = 'flex-start';
+flexBoxContainer['flex-direction'] = 'column';
+flexBoxContainer['justify-content'] = 'center';
