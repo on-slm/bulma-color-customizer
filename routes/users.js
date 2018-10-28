@@ -17,7 +17,8 @@ var css_label_controller = require('../controllers/cssLabelController');
 // catalog/ — The home/index page.
 // = '/user' - The home/index page of an user = immediate redirect to /users/<user>/<id>
 
-router.get('/', user_controller.index);
+// router.get('/', user_controller.index);
+router.get('/', user_controller.users_list);
 
 // GET request for creating a User profile (All these "creates" must come before routes displaying what was created; obviously)
 router.get('/user/create', user_controller.user_create_get);

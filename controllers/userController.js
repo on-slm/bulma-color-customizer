@@ -12,22 +12,16 @@ const async = require('async');
 // OBECNE TU PRIJDOU VSECHNY CRUD (budou-li potreba) OPERACE VC VYRENDROVANI PRO /users/:userId
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
 
-User.count({}, function (err, rslt) {
-  if (err) console.error(err);
-  console.log(rslt);
-});
-
 exports.index = function (req, res) {
-  console.log('begining of controller ok');
   async.parallel({
     users_count: function (callback) {
-      User.count({ repo: 'Private' }, callback);
+      User.countDocuments({ repo: 'Private' }, callback);
     },
     css_count: function (callback) {
-      Css.count({}, callback);
+      Css.countDocuments({}, callback);
     },
     sass_count: function (callback) {
-      Sass.count({}, callback);
+      Sass.countDocuments({}, callback);
     }
   }, function (err, results) {
     console.log('async\'s callback');
@@ -35,14 +29,27 @@ exports.index = function (req, res) {
       title: 'Color Customiser Homepage',
       error: err,
       data: results,
-      containerStyle: flexBoxContainer
+      containerStyle: flexBoxContainer,
+      userlist: null
     });
   });
 };
 
 // page listing all users
 exports.users_list = function (req, res, next) {
-  res.send('not YET implemented - a page listing all users');
+  User.find({}, 'name repo last_logged')
+    .populate('csses')
+    .exec(function (err, listedusers) {
+      if (err) { return next(err); }
+      // succesful, so render:
+      res.render('users', {
+        title: 'Color Customiser Homepage',
+        error: err,
+        userlist: listedusers,
+        containerStyle: flexBoxContainer,
+        data: ''
+      });
+    });
 };
 
 // detail page for a specific profile

@@ -2,7 +2,7 @@
 // files: userController.js and .pug files
 // link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async#Asynchronous_operations_in_parallel
 //  from this menu of subarticles:
-//  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Home_page#What_does_it_look_like
+//  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Book_list_page
 
 // ATTENTION!!! need to find out why a mongoose method 'Model.countDocuments(...)' isn't working
 

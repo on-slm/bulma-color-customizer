@@ -11,7 +11,8 @@ const User = require('../models/user'); // not sure if needed
 
 // display list of (user's) csses
 exports.css_list = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: list of user\'s css codes\n<br />(css)');
+
+
 };
 
 // display details for specific CSS code

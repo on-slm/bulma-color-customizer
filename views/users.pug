@@ -20,11 +20,12 @@ block main
             p(class='is-4 has-text-left') users' count in a db!
         div
           aside.menu
-            p.menu-label All-time stats
-            ul.menu-list
-              li #[strong CSS] count: !{data.css_count}
-              li #[strong SaSS] count: !{data.sass_count}
-              li #[strong Users] count: !{data.users_count}
+            if data
+              p.menu-label All-time stats
+              ul.menu-list
+                li #[strong CSS] count: !{data.css_count}
+                li #[strong SaSS] count: !{data.sass_count}
+                li #[strong Users] count: !{data.users_count}
             p.menu-label Your profile
             ul.menu-list
               li Info
@@ -33,9 +34,21 @@ block main
               li Log out
       div.column(class='is-8')
         div.container(class='')
-          div.
+          // div.
             #[button.delete]
             blba
-          div
+          // div
             p #{containerStyle.width}
             p= containerStyle.width
+          div
+            if userlist
+              ul
+                each user in userlist
+                  li
+                    a(href=user.url) #{user.name} (#{user.repo}) (#{user.last_logged})
+                    | (#{user.csses.code})
+                else
+                  li There are no users in db.
+            else
+              ul
+                li There are no users in db.
