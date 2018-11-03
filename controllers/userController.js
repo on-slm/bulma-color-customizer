@@ -1,23 +1,55 @@
 const express = require('express');
-const async = require('async');
+
+
 // main model = User
 const User = require('../models/user');
-
-// secondary models = User's own css and sass to list/del
+// "secondary" models = User's own css and sass to list/del
 const Css = require('../models/css');
 const Sass = require('../models/sass');
+
+const async = require('async');
 
 // OBECNE TU PRIJDOU VSECHNY CRUD (budou-li potreba) OPERACE VC VYRENDROVANI PRO /users/:userId
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
 
-
 exports.index = function (req, res) {
-  res.send('NOT YET IMPLEMENTED: this is URL /users/');
+  async.parallel({
+    users_count: function (callback) {
+      User.countDocuments({ repo: 'Private' }, callback);
+    },
+    css_count: function (callback) {
+      Css.countDocuments({}, callback);
+    },
+    sass_count: function (callback) {
+      Sass.countDocuments({}, callback);
+    }
+  }, function (err, results) {
+    console.log('async\'s callback');
+    res.render('users', {
+      title: 'Color Customiser Homepage',
+      error: err,
+      data: results,
+      containerStyle: flexBoxContainer,
+      userlist: null
+    });
+  });
 };
 
 // page listing all users
 exports.users_list = function (req, res, next) {
-  res.send('not YET implemented - a page listing all users');
+  User.find({}, 'name repo last_logged')
+    .populate('csses')
+    .exec(function (err, listedusers) {
+      if (err) { return next(err); }
+      // succesful, so render:
+      res.render('users', {
+        title: 'Color Customiser Homepage',
+        error: err,
+        userlist: listedusers,
+        containerStyle: flexBoxContainer,
+        data: ''
+      });
+    });
 };
 
 // detail page for a specific profile
@@ -73,3 +105,15 @@ exports.user_update_post = function (req, res, next) {
 
 // update some of user's info
 // delete user from server (warn him, all css and sass will be lost)
+
+
+var flexBoxContainer = {};
+flexBoxContainer.width = '968px';
+flexBoxContainer.height = '2500px';
+flexBoxContainer['background-color'] = 'yellow';
+flexBoxContainer.display = 'flex';
+flexBoxContainer['flex-wrap'] = 'wrap';
+flexBoxContainer['align-content'] = 'flex-start';
+flexBoxContainer['align-items'] = 'flex-start';
+flexBoxContainer['flex-direction'] = 'column';
+flexBoxContainer['justify-content'] = 'center';

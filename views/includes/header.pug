@@ -1,29 +1,21 @@
-section.section(class='header hero is-success is-bold')
-  div.hero-head
-    nav.navbar
-      div.container
-        div.navbar-brand
-          a.navbar-item(href="#")
-            img(src="" alt="logo")
-          div.navbar-burger(class='burger' data-target='boc-navbar-menu')
-            span
-            span
-            span
-        div.navbar-menu(id='boc-navbar-menu')
-          div.navbar-start
-            div.navbar-item(class='has-dropdown is-hoverable')
-              a.navbar-link(href='#') DD
-              div.navbar-dropdown(class='is-boxed')
-                a.navbar-item DD-menu1
-                a.navbar-item DD-menu2
-          div.navbar-end
-            a.navbar-item(class='is-active' href='/') Home
-            a.navbar-item(href='/customize') START CUSTOMIZING
-            a.navbar-item #{pathnm}
-            span.navbar-item
-              a(class='button is-success is-inverted')
-                span.icon
-                  i(class='fas fa-home')
-                span(class='tag is-info') `#{pageviews} this session`
-  block hp-head
-  
+div.hero-head
+  nav.navbar(class='is-link' role='navigation')
+    div.navbar-brand
+      a.navbar-item(href='#')
+        img(src='https://via.placeholder.com/140x80.png')
+      a.navbar-burger(class='burger' data-target='boc-navbar-menu')
+        span
+        span
+        span
+    div.navbar-menu(id='boc-navbar-menu')
+      div.navbar-start
+        a.navbar-item Left-start-menu-01
+        a.navbar-item Left-start-menu-02
+      div.navbar-end
+        a.navbar-item(href='/') Home
+        a.navbar-item(class='is-hoverable has-dropdown' href='/customize') START CUSTOMIZING
+        a.navbar-item #{pathnm}
+        a.navbar-item(class='button is-success is-inverted')
+          span.icon
+            i(class='fas fa-home')
+          span(class='tag is-info') `#{pageviews} this session`

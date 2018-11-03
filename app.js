@@ -1,8 +1,10 @@
 // where to continue:
-// files: users.js & userController.js
-// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async
+// files: userController.js and .pug files
+// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async#Asynchronous_operations_in_parallel
 //  from this menu of subarticles:
-//  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data#Displaying_library_data_tutorial_subarticles
+//  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Book_list_page
+
+// ATTENTION!!! need to find out why a mongoose method 'Model.countDocuments(...)' isn't working
 
 // how to start mongod: sudo service mongod start
 // how to run the app:  nodemon
@@ -16,6 +18,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fs = require('fs');
+const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session'); // can be used for assigning unique cookie ID
 const parseurl = require('parseurl');
@@ -78,6 +81,7 @@ var assignNumber = Date.now();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('views'));
 
+app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
 
 // ROUTES - 2018-10-04 LETS ASSUME THAT FIRST PAGE PPL OPEN IS USERS aka USER DETAIL (NOT CUSTOMIZER /CUSTOMIZE)
@@ -112,7 +116,8 @@ app.post('/customize', (req, res) => {
                            });
 });
 
-app.listen(3000, () => console.log(`${timestampHuman}  Listening on port ${port}!`));
+
+app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}!`));
 
 // OFF TOPIC
 // dalsi napad - jednoducha appka fetchujici nove prirustky v knihovnach

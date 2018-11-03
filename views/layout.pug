@@ -1,14 +1,16 @@
 doctype html
-html
+html(class='')
   head
-    meta(charset='utf-8')
-    meta(name='viewport' content='width=device-width, initial-scale=1')
-    title= title
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css')
-    script(defer src='https://use.fontawesome.com/releases/v5.0.7/js/all.js')
-    script(defer src='src/navbar.js' type='text/javascript')
-    block syntax
-  body
-    include includes/header.pug
-    block main
-    include includes/footer.pug
+    block head
+      meta(charset='utf-8')
+      meta(name='viewport' content='width=device-width, initial-scale=1')
+      title= title
+      link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css')
+      // link(rel='stylesheet' href='src/debug.css')
+      script(defer src='https://use.fontawesome.com/releases/v5.0.7/js/all.js')
+      script(defer src='src/navbar.js' type='text/javascript')
+  body(class='')
+    section.hero(class='is-fullheight is-primary is-bold')
+      include includes/header.pug
+      include includes/main.pug
+      include includes/footer.pug
