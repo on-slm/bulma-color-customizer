@@ -13,6 +13,16 @@ const async = require('async');
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
 
 exports.index = function (req, res) {
+  var sview;
+  var sexp;
+  if (req.session.views) {
+    req.session.views++;
+    sviews = req.session.views;
+    sexp = (req.session.cookie.maxAge / 1000);
+    console.log('\n sviews: ' + sviews, '\sexp: ' + sexp);
+  } else {
+    sviews = 1;
+  }
   async.parallel({
     users_count: function (callback) {
       User.countDocuments({ repo: 'Private' }, callback);
@@ -30,7 +40,9 @@ exports.index = function (req, res) {
       error: err,
       data: results,
       containerStyle: flexBoxContainer,
-      userlist: null
+      userlist: null,
+      sessviews: sviews,
+      sessexp:  sexp
     });
   });
 };

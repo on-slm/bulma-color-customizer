@@ -28,6 +28,11 @@ block main
                 li #[strong Users] count: !{data.users_count}
             p.menu-label Your profile
             ul.menu-list
+              li SESSIONinfo - views: !{sessviews}
+              li SESSIONinfo - expires in:
+    res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
+
+            ul.menu-list
               li Info
               li CSS
               li Remove

@@ -20,9 +20,37 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const session = require('express-session'); // can be used for assigning unique cookie ID
+// const session = require('express-session'); // can be used for assigning unique cookie ID
 const parseurl = require('parseurl');
-var async = require('async');
+const session = require('express-session');
+const async = require('async');
+
+
+// cookie.expires
+// npm install express-session
+var d = new Date();
+d.setTime(d.getTime() + (4 * 365 * 24 * 60 * 60 * 1000));
+// cookie.maxAge = (5 * 60 * 60 * 24 * 365 * 1000);
+var sess = {
+  genid: function (req) {
+    console.log(req);
+    console.log(genuuid());
+    return genuuid(); // use UUIDs for session IDs
+  },
+  resave: false,
+  saveUninitialized: true,
+  secret: 'keyboard cat',
+  saveUninitialized: true,
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    maxAge: (5 * 60 * 60 * 24 * 365 * 1000),
+    expires: d
+  }
+}
+// !!!!!!!!!!!!!!!!!! app.use(session) je DOLE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
 
 // db models
 var User = require('./models/user');
@@ -39,29 +67,18 @@ const port = 3000;
 const mongoDB = 'mongodb://localhost/bulma_db';
 let timestampHuman = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); // remove
 
-// session + cookies
-// `app.use` == middleware specific for whole app
-app.use(session({
-  secret: 'some key for signing cookie values',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    maxAge: 60 * 60 * 1000
-  }
-}));
-
 function pathnm(reqObj) {
   return parseurl(reqObj).pathname;
 }
 
-app.use(function (req, res, next) {
-  if (!req.session.views) {
-    req.session.views = {};
-  }
-  var getPath = parseurl(req).pathname;
-  req.session.views[getPath] = (req.session.views[getPath] || 0) + 1;
-  next();
-});
+// app.use(function (req, res, next) {
+//   if (!req.session.views) {
+//     req.session.views = {};
+//   }
+//   var getPath = parseurl(req).pathname;
+//   req.session.views[getPath] = (req.session.views[getPath] || 0) + 1;
+//   next();
+// });
 
 // mongo connection
 mongoose.connect(mongoDB);
@@ -83,6 +100,8 @@ app.use(express.static('views'));
 
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
+
+app.use(session(sess));
 
 // ROUTES - 2018-10-04 LETS ASSUME THAT FIRST PAGE PPL OPEN IS USERS aka USER DETAIL (NOT CUSTOMIZER /CUSTOMIZE)
 /*
