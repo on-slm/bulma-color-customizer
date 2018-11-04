@@ -20,37 +20,30 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-// const session = require('express-session'); // can be used for assigning unique cookie ID
+// const session = require('express-session');
+// can be used for assigning unique cookie ID
 const parseurl = require('parseurl');
 const session = require('express-session');
+var MemoryStore = require('memorystore')(session);
 const async = require('async');
-
 
 // cookie.expires
 // npm install express-session
-var d = new Date();
-d.setTime(d.getTime() + (4 * 365 * 24 * 60 * 60 * 1000));
-// cookie.maxAge = (5 * 60 * 60 * 24 * 365 * 1000);
 var sess = {
-  genid: function (req) {
-    console.log(req);
-    console.log(genuuid());
-    return genuuid(); // use UUIDs for session IDs
-  },
-  resave: false,
-  saveUninitialized: true,
-  secret: 'keyboard cat',
-  saveUninitialized: true,
+  resave: false, // edit later, it depends on a session store used
+  saveUninitialized: false,
+  secret: 'keyboard cat', // it signs session ID cookie
+  store: new MemoryStore({
+    //   checkPeriod: 86400000 // prune expired entries every 24h
+  }), // use separate Mongo store later
   cookie: {
     path: '/',
     httpOnly: true,
     secure: false,
-    maxAge: (5 * 60 * 60 * 24 * 365 * 1000),
-    expires: d
+    maxAge: 5 * 1000 // * 60 * 60 * 24 * 365
   }
-}
+};
 // !!!!!!!!!!!!!!!!!! app.use(session) je DOLE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
 
 // db models
 var User = require('./models/user');
@@ -59,13 +52,13 @@ var Css = require('./models/css');
 var SassLabel = require('./models/sasslabel');
 var CssLabel = require('./models/csslabel');
 
+// routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3000;
+const port = 3001;
 const mongoDB = 'mongodb://localhost/bulma_db';
-let timestampHuman = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); // remove
 
 function pathnm(reqObj) {
   return parseurl(reqObj).pathname;
@@ -110,12 +103,26 @@ app.get('/', function (req, res) {
 });
 */
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.get('/', function (req, res, next) {
+  console.log(req.session.id);
+  console.log(req.session.cookie);
+  if (req.session.views) {
+    req.session.views++
+    res.setHeader('Content-Type', 'text/html')
+    res.write('<p>views: ' + req.session.views + '</p>')
+    res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
+    res.end()
+  } else {
+    req.session.views = 1
+    res.end('welcome to the session demo. refresh!')
+    // console.log(req.session.views);
+  }
+});
 
+// app.use('/', indexRouter);
+// app.use('/users', usersRouter);
 
 app.get('/customize', function (req, res) {
-
   res.render('customize', { title: 'CUSTOMIZE!',
                             defaults: defaultSass,
                             autoNumbered: assignNumber,
@@ -135,7 +142,7 @@ app.post('/customize', (req, res) => {
                            });
 });
 
-
+let timestampHuman = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
 app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}!`));
 
 // OFF TOPIC
