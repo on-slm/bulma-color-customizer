@@ -13,6 +13,9 @@ const async = require('async');
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
 
 exports.index = function (req, res) {
+  console.log('jsem v userController.js');
+  console.log(req.session.id);
+  console.log(req.session.someAttribute);
   var sview;
   var sexp;
   if (req.session.views) {
@@ -34,9 +37,8 @@ exports.index = function (req, res) {
       Sass.countDocuments({}, callback);
     }
   }, function (err, results) {
-    console.log('async\'s callback');
     res.render('users', {
-      title: 'Color Customiser Homepage',
+      title: 'Color Customiser Homepage - index',
       error: err,
       data: results,
       containerStyle: flexBoxContainer,
@@ -49,13 +51,16 @@ exports.index = function (req, res) {
 
 // page listing all users
 exports.users_list = function (req, res, next) {
+  console.log('jsem v userController.js');
+  console.log(req.session.id);
+
   User.find({}, 'name repo last_logged')
     .populate('csses')
     .exec(function (err, listedusers) {
       if (err) { return next(err); }
       // succesful, so render:
       res.render('users', {
-        title: 'Color Customiser Homepage',
+        title: 'Color Customiser Homepage - user_list',
         error: err,
         userlist: listedusers,
         containerStyle: flexBoxContainer,

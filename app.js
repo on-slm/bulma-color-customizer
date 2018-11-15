@@ -1,10 +1,13 @@
+// UDELAT UPLNY RESTART
+// PROMAZAT VSE CO SEM NEPATRI!!! BRUTALNE NEKOMPROMISNE!
+// UDELAT UPLNE NOVE PUGY - JEDNODUCHE A S "DEBUG"/DEV RADKEM V HEADERU - v nem zatim zobrazovat jednu jedinou vec - unikatni session ID, abych zjistil, zda mi to prideleni na zacatku funguje
+// PAK AZ POKRACOVAT TEMI ASYNC CTENIMI DB A DALSI TOUTO LOGIKOU
+
 // where to continue:
 // files: userController.js and .pug files
 // link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async#Asynchronous_operations_in_parallel
 //  from this menu of subarticles:
 //  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Book_list_page
-
-// ATTENTION!!! need to find out why a mongoose method 'Model.countDocuments(...)' isn't working
 
 // how to start mongod: sudo service mongod start
 // how to run the app:  nodemon
@@ -34,7 +37,7 @@ var sess = {
   saveUninitialized: false,
   secret: 'keyboard cat', // it signs session ID cookie
   store: new MemoryStore({
-    //   checkPeriod: 86400000 // prune expired entries every 24h
+    checkPeriod: 86400000 // prune expired entries every 24h
   }), // use separate Mongo store later
   cookie: {
     path: '/',
@@ -57,21 +60,12 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3001;
+const port = 3000;
 const mongoDB = 'mongodb://localhost/bulma_db';
 
 function pathnm(reqObj) {
   return parseurl(reqObj).pathname;
 }
-
-// app.use(function (req, res, next) {
-//   if (!req.session.views) {
-//     req.session.views = {};
-//   }
-//   var getPath = parseurl(req).pathname;
-//   req.session.views[getPath] = (req.session.views[getPath] || 0) + 1;
-//   next();
-// });
 
 // mongo connection
 mongoose.connect(mongoDB);
@@ -102,31 +96,15 @@ app.get('/', function (req, res) {
   res.redirect('/customize');
 });
 */
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
 
-app.get('/', function (req, res, next) {
-  console.log(req.session.id);
-  console.log(req.session.cookie);
-  if (req.session.views) {
-    req.session.views++
-    res.setHeader('Content-Type', 'text/html')
-    res.write('<p>views: ' + req.session.views + '</p>')
-    res.write('<p>expires in: ' + (req.session.cookie.maxAge / 1000) + 's</p>')
-    res.end()
-  } else {
-    req.session.views = 1
-    res.end('welcome to the session demo. refresh!')
-    // console.log(req.session.views);
-  }
-});
-
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-
+console.log('fsfsdadfd');
 app.get('/customize', function (req, res) {
   res.render('customize', { title: 'CUSTOMIZE!',
                             defaults: defaultSass,
                             autoNumbered: assignNumber,
-                            pageviews: req.session.views[pathnm(req)],
+                            pageviews: req.session.views,
                             pathnm: pathnm(req)
                           });
 });
@@ -170,6 +148,15 @@ app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}
 // 5. mobilni klient - ???
 // 6. sync s kalendarem etc etc
 // 7. sync GL, BS, TMP etc...
+
+// DALSIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+// desktop appka pro agregovani GB space mezi ruznymi cloud storage sluzbami
+// soucasti i webovy
+// claim "potrebujete vice prostoru? zaregistrovat se budete muset vsude vy sami, o stovky GB vasi dat se postara appX"
+// claim2: "100-200 GB volneho mista za 1 $ mesicne? zbytecne... s appX ziskate 100-200 GB navzdy za cenu par minut, ktere stravite registraci"
+// v pozadi server checkujici bandwith/dostupnost atp. ruznych free storage cloudů a rozdelujici soubory dle techto udaju / pridelujici soubory nejvhodneji podle techto kriterii
+// jednotlivy uzivatel tak ziska mnohem vice prostoru GB pro sebe, pritom nesmi byt ohrozena convenience
+// otazkou je, jestli tyto sluzby maji dobre API :/ viz napr. https://www.fossmint.com/dropbox-alternatives-for-linux/
 
 // DALSI
 // 0) soustredit se na fundamentalni zmeny (problemy, plusy) - "revolucnost" -, ktere ma nejaka radikalne nova technologie, jiz nic podobneho v minulosti nelze najit, na cloveka individualne a/nebo na spolecnost (lidstvo) - priklad: socialni site jako zcela novy typ zavislosti, s kterym se lidstvo teprve musi naucit zachazet (viz matous); mobily jako zcela novy typ zadouciho traveni volneho casu mladymi (viz skupina - syn); socialni site jako zcela novy typ komunikace, v kterem se realizuje "socialno (viz skupina - syn); etc...
