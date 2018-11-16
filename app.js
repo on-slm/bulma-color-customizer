@@ -75,11 +75,14 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // get value for textarea
 // TO DO LATER: put this sync function just before it's actually needed
-var defaultTxtFile = 'defaultSass.txt';
-var defaultSass = fs.readFileSync(defaultTxtFile, 'utf8');
+var defaultSass = fs.readFileSync(path.join(__dirname, 'assets', 'defaultSass.txt'), 'utf8');
 
 // TO DO LATER: assign every user's draft (code inputed) with ordinal number based on his unique cookie, ie. "draft number 1" (first...), "draft number 2" (second), etc
 var assignNumber = Date.now();
+
+var x = Array.from({ length: 5 }, (v, i) => i);
+// [0, 1, 2, 3, 4]
+console.log(x.length);
 
 // express uses and set
 app.use(bodyParser.urlencoded({ extended: false }));
