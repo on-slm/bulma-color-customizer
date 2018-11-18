@@ -203,3 +203,9 @@ app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}
 // * vyhledavat klicova slova (bitcoin, btc apod) v https://npmcharts.com/
 // * u jednotlivych zdroju sledovat - geolokaci, muz/zena apod.
 // * neustale sebezhodnocovani a na zaklade toho vzdycky little adjust - napr. sledovat vsechny mozne i nemozne veliciny (napr. geolokace nejcastejsich tweetu), prubezne je sledovat a zpetnou vazbou promitat do parametru bota (napr. pri uspesnem prodeji v case t=x vyhodnotit nejen napr mnozstvi tweetu, ale i odkud prisly, a pokud prisly z nejakeho urciteho mista, napr. v Atlante jich bylo tehdy vice (sledovat vzdycky nejake ANOMALIE, vyboceni z rady), tak na zaklade toho i do budoucna pro vsechny casy t=x+n davat tweetum pochazejicim z Atlanty vetsi vahu... ale i toto do budoucna neustale revidovat a tunit)
+
+// DALSI NAPAD HODNY ZAZNAMENANI - GA JAKO TEZITKO
+// * prozkoumat nejen princip fungovani blockchainove technologie, ale prozkoumat to realne na bitcoinu
+// * zjistit, jak funguji tezici skripty, jak slozite algoritmy to ma, jak HW narocne, jak by bylo narocne napsat si vlastni, atp.
+// * zcela abstraktne: zjistit, zda by se dal napsat ekvivalent teziciho skriptu za pomoci vsech ruznych prvku GA - eventy, CD, CM, >>> vypoctene dimenze <<< etc (zkratka neuvazovat implementaci v klasickem prog. jazyce, ale vsechny moznosti GA jakozto specificky jazyk)
+// * if true >>> zkusit
