@@ -29,6 +29,8 @@ const parseurl = require('parseurl');
 const session = require('express-session');
 var MemoryStore = require('memorystore')(session);
 const async = require('async');
+console.log('===================\n', 'app.js', '\n');
+
 
 // cookie.expires
 // npm install express-session
@@ -43,7 +45,7 @@ var sess = {
     path: '/',
     httpOnly: true,
     secure: false,
-    maxAge: 5 * 1000 // * 60 * 60 * 24 * 365
+    maxAge: 1000 * 60 * 15 // 15 minutes
   }
 };
 // !!!!!!!!!!!!!!!!!! app.use(session) je DOLE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
@@ -68,7 +70,7 @@ function pathnm(reqObj) {
 }
 
 // mongo connection
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
@@ -82,14 +84,15 @@ var assignNumber = Date.now();
 
 var x = Array.from({ length: 5 }, (v, i) => i);
 // [0, 1, 2, 3, 4]
-console.log(x.length);
+// console.log(x.length);
 
-// express uses and set
+// express uses and sets
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('views'));
 
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
+app.locals.doctype = 'html';
 
 app.use(session(sess));
 
@@ -102,29 +105,44 @@ app.get('/', function (req, res) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-console.log('fsfsdadfd');
 app.get('/customize', function (req, res) {
-  res.render('customize', { title: 'CUSTOMIZE!',
-                            defaults: defaultSass,
-                            autoNumbered: assignNumber,
-                            pageviews: req.session.views,
-                            pathnm: pathnm(req)
-                          });
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  res.render('customize', {
+    title: 'CUSTOMIZE!',
+    devSessionId: req.session.sessIdentity,
+    devFilename: req.session.sessIdFirstAssign,
+    defaults: defaultSass,
+    autoNumbered: assignNumber,
+    pageviews: req.session.views,
+    pathnm: pathnm(req)
+    });
 });
 
 app.post('/customize', (req, res) => {
-  res.render('customize', { title: 'DONE - RESULTS:',
-                            draftName: req.body.draftName,
-                            inputAreaCode: req.body.inputAreaCode,
-                            defaults: defaultSass,
-                            autoNumbered: assignNumber,
-                            pageviews: req.session.views[pathnm(req)],
-                            pathnm: pathnm(req)
-                           });
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  res.render('customize', {
+    title: 'DONE - RESULTS:',
+    devSessionId: req.session.sessIdentity,
+    devFilename: req.session.sessIdFirstAssign,
+    draftName: req.body.draftName,
+    inputAreaCode: req.body.inputAreaCode,
+    defaults: defaultSass,
+    autoNumbered: assignNumber,
+    pageviews: req.session.views[pathnm(req)],
+    pathnm: pathnm(req)
+    });
 });
 
 let timestampHuman = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
-app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}!`));
+app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}!\n\n\n`));
 
 // OFF TOPIC
 // dalsi napad - jednoducha appka fetchujici nove prirustky v knihovnach

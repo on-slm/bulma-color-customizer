@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+console.log('===================\n', 'users.js', '\n');
+
 
 // values of properties of an object being passed to a view
 // users count in last 7 days
@@ -15,7 +17,6 @@ var css_label_controller = require('../controllers/cssLabelController');
 
 // catalog/ — The home/index page.
 // = '/user' - The home/index page of an user = immediate redirect to /users/<user>/<id>
-console.log('prochazim users.js');
 
 // router.get('/', user_controller.index);
 router.get('/', user_controller.index);

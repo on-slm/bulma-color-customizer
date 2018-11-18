@@ -1,5 +1,6 @@
 const express = require('express');
-
+const async = require('async');
+console.log('===================\n', 'userController.js', '\n');
 
 // main model = User
 const User = require('../models/user');
@@ -7,15 +8,15 @@ const User = require('../models/user');
 const Css = require('../models/css');
 const Sass = require('../models/sass');
 
-const async = require('async');
-
 // OBECNE TU PRIJDOU VSECHNY CRUD (budou-li potreba) OPERACE VC VYRENDROVANI PRO /users/:userId
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
-
 exports.index = function (req, res) {
-  console.log('jsem v userController.js');
-  console.log(req.session.id);
-  console.log(req.session.someAttribute);
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+
   var sview;
   var sexp;
   if (req.session.views) {
@@ -39,6 +40,8 @@ exports.index = function (req, res) {
   }, function (err, results) {
     res.render('users', {
       title: 'Color Customiser Homepage - index',
+      devSessionId: req.session.sessIdentity,
+      devFilename: req.session.sessIdFirstAssign,
       error: err,
       data: results,
       containerStyle: flexBoxContainer,
@@ -61,6 +64,8 @@ exports.users_list = function (req, res, next) {
       // succesful, so render:
       res.render('users', {
         title: 'Color Customiser Homepage - user_list',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
         error: err,
         userlist: listedusers,
         containerStyle: flexBoxContainer,

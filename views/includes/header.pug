@@ -1,21 +1,31 @@
-div.hero-head
+div.hero-head(class='is-success')
   nav.navbar(role='navigation')
     div.navbar-brand
-      a.navbar-item(href='#')
-        img(src='https://via.placeholder.com/140x80.png')
-      a.navbar-burger(class='burger' data-target='boc-navbar-menu')
-        span
-        span
-        span
-    div.navbar-menu(id='boc-navbar-menu')
+    div.navbar-menu(id='boc-navbar-menu is-active')
       div.navbar-start
-        a.navbar-item Left-start-menu-01
-        a.navbar-item Left-start-menu-02
+        div.navbar-item
+          div.field(class='is-grouped-centered')
+            div.field(class='is-horizontal')
+              div.field-label(class='is-small')
+                label.label(class='is-small') sessID
+              div.field-body
+                div.field
+                  p.control(class='is-expanded has-text-white-bis')
+                    input.input(class='is-small is-danger has-text-weight-bold' placeholder=`${devSessionId}` value=`${devSessionId}`)
+            div.field(class='is-horizontal')
+              div.field-label(class='is-small')
+                label.label(class='is-small') assign
+              div.field-body
+                div.field
+                  p.control(class='is-expanded')
+                    input.input(class='is-small is-danger has-text-weight-bold' placeholder=`${devFilename}` value=`${devFilename}`)
+            hr.navbar-divider
       div.navbar-end
-        a.navbar-item(href='/') Home
-        a.navbar-item(class='is-hoverable has-dropdown' href='/customize') START CUSTOMIZING
-        a.navbar-item #{pathnm}
-        a.navbar-item(class='button is-success is-inverted')
-          span.icon
-            i(class='fas fa-home')
-          span(class='tag is-info') `#{pageviews} this session`
+        div.main-menu(class='field is-horizontal')
+          a.navbar-item(href='/') Home
+          a.navbar-item(class='is-hoverable' href='/customize') Start customizing
+        div.navbar-item
+          a(class='button is-success is-inverted')
+            span.icon
+              i(class='fas fa-home')
+            span(class='tag is-info') `#{pageviews} this session`
