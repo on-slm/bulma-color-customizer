@@ -1,5 +1,5 @@
 # TODOs
-## MUST HAVE
+## MUSTHAVEs
 - [ ] TODO Rewrite all the messy code - make it resembling code written according to the BP
 - [ ] TODO Restructure all files in the Views directory - reduce number of files, make them simpler, etc (rule of thumb: max only 2-3 pug files needed for presenting one page of the web)
 - [ ] TODO Delete all unnecessary files and folders
@@ -7,4 +7,6 @@
 - [ ] TODO Make use of ES6 syntax everywhere
 
 ## IDEAS AND PROPOSALS FOR FUTURE CONSIDERATION
-* Rewrite app's views by utilizing any of popular frontend framework: Angular2 / React / Vuejs / (maybe even Elm)
+### Rewrite app's views by utilizing any of popular frontend framework: Angular2 / React / Vuejs / (maybe even Elm)
+### Ideas on what to learn/reinforce next (by utilizing/including it somewhere into the project)
+* for ... of statements (possibly with iterables) (viz https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/for...of - especially examples)
