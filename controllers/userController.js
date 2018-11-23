@@ -17,16 +17,8 @@ exports.index = function (req, res) {
   }
   console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
 
-  var sview;
-  var sexp;
-  if (req.session.views) {
-    req.session.views++;
-    sviews = req.session.views;
-    sexp = (req.session.cookie.maxAge / 1000);
-    console.log('\n sviews: ' + sviews, '\sexp: ' + sexp);
-  } else {
-    sviews = 1;
-  }
+// TODO logic for a user-specific view counter (and other places) - viz app.js l.132
+
   async.parallel({
     users_count: function (callback) {
       User.countDocuments({ repo: 'Private' }, callback);
@@ -38,16 +30,17 @@ exports.index = function (req, res) {
       Sass.countDocuments({}, callback);
     }
   }, function (err, results) {
+    console.log(results);
     res.render('users', {
       title: 'Color Customiser Homepage - index',
       devSessionId: req.session.sessIdentity,
       devFilename: req.session.sessIdFirstAssign,
       error: err,
       data: results,
-      containerStyle: flexBoxContainer,
+      containerStyle: flexBoxContainer,   // remove
       userlist: null,
-      sessviews: sviews,
-      sessexp:  sexp
+      sessviews: null,  // TODO (again) counter
+      sessexp:  null    // dtto
     });
   });
 };

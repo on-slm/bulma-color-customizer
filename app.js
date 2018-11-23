@@ -1,6 +1,6 @@
 // UDELAT UPLNY RESTART
 // PROMAZAT VSE CO SEM NEPATRI!!! BRUTALNE NEKOMPROMISNE!
-// UDELAT UPLNE NOVE PUGY - JEDNODUCHE A S "DEBUG"/DEV RADKEM V HEADERU - v nem zatim zobrazovat jednu jedinou vec - unikatni session ID, abych zjistil, zda mi to prideleni na zacatku funguje
+// v nem zatim zobrazovat jednu jedinou vec - unikatni session ID, abych zjistil, zda mi to prideleni na zacatku funguje
 // PAK AZ POKRACOVAT TEMI ASYNC CTENIMI DB A DALSI TOUTO LOGIKOU
 
 // where to continue:
@@ -23,17 +23,13 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-// const session = require('express-session');
-// can be used for assigning unique cookie ID
 const parseurl = require('parseurl');
 const session = require('express-session');
 var MemoryStore = require('memorystore')(session);
 const async = require('async');
-console.log('===================\n', 'app.js', '\n');
-
+// console.log('===================\n', 'app.js', '\n');
 
 // cookie.expires
-// npm install express-session
 var sess = {
   resave: false, // edit later, it depends on a session store used
   saveUninitialized: false,
@@ -64,10 +60,6 @@ var usersRouter = require('./routes/users');
 const app = express();
 const port = 3000;
 const mongoDB = 'mongodb://localhost/bulma_db';
-
-function pathnm(reqObj) {
-  return parseurl(reqObj).pathname;
-}
 
 // mongo connection
 mongoose.connect(mongoDB, { useNewUrlParser: true });
@@ -111,14 +103,15 @@ app.get('/customize', function (req, res) {
     req.session.sessIdentity = req.session.id;
   }
   console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+
   res.render('customize', {
     title: 'CUSTOMIZE!',
     devSessionId: req.session.sessIdentity,
     devFilename: req.session.sessIdFirstAssign,
     defaults: defaultSass,
     autoNumbered: assignNumber,
-    pageviews: req.session.views,
-    pathnm: pathnm(req)
+    pageviews: req.session.viewsCount, //[test] a user-specific view counter, currently not implemen.
+    pathnm: parseurl(req).path
     });
 });
 
@@ -136,8 +129,9 @@ app.post('/customize', (req, res) => {
     inputAreaCode: req.body.inputAreaCode,
     defaults: defaultSass,
     autoNumbered: assignNumber,
-    pageviews: req.session.views[pathnm(req)],
-    pathnm: pathnm(req)
+    pageviews: req.session.viewsCount, //[test] a user-specific view counter, currently not implemen.
+    pathnm: parseurl(req).path,
+    somethingtest: req.session.views
     });
 });
 
@@ -209,3 +203,9 @@ app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}
 // * zjistit, jak funguji tezici skripty, jak slozite algoritmy to ma, jak HW narocne, jak by bylo narocne napsat si vlastni, atp.
 // * zcela abstraktne: zjistit, zda by se dal napsat ekvivalent teziciho skriptu za pomoci vsech ruznych prvku GA - eventy, CD, CM, >>> vypoctene dimenze <<< etc (zkratka neuvazovat implementaci v klasickem prog. jazyce, ale vsechny moznosti GA jakozto specificky jazyk)
 // * if true >>> zkusit
+
+// DALSI NAPAD - jednouduchy script (v zsh? asi nejlip) na hledani vsude mozne
+// Problem k reseni: Google mi na spoustu vyhledavani tezce nestaci - nenajdu tam informace, ktere hledem
+// napsat si skriptik, ktery posle ten stejny dotaz na vice mist, napr.:
+// Google // DDG // Wiki/tionary // Nyx.cz // GEN LIB RUS EC // Google Groups (apod platformy) // FB? // Twitter // vsude kde neni search enginem Google...
+// problemy napadu: jakym zpusobem prezentovat vysledky; ted otazkou je, jak to tam posilat, jestli maji ty ruzne searche v tech ruznych sluzbach API etc
