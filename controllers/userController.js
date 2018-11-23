@@ -16,8 +16,7 @@ exports.index = function (req, res) {
     req.session.sessIdentity = req.session.id;
   }
   console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
-
-// TODO logic for a user-specific view counter (and other places) - viz app.js l.132
+        // TODO logic for a user-specific view counter (and other places) - viz app.js l.132
 
   async.parallel({
     users_count: function (callback) {
@@ -45,15 +44,19 @@ exports.index = function (req, res) {
   });
 };
 
-// page listing all users
+// page listing all users (aka router.get('/list', user_controller.users_list);) aka URL /users/list
 exports.users_list = function (req, res, next) {
-  console.log('jsem v userController.js');
-  console.log(req.session.id);
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
 
-  User.find({}, 'name repo last_logged')
+  User.find({}, 'id name last_logged absolute_url')
     .populate('csses')
     .exec(function (err, listedusers) {
       if (err) { return next(err); }
+      console.log(listedusers);
       // succesful, so render:
       res.render('users', {
         title: 'Color Customiser Homepage - user_list',
@@ -62,7 +65,8 @@ exports.users_list = function (req, res, next) {
         error: err,
         userlist: listedusers,
         containerStyle: flexBoxContainer,
-        data: ''
+        data: '',
+        sessionId: user_cookie_id
       });
     });
 };

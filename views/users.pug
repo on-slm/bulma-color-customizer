@@ -47,9 +47,9 @@ block main
             if userlist
               ul
                 each user in userlist
-                  li
-                    a(href=user.url) #{user.name} (#{user.repo}) (#{user.last_logged})
-                    | (#{user.csses.code})
+                  li id name repo last_logged user_cookie_id sasses csses absolute_url
+                    a(href=user.url) #{user.id} #{user.name} (#{user.repo}) (#{user.last_logged})
+                    | #{user.id} (#{user.csses.code})
                 else
                   li There are no users in db.
             else
