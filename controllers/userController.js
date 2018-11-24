@@ -69,22 +69,22 @@ exports.users_list = function (req, res, next) {
       Sass.countDocuments({}, callback);
     },
     users: function (callback) {
-      User.find({}, 'name last_logged csses')
+      User.find({ name: 'Ondrej Salamon' }, 'name last_logged csses')
         .populate('csses')
         .exec(callback);
     }
   }, function (err, results) {
     console.log(results);
-      res.render('users', {
-        title: 'Color Customiser Homepage - user_list',
-        devSessionId: req.session.sessIdentity,
-        devFilename: req.session.sessIdFirstAssign,
-        error: err,
-        userlist: results.users,
-        data: results,
-        containerStyle: flexBoxContainer,
-        sessionId: req.session.sessIdentity
-      });
+    res.render('users', {
+      title: 'Color Customiser Homepage - user_list',
+      devSessionId: req.session.sessIdentity,
+      devFilename: req.session.sessIdFirstAssign,
+      error: err,
+      userlist: results.users,
+      data: results,
+      containerStyle: flexBoxContainer,
+      sessionId: req.session.sessIdentity
+    });
   });
 /*
   User.find({}, 'name last_logged csses')
