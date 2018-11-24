@@ -25,7 +25,7 @@ block main
               ul.menu-list
                 li #[strong CSS] count: !{data.css_count}
                 li #[strong SaSS] count: !{data.sass_count}
-                li #[strong Users] count: !{data.users_count}
+                li #[strong Users] count: !{data.users_count} (!{data.privrepo_count} private / !{data.users_count - data.privrepo_count} public)
             p.menu-label Your profile
             ul.menu-list
               li SESSIONinfo - views: !{sessviews}
@@ -36,22 +36,25 @@ block main
               li Remove
               li Log out
       div.column(class='is-8')
-        div.container(class='')
-          // div.
-            #[button.delete]
-            blba
-          // div
-            p #{containerStyle.width}
-            p= containerStyle.width
-          div
-            if userlist
+        if (userlist)
+          div.container(class='')
+            //- div.
+              #[button.delete]
+              blba
+            //- div
+              p #{containerStyle.width}
+              p= containerStyle.width
+            div
               ul
+                //- each user in userlist
                 each user in userlist
-                  li id name repo last_logged user_cookie_id sasses csses absolute_url
-                    a(href=user.url) #{user.id} #{user.name} (#{user.repo}) (#{user.last_logged})
-                    | #{user.id} (#{user.csses.code})
+                  li
+                    a(href=user.url) #{user.name}
+                    br
+                    | * (last login: #{user.last_logged.toLocaleString()})
+                    if (user.csses)
+                      ul
+                        each css in user.csses
+                          li ** #{css.name}: #[code #{css.code}]
                 else
                   li There are no users in db.
-            else
-              ul
-                li There are no users in db.

@@ -20,6 +20,9 @@ exports.index = function (req, res) {
 
   async.parallel({
     users_count: function (callback) {
+      User.countDocuments({}, callback);
+    },
+    privrepo_count: function (callback) {
       User.countDocuments({ repo: 'Private' }, callback);
     },
     css_count: function (callback) {
@@ -52,7 +55,39 @@ exports.users_list = function (req, res, next) {
   }
   console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
 
-  User.find({}, 'id name last_logged absolute_url')
+  async.parallel({
+    users_count: function (callback) {
+      User.countDocuments({}, callback);
+    },
+    privrepo_count: function (callback) {
+      User.countDocuments({ repo: 'Private' }, callback);
+    },
+    css_count: function (callback) {
+      Css.countDocuments({}, callback);
+    },
+    sass_count: function (callback) {
+      Sass.countDocuments({}, callback);
+    },
+    users: function (callback) {
+      User.find({}, 'name last_logged csses')
+        .populate('csses')
+        .exec(callback);
+    }
+  }, function (err, results) {
+    console.log(results);
+      res.render('users', {
+        title: 'Color Customiser Homepage - user_list',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        userlist: results.users,
+        data: results,
+        containerStyle: flexBoxContainer,
+        sessionId: req.session.sessIdentity
+      });
+  });
+/*
+  User.find({}, 'name last_logged csses')
     .populate('csses')
     .exec(function (err, listedusers) {
       if (err) { return next(err); }
@@ -66,10 +101,12 @@ exports.users_list = function (req, res, next) {
         userlist: listedusers,
         containerStyle: flexBoxContainer,
         data: '',
-        sessionId: user_cookie_id
+        sessionId: req.session.sessIdentity
       });
     });
+*/
 };
+
 
 // detail page for a specific profile
 // (tyhlety exporty pak vlozit do app.get('/users/user/:userId', user_detail))

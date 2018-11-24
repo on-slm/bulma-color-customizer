@@ -7,6 +7,7 @@
 - [ ] TODO Restructure all files in the Views directory - reduce number of files, make them simpler, etc (rule of thumb: max only 2-3 pug files needed for presenting one page of the web)
 - [ ] TODO Delete all unnecessary files and folders
 - [ ] TODO Remove all unnecessary comments
+- [ ] TODO Proper error handling everywhere
 - [ ] TODO Upgrade to much better devstack/compiler etc (aka make us of the Webpack)
 - [ ] TODO Make use of ES6 syntax everywhere
 
