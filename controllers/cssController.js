@@ -7,13 +7,34 @@ const async = require('async');
 const Css = require('../models/css');
 // secondary model = User
 const User = require('../models/user'); // not sure if needed
+const CssLabel = require('../models/csslabel'); // not sure if needed
 
+// display list of all csses in DBs
+exports.css_list = function (req, res, next) {
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
 
-// display list of (user's) csses
-exports.css_list = function(req, res, next) {
-
-
+  Css.find({}, 'name labels user')
+    .populate('user')
+    .populate('labels')
+    .exec(function (err, list_csses) {
+      if (err) throw err;
+      console.log(list_csses);
+      res.render('css_list_all', {
+        title: 'Color Customiser Css list - css_list',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        csslist: list_csses
+      });
+    });
 };
+
+// TODO
+// display list of one user's csses
 
 // display details for specific CSS code
 exports.css_detail = function (req, res, next) {

@@ -75,6 +75,9 @@ exports.users_list = function (req, res, next) {
     }
   }, function (err, results) {
     console.log(results);
+    results.users.forEach(function (el) {
+      console.log(el.url);
+    });
     res.render('users', {
       title: 'Color Customiser Homepage - user_list',
       devSessionId: req.session.sessIdentity,
@@ -86,25 +89,6 @@ exports.users_list = function (req, res, next) {
       sessionId: req.session.sessIdentity
     });
   });
-/*
-  User.find({}, 'name last_logged csses')
-    .populate('csses')
-    .exec(function (err, listedusers) {
-      if (err) { return next(err); }
-      console.log(listedusers);
-      // succesful, so render:
-      res.render('users', {
-        title: 'Color Customiser Homepage - user_list',
-        devSessionId: req.session.sessIdentity,
-        devFilename: req.session.sessIdFirstAssign,
-        error: err,
-        userlist: listedusers,
-        containerStyle: flexBoxContainer,
-        data: '',
-        sessionId: req.session.sessIdentity
-      });
-    });
-*/
 };
 
 

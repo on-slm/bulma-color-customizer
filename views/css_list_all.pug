@@ -1,0 +1,30 @@
+extends layout.pug
+block main
+  div.container(class='css-main')
+    if error
+      h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
+    else
+      h1.title= title
+    div.columns(class='is-multiline')
+      div.column(class='is-four-fifths')
+        div.container
+          ul
+            each val in csslist
+              li
+                a(href=val.user.url) #{val.user.name}
+                |'s CSS caled: #{val.name}
+                //- each Css has empty array of labels
+                if(val.labels[0])
+                  ul
+                    each label in val.labels
+                      li
+                        a(href=label.url) #{label.label}
+
+      div.column(class='is-one-fifths')
+        div.container
+          div.box
+            h3.subtitle(class='is-large has-text-weight-bold has-background-primary has-text-warning has-text-centered') Subtitle
+            p BB
+              span.tag(class='is-info') blabla
+            p with the IP address
+              span.tag(class='is-link') mehmeh

@@ -7,17 +7,6 @@ block main
       h1.title= title
     div.columns
       div.column(class='is-4')
-        nav.level
-          div.level-left
-            div.box(class='/*is-paddingless*/')
-              span(class='has-background-primary')
-                a.level-item
-                  span.icon(class='is-success')
-                    i.fas(class='fas fa-angle-double-right')
-              span(class='has-background-light')
-                a.pagination-link(class='is-current') data.users_count
-          div.level-right
-            p(class='is-4 has-text-left') users' count in a db!
         div
           aside.menu
             if data
@@ -49,8 +38,7 @@ block main
                 each user in userlist
                   li
                     a(href=user.url) #{user.name}
-                    br
-                    | * (last login: #{user.last_logged.toLocaleString()})
+                    | (last login: #{user.last_logged.toLocaleString()})
                     if (user.csses)
                       ul
                         each css in user.csses

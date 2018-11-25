@@ -4,18 +4,15 @@
 // PAK AZ POKRACOVAT TEMI ASYNC CTENIMI DB A DALSI TOUTO LOGIKOU
 
 // where to continue:
-// files: userController.js and .pug files
-// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async#Asynchronous_operations_in_parallel
+// files: ??
+// last I did: http://localhost:3000/users/csses
+// link (continue after that): https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/BookInstance_list_page#What_does_it_look_like
 //  from this menu of subarticles:
 //  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Book_list_page
 
 // how to start mongod: sudo service mongod start
 // how to run the app:  nodemon
 // how to connect into db via shell: mongo --host 127.0.0.1:27017[/bulma_db]
-
-// TO DO:
-// 1. add debug, morgan
-// viz https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website
 
 const express = require('express');
 const bodyParser = require('body-parser');
