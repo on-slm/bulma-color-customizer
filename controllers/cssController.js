@@ -17,12 +17,12 @@ exports.css_list = function (req, res, next) {
   }
   console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
 
-  Css.find({}, 'name labels user')
+  Css.find({}, 'name labels user created created_formatted')
     .populate('user')
     .populate('labels')
     .exec(function (err, list_csses) {
       if (err) throw err;
-      console.log(list_csses);
+      // console.log(list_csses);
       res.render('css_list_all', {
         title: 'Color Customiser Css list - css_list',
         devSessionId: req.session.sessIdentity,

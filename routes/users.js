@@ -83,7 +83,7 @@ router.post('/sass/:id/update', sass_controller.sass_update_post); // dtto
 
 router.get('/sass/:id', sass_controller.sass_detail);
 
-router.get('/sasses', sass_controller.sass_list);
+router.get('/sasses', sass_controller.sass_list); // currently it lists all css in db
 
 // CSS LABELS ROUTES
 

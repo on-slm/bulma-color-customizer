@@ -5,8 +5,8 @@
 
 // where to continue:
 // files: ??
-// last I did: http://localhost:3000/users/csses
-// link (continue after that): https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/BookInstance_list_page#What_does_it_look_like
+// last I did: http://localhost:3004/users/sasses
+// link (continue right here): https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Author_list_page#View
 //  from this menu of subarticles:
 //  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Book_list_page
 
@@ -55,7 +55,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3000;
+const port = 3004;
 const mongoDB = 'mongodb://localhost/bulma_db';
 
 // mongo connection

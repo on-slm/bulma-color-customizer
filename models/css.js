@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 var Schema = mongoose.Schema;
+
 
 var CssSchema = new Schema({
   name: String,
@@ -11,9 +13,15 @@ var CssSchema = new Schema({
 });
 
 CssSchema
-.virtual('url')
-.get( () => {
-  return '/csses/' + this._id;
-});
+  .virtual('url')
+  .get( () => {
+    return '/csses/' + this._id;
+  });
+
+CssSchema
+  .virtual('created_formatted')
+  .get(() => {
+    return moment(this.created).format('MMMM Do, YYYY');
+  });
 
 module.exports = mongoose.model('Css', CssSchema);
