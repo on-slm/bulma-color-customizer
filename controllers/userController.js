@@ -69,14 +69,33 @@ exports.users_list = function (req, res, next) {
       Sass.countDocuments({}, callback);
     },
     users: function (callback) {
-      User.find({ name: 'Ondrej Salamon' }, 'name last_logged csses')
+      User.find({ /* name: 'Ondrej Salamon' */ }, 'name last_logged csses repo')
         .populate('csses')
+        // .sort([['repo', 'asc']])
+        // .sort([['repo', -1]])
+        // When uncommented, throws error:
+        /* TypeError: Can 't mix sort syntaxes. Use either array or object: -
+          `.sort([['field', 1], ['test', -1]])` -
+          `.sort({ field: 1, test: -1 })`
+        */
+        .sort({ name: -1 }) // desc = z-a = -1
+        .sort({ name: 1 })  // asc = a-z = 1
+        .sort('last_logged')
+        .sort('-last_logged')
+        .sort({ last_logged: 'desc' })  // or 'descending'
+        .sort({ last_logged: 'asc' })   // or 'ascending'
         .exec(callback);
+        // without chain syntax:
+        // eg. Room.find({}, null, {sort: '-date'}, function(err, docs) { ... });
+        // eg. Room.find({}, null, {sort: {date: -1}}, function(err, docs) { ... });
     }
   }, function (err, results) {
     console.log(results);
     results.users.forEach(function (el) {
       console.log(el.url);
+
+//      Room.find({}).sort([['date', -1]]).exec(function(err, docs) { ... });
+
     });
     res.render('users', {
       title: 'Color Customiser Homepage - user_list',

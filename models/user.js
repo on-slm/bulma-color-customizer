@@ -14,7 +14,7 @@ var UserSchema = new Schema({
 // virtual for generating users urls
 UserSchema
 .virtual('url')
-.get( () => {
+.get(function() {
   return '/users/' + this._id; // virtual property of the model which uses the model instance's _id field to produce a unique URL path
 });
 

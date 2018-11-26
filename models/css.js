@@ -14,14 +14,14 @@ var CssSchema = new Schema({
 
 CssSchema
   .virtual('url')
-  .get( () => {
+  .get(function() {
     return '/csses/' + this._id;
   });
 
 CssSchema
   .virtual('created_formatted')
-  .get(() => {
-    return moment(this.created).format('MMMM Do, YYYY');
+  .get(function() {
+    return this.created ? moment(this.created).format('MMMM Do, YYYY') : 'N\/A';
   });
 
 module.exports = mongoose.model('Css', CssSchema);

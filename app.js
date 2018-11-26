@@ -55,7 +55,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3004;
+const port = 3000;
 const mongoDB = 'mongodb://localhost/bulma_db';
 
 // mongo connection

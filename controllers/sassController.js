@@ -8,10 +8,12 @@ const Sass = require('../models/sass');
 const User = require('../models/user');
 
 // display list of user's sasses
+
 exports.sass_list = function(req, res, next) {
   Sass.find()
     .populate('user')
-    .sort([['name', 'ascending']])
+    .sort([['code', 'desc']])
+    //.sort({ name: -1 })
     .exec(function (err, list_sasses) {
       if (err) { return next(err); }
       console.log(list_sasses);

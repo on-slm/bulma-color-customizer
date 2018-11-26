@@ -12,7 +12,7 @@ block main
             each val in csslist
               li
                 a(href=val.user.url) #{val.user.name}
-                |'s CSS caled: #{val.name} (#{val.created} aka #{val.created_formatted})
+                |'s CSS caled: #{val.name} (created: #{val.created_formatted})
                 //- each Css has empty array of labels
                 if(val.labels[0])
                   ul

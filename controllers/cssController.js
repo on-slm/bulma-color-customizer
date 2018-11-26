@@ -20,9 +20,10 @@ exports.css_list = function (req, res, next) {
   Css.find({}, 'name labels user created created_formatted')
     .populate('user')
     .populate('labels')
+    .sort('name')
     .exec(function (err, list_csses) {
       if (err) throw err;
-      // console.log(list_csses);
+      console.log(list_csses);
       res.render('css_list_all', {
         title: 'Color Customiser Css list - css_list',
         devSessionId: req.session.sessIdentity,

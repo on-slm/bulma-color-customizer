@@ -34,3 +34,6 @@ declare global {
   }
 }
 ```
+
+- [MongoDB syntax weirdness](http://devblog.me/wtf-mongo)
+- Weird Mongoose Query.sort(...) syntax `.sort([['repo', 'asc']])` - [probably smthing to do with "internal property"](https://stackoverflow.com/questions/17174786/what-is-the-significance-of-the-double-brackets-for-the-prototype-property-i)
