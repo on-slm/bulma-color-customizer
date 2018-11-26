@@ -63,7 +63,7 @@ exports.sass_delete_get = function (req, res, next) {
 
 // handle Sass delete form on POST
 exports.sass_delete_post = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: handle delete form\n<br />(sass)')
+  res.send('NOT IMPLEMENTED: handle delete form\n<br />(sass)');
 };
 
 // display Sass update form on GET
