@@ -7,17 +7,6 @@ block main
       h1.title= title
     div.columns
       div.column(class='is-4')
-        nav.level
-          div.level-left
-            div.box(class='/*is-paddingless*/')
-              span(class='has-background-primary')
-                a.level-item
-                  span.icon(class='is-success')
-                    i.fas(class='fas fa-angle-double-right')
-              span(class='has-background-light')
-                a.pagination-link(class='is-current') data.users_count
-          div.level-right
-            p(class='is-4 has-text-left') users' count in a db!
         div
           aside.menu
             if data
@@ -25,30 +14,34 @@ block main
               ul.menu-list
                 li #[strong CSS] count: !{data.css_count}
                 li #[strong SaSS] count: !{data.sass_count}
-                li #[strong Users] count: !{data.users_count}
+                li #[strong Users] count: !{data.users_count} (!{data.privrepo_count} private / !{data.users_count - data.privrepo_count} public)
             p.menu-label Your profile
+            ul.menu-list
+              li SESSIONinfo - views: !{sessviews}
+              li SESSIONinfo - expires in: !{sessexp}
             ul.menu-list
               li Info
               li CSS
               li Remove
               li Log out
       div.column(class='is-8')
-        div.container(class='')
-          // div.
-            #[button.delete]
-            blba
-          // div
-            p #{containerStyle.width}
-            p= containerStyle.width
-          div
-            if userlist
+        if (userlist)
+          div.container(class='')
+            //- div.
+              #[button.delete]
+              blba
+            //- div
+              p #{containerStyle.width}
+              p= containerStyle.width
+            div
               ul
                 each user in userlist
                   li
-                    a(href=user.url) #{user.name} (#{user.repo}) (#{user.last_logged})
-                    | (#{user.csses.code})
+                    a(href=user.url) #{user.name}
+                    | (last login: #{user.last_logged.toLocaleString()})
+                    if (user.csses)
+                      ul
+                        each css in user.csses
+                          li ** #{css.name}: #[code #{css.code}]
                 else
                   li There are no users in db.
-            else
-              ul
-                li There are no users in db.

@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
+console.log('===================\n', 'users.js', '\n');
+
 
 // values of properties of an object being passed to a view
 // users count in last 7 days
 var count = 0;
 // TO DO: a counting logic for this variable
-
 
 // for user details page all 5 controllers are needed
 var user_controller = require('../controllers/userController');
@@ -18,7 +19,7 @@ var css_label_controller = require('../controllers/cssLabelController');
 // = '/user' - The home/index page of an user = immediate redirect to /users/<user>/<id>
 
 // router.get('/', user_controller.index);
-router.get('/', user_controller.users_list);
+router.get('/', user_controller.index);
 
 // GET request for creating a User profile (All these "creates" must come before routes displaying what was created; obviously)
 router.get('/user/create', user_controller.user_create_get);
@@ -64,7 +65,7 @@ router.post('/css/:id/update', css_controller.css_update_post); // dtto
 
 router.get('/css/:id', css_controller.css_detail);
 
-router.get('/csses', css_controller.css_list);
+router.get('/csses', css_controller.css_list); // currently it lists all css in db
 
 // SaSS ROUTES
 
@@ -82,7 +83,7 @@ router.post('/sass/:id/update', sass_controller.sass_update_post); // dtto
 
 router.get('/sass/:id', sass_controller.sass_detail);
 
-router.get('/sasses', sass_controller.sass_list);
+router.get('/sasses', sass_controller.sass_list); // currently it lists all css in db
 
 // CSS LABELS ROUTES
 

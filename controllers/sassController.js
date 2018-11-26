@@ -9,7 +9,20 @@ const User = require('../models/user');
 
 // display list of user's sasses
 exports.sass_list = function(req, res, next) {
-  res.send('NOT IMPLEMENTED: list of user\'s sass codes\n<br />(sass)');
+  Sass.find()
+    .populate('user')
+    .sort([['name', 'ascending']])
+    .exec(function (err, list_sasses) {
+      if (err) { return next(err); }
+      console.log(list_sasses);
+      res.render('sass_list_all', {
+        title: 'Color Customiser Sass list - sass_list',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        sasslist: list_sasses
+      });
+    });
 };
 
 // display details for specific SASS code

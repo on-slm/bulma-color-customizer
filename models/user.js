@@ -15,7 +15,7 @@ var UserSchema = new Schema({
 UserSchema
 .virtual('url')
 .get( () => {
-  return '/users/' + this._id;
+  return '/users/' + this._id; // virtual property of the model which uses the model instance's _id field to produce a unique URL path
 });
 
 // !!! Declaring our URLs as a virtual in the schema is a good idea because then the URL for an item only ever needs to be changed in one place.

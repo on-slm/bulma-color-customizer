@@ -1,18 +1,18 @@
+// UDELAT UPLNY RESTART
+// PROMAZAT VSE CO SEM NEPATRI!!! BRUTALNE NEKOMPROMISNE!
+// v nem zatim zobrazovat jednu jedinou vec - unikatni session ID, abych zjistil, zda mi to prideleni na zacatku funguje
+// PAK AZ POKRACOVAT TEMI ASYNC CTENIMI DB A DALSI TOUTO LOGIKOU
+
 // where to continue:
-// files: userController.js and .pug files
-// link: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/flow_control_using_async#Asynchronous_operations_in_parallel
+// files: ??
+// last I did: http://localhost:3004/users/sasses
+// link (continue right here): https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Author_list_page#View
 //  from this menu of subarticles:
 //  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Book_list_page
-
-// ATTENTION!!! need to find out why a mongoose method 'Model.countDocuments(...)' isn't working
 
 // how to start mongod: sudo service mongod start
 // how to run the app:  nodemon
 // how to connect into db via shell: mongo --host 127.0.0.1:27017[/bulma_db]
-
-// TO DO:
-// 1. add debug, morgan
-// viz https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -20,9 +20,28 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const cookieParser = require('cookie-parser');
-const session = require('express-session'); // can be used for assigning unique cookie ID
 const parseurl = require('parseurl');
-var async = require('async');
+const session = require('express-session');
+var MemoryStore = require('memorystore')(session);
+const async = require('async');
+// console.log('===================\n', 'app.js', '\n');
+
+// cookie.expires
+var sess = {
+  resave: false, // edit later, it depends on a session store used
+  saveUninitialized: false,
+  secret: 'keyboard cat', // it signs session ID cookie
+  store: new MemoryStore({
+    checkPeriod: 86400000 // prune expired entries every 24h
+  }), // use separate Mongo store later
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    secure: false,
+    maxAge: 1000 * 60 * 15 // 15 minutes
+  }
+};
+// !!!!!!!!!!!!!!!!!! app.use(session) je DOLE <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 // db models
 var User = require('./models/user');
@@ -31,58 +50,40 @@ var Css = require('./models/css');
 var SassLabel = require('./models/sasslabel');
 var CssLabel = require('./models/csslabel');
 
+// routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3000;
+const port = 3004;
 const mongoDB = 'mongodb://localhost/bulma_db';
-let timestampHuman = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, ''); // remove
-
-// session + cookies
-// `app.use` == middleware specific for whole app
-app.use(session({
-  secret: 'some key for signing cookie values',
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    maxAge: 60 * 60 * 1000
-  }
-}));
-
-function pathnm(reqObj) {
-  return parseurl(reqObj).pathname;
-}
-
-app.use(function (req, res, next) {
-  if (!req.session.views) {
-    req.session.views = {};
-  }
-  var getPath = parseurl(req).pathname;
-  req.session.views[getPath] = (req.session.views[getPath] || 0) + 1;
-  next();
-});
 
 // mongo connection
-mongoose.connect(mongoDB);
+mongoose.connect(mongoDB, { useNewUrlParser: true });
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 // get value for textarea
 // TO DO LATER: put this sync function just before it's actually needed
-var defaultTxtFile = 'defaultSass.txt';
-var defaultSass = fs.readFileSync(defaultTxtFile, 'utf8');
+var defaultSass = fs.readFileSync(path.join(__dirname, 'assets', 'defaultSass.txt'), 'utf8');
 
 // TO DO LATER: assign every user's draft (code inputed) with ordinal number based on his unique cookie, ie. "draft number 1" (first...), "draft number 2" (second), etc
 var assignNumber = Date.now();
 
-// express uses and set
+var x = Array.from({ length: 5 }, (v, i) => i);
+// [0, 1, 2, 3, 4]
+// console.log(x.length);
+
+// express uses and sets
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('views'));
 
 app.set('views', path.join(__dirname + '/views'));
 app.set('view engine', 'pug');
+app.locals.doctype = 'html';
+
+app.use(session(sess));
 
 // ROUTES - 2018-10-04 LETS ASSUME THAT FIRST PAGE PPL OPEN IS USERS aka USER DETAIL (NOT CUSTOMIZER /CUSTOMIZE)
 /*
@@ -90,34 +91,49 @@ app.get('/', function (req, res) {
   res.redirect('/customize');
 });
 */
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-
 app.get('/customize', function (req, res) {
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
 
-  res.render('customize', { title: 'CUSTOMIZE!',
-                            defaults: defaultSass,
-                            autoNumbered: assignNumber,
-                            pageviews: req.session.views[pathnm(req)],
-                            pathnm: pathnm(req)
-                          });
+  res.render('customize', {
+    title: 'CUSTOMIZE!',
+    devSessionId: req.session.sessIdentity,
+    devFilename: req.session.sessIdFirstAssign,
+    defaults: defaultSass,
+    autoNumbered: assignNumber,
+    pageviews: req.session.viewsCount, //[test] a user-specific view counter, currently not implemen.
+    pathnm: parseurl(req).path
+    });
 });
 
 app.post('/customize', (req, res) => {
-  res.render('customize', { title: 'DONE - RESULTS:',
-                            draftName: req.body.draftName,
-                            inputAreaCode: req.body.inputAreaCode,
-                            defaults: defaultSass,
-                            autoNumbered: assignNumber,
-                            pageviews: req.session.views[pathnm(req)],
-                            pathnm: pathnm(req)
-                           });
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  res.render('customize', {
+    title: 'DONE - RESULTS:',
+    devSessionId: req.session.sessIdentity,
+    devFilename: req.session.sessIdFirstAssign,
+    draftName: req.body.draftName,
+    inputAreaCode: req.body.inputAreaCode,
+    defaults: defaultSass,
+    autoNumbered: assignNumber,
+    pageviews: req.session.viewsCount, //[test] a user-specific view counter, currently not implemen.
+    pathnm: parseurl(req).path,
+    somethingtest: req.session.views
+    });
 });
 
-
-app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}!`));
+let timestampHuman = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}!\n\n\n`));
 
 // OFF TOPIC
 // dalsi napad - jednoducha appka fetchujici nove prirustky v knihovnach
@@ -145,6 +161,15 @@ app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}
 // 6. sync s kalendarem etc etc
 // 7. sync GL, BS, TMP etc...
 
+// DALSIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
+// desktop appka pro agregovani GB space mezi ruznymi cloud storage sluzbami
+// soucasti i webovy
+// claim "potrebujete vice prostoru? zaregistrovat se budete muset vsude vy sami, o stovky GB vasi dat se postara appX"
+// claim2: "100-200 GB volneho mista za 1 $ mesicne? zbytecne... s appX ziskate 100-200 GB navzdy za cenu par minut, ktere stravite registraci"
+// v pozadi server checkujici bandwith/dostupnost atp. ruznych free storage cloudů a rozdelujici soubory dle techto udaju / pridelujici soubory nejvhodneji podle techto kriterii
+// jednotlivy uzivatel tak ziska mnohem vice prostoru GB pro sebe, pritom nesmi byt ohrozena convenience
+// otazkou je, jestli tyto sluzby maji dobre API :/ viz napr. https://www.fossmint.com/dropbox-alternatives-for-linux/
+
 // DALSI
 // 0) soustredit se na fundamentalni zmeny (problemy, plusy) - "revolucnost" -, ktere ma nejaka radikalne nova technologie, jiz nic podobneho v minulosti nelze najit, na cloveka individualne a/nebo na spolecnost (lidstvo) - priklad: socialni site jako zcela novy typ zavislosti, s kterym se lidstvo teprve musi naucit zachazet (viz matous); mobily jako zcela novy typ zadouciho traveni volneho casu mladymi (viz skupina - syn); socialni site jako zcela novy typ komunikace, v kterem se realizuje "socialno (viz skupina - syn); etc...
 // a) dalsi stupen Facebooku = lidi v meat space na sobe "nosi" AR profil s veskerymi funkcemi (snadnym UI atd.) jako FB profil, cili jdu na ulici a o lidech co potkavam na ulici si mohu zobrazovat stejne informace jako si muzu zobrazovat v soucasnosti na FB, kdyz sedim u pocitace; do toho nejaky startup vymysli "ocenovaci" mechanismus, nejake skore v nejake kvalite (napr. nejaka hodnota (moznost kvantifikace, tj. body, %, AD&D's 0-19 apod) nejake vlastnosti); aby toto skore neslo "ocheatovat" je zajisteno blockchainovou technologii; (muze to byt mnohem slozitejsi - kvalit muze byt mnoho, kvality mohou byt prohlizeny temi prostredky/medii, ktere se pouzivaji v soucasnosti na FB etc.) a ted - co se stane, kdyz tou kvalitou je treba dobra povest, anebo moralnost apod.? a co kdyz se to zvrtne a uz to nebude jen hra? jak z toho pak ven, kdyz je to sefovano blockchainem? na tom rozehrat pribeh, postavy (napr. specialisti umoznujici hackovat blockchain = kryptografove kteri umi prolomit soucasne algoritmy apod.), spolecnost (napr. dystopie, je to vyuzivano statni moci - aneb 1984 kdy lidi nesmiruje vsevidouci policejni stat, ale smiruji sami sebe navzajem socialni siti)
@@ -169,3 +194,15 @@ app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}
 // * vyhledavat klicova slova (bitcoin, btc apod) v https://npmcharts.com/
 // * u jednotlivych zdroju sledovat - geolokaci, muz/zena apod.
 // * neustale sebezhodnocovani a na zaklade toho vzdycky little adjust - napr. sledovat vsechny mozne i nemozne veliciny (napr. geolokace nejcastejsich tweetu), prubezne je sledovat a zpetnou vazbou promitat do parametru bota (napr. pri uspesnem prodeji v case t=x vyhodnotit nejen napr mnozstvi tweetu, ale i odkud prisly, a pokud prisly z nejakeho urciteho mista, napr. v Atlante jich bylo tehdy vice (sledovat vzdycky nejake ANOMALIE, vyboceni z rady), tak na zaklade toho i do budoucna pro vsechny casy t=x+n davat tweetum pochazejicim z Atlanty vetsi vahu... ale i toto do budoucna neustale revidovat a tunit)
+
+// DALSI NAPAD HODNY ZAZNAMENANI - GA JAKO TEZITKO
+// * prozkoumat nejen princip fungovani blockchainove technologie, ale prozkoumat to realne na bitcoinu
+// * zjistit, jak funguji tezici skripty, jak slozite algoritmy to ma, jak HW narocne, jak by bylo narocne napsat si vlastni, atp.
+// * zcela abstraktne: zjistit, zda by se dal napsat ekvivalent teziciho skriptu za pomoci vsech ruznych prvku GA - eventy, CD, CM, >>> vypoctene dimenze <<< etc (zkratka neuvazovat implementaci v klasickem prog. jazyce, ale vsechny moznosti GA jakozto specificky jazyk)
+// * if true >>> zkusit
+
+// DALSI NAPAD - jednouduchy script (v zsh? asi nejlip) na hledani vsude mozne
+// Problem k reseni: Google mi na spoustu vyhledavani tezce nestaci - nenajdu tam informace, ktere hledem
+// napsat si skriptik, ktery posle ten stejny dotaz na vice mist, napr.:
+// Google // DDG // Wiki/tionary // Nyx.cz // GEN LIB RUS EC // Google Groups (apod platformy) // FB? // Twitter // vsude kde neni search enginem Google...
+// problemy napadu: jakym zpusobem prezentovat vysledky; ted otazkou je, jak to tam posilat, jestli maji ty ruzne searche v tech ruznych sluzbach API etc

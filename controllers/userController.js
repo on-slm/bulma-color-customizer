@@ -1,5 +1,6 @@
 const express = require('express');
-
+const async = require('async');
+console.log('===================\n', 'userController.js', '\n');
 
 // main model = User
 const User = require('../models/user');
@@ -7,14 +8,21 @@ const User = require('../models/user');
 const Css = require('../models/css');
 const Sass = require('../models/sass');
 
-const async = require('async');
-
 // OBECNE TU PRIJDOU VSECHNY CRUD (budou-li potreba) OPERACE VC VYRENDROVANI PRO /users/:userId
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
-
 exports.index = function (req, res) {
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+        // TODO logic for a user-specific view counter (and other places) - viz app.js l.132
+
   async.parallel({
     users_count: function (callback) {
+      User.countDocuments({}, callback);
+    },
+    privrepo_count: function (callback) {
       User.countDocuments({ repo: 'Private' }, callback);
     },
     css_count: function (callback) {
@@ -24,33 +32,65 @@ exports.index = function (req, res) {
       Sass.countDocuments({}, callback);
     }
   }, function (err, results) {
-    console.log('async\'s callback');
+    console.log(results);
     res.render('users', {
-      title: 'Color Customiser Homepage',
+      title: 'Color Customiser Homepage - index',
+      devSessionId: req.session.sessIdentity,
+      devFilename: req.session.sessIdFirstAssign,
       error: err,
       data: results,
-      containerStyle: flexBoxContainer,
-      userlist: null
+      containerStyle: flexBoxContainer,   // remove
+      userlist: null,
+      sessviews: null,  // TODO (again) counter
+      sessexp:  null    // dtto
     });
   });
 };
 
-// page listing all users
+// page listing all users (aka router.get('/list', user_controller.users_list);) aka URL /users/list
 exports.users_list = function (req, res, next) {
-  User.find({}, 'name repo last_logged')
-    .populate('csses')
-    .exec(function (err, listedusers) {
-      if (err) { return next(err); }
-      // succesful, so render:
-      res.render('users', {
-        title: 'Color Customiser Homepage',
-        error: err,
-        userlist: listedusers,
-        containerStyle: flexBoxContainer,
-        data: ''
-      });
+  if (req.session.sessIdentity == undefined) {
+    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
+    req.session.sessIdentity = req.session.id;
+  }
+  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+
+  async.parallel({
+    users_count: function (callback) {
+      User.countDocuments({}, callback);
+    },
+    privrepo_count: function (callback) {
+      User.countDocuments({ repo: 'Private' }, callback);
+    },
+    css_count: function (callback) {
+      Css.countDocuments({}, callback);
+    },
+    sass_count: function (callback) {
+      Sass.countDocuments({}, callback);
+    },
+    users: function (callback) {
+      User.find({ name: 'Ondrej Salamon' }, 'name last_logged csses')
+        .populate('csses')
+        .exec(callback);
+    }
+  }, function (err, results) {
+    console.log(results);
+    results.users.forEach(function (el) {
+      console.log(el.url);
     });
+    res.render('users', {
+      title: 'Color Customiser Homepage - user_list',
+      devSessionId: req.session.sessIdentity,
+      devFilename: req.session.sessIdFirstAssign,
+      error: err,
+      userlist: results.users,
+      data: results,
+      containerStyle: flexBoxContainer,
+      sessionId: req.session.sessIdentity
+    });
+  });
 };
+
 
 // detail page for a specific profile
 // (tyhlety exporty pak vlozit do app.get('/users/user/:userId', user_detail))
