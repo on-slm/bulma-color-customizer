@@ -1,3 +1,4 @@
+// TODO remove this file
 const mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -6,6 +7,10 @@ var CssLabelSchema = new Schema({
   csses: [{type: Schema.Types.ObjectId, ref: 'Css', required: true}]
 });
 
-// maybe there should be virtual scheme for generating css label urls (/csslabel/)
+CssLabelSchema
+  .virtual('url')
+  .get(function() {
+    return '/csslabel/' + this._id;
+  });
 
 module.exports = mongoose.model('CssLabel', CssLabelSchema);

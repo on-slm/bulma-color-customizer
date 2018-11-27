@@ -6,7 +6,10 @@ var SassLabelSchema = new Schema({
   sasses: [{type: Schema.Types.ObjectId, ref: 'Sass', required: true}]
 });
 
-// maybe there should be virtual scheme for generating sass label urls (/sasslabel/)
-
+SassLabelSchema
+  .virtual('url')
+  .get(function () {
+    return '/sasslabel/' + this._id;
+  });
 
 module.exports = mongoose.model('SassLabel', SassLabelSchema);

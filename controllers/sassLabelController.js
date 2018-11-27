@@ -10,8 +10,21 @@ const Sass = require('../models/sass');
 
 // display list of all sass labels
 exports.sass_label_list = function(req, res, next) {
-    res.send('NOT IMPLEMENTED: list of all sass labels');
-  };
+  SassLabel.find()
+    .populate('')
+    .sort('label')
+    .exec(function (err, list_sasslabels) {
+      if (err) { return next(err); }
+      console.log(list_sasslabels);
+      res.render('sasslabels_list_all', {
+        title: 'List of SaSSlabels (\'sasslabels_list_all\')',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        sasslabelslist: list_sasslabels
+      });
+    });
+};
 
 // Display detail page for a specific Label.
 exports.sass_label_detail = function(req, res, next) {
@@ -55,7 +68,7 @@ exports.sass_label_create_post = function (req, res, next) {
 
   // display Sass label delete form on GET
 exports.sass_label_delete_get = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: display delete form')
+  res.send('NOT IMPLEMENTED: display delete form');
 };
 
   // handle Sass label delete form on POST

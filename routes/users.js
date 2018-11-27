@@ -101,7 +101,7 @@ router.post('/csslabel/:id/update', css_label_controller.css_label_update_post);
 
 router.get('/csslabel/:id', css_label_controller.css_label_detail); // dont know
 
-router.get('/csslabels', css_label_controller.css_label_list); // probably yes
+router.get('/csslabels', css_label_controller.css_label_list); // currently it lists all csslabels in db - NO, it was fail
 
 
 // SaSS LABELS ROUTES
@@ -120,7 +120,7 @@ router.post('/sasslabel/:id/update', sass_label_controller.sass_label_update_pos
 
 router.get('/sasslabel/:id', sass_label_controller.sass_label_detail); // dont know
 
-router.get('/sasslabels', sass_label_controller.sass_label_list); // probably yes
+router.get('/sasslabels', sass_label_controller.sass_label_list); // currently it lists all csslabels in db
 
 
 module.exports = router;
