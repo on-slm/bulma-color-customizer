@@ -1,5 +1,6 @@
 const express = require('express');
 const async = require('async');
+const assignSessionID = require('../lib/asssignSessionID');
 
 // NEEDS COMPLETE REVISION [2018-10-04] - DONE
 
@@ -7,15 +8,11 @@ const async = require('async');
 const Css = require('../models/css');
 // secondary model = User
 const User = require('../models/user'); // not sure if needed
-const CssLabel = require('../models/csslabel'); // not sure if needed
+const CssLabel = require('../models/csslabel'); // delete
 
 // display list of all csses in DBs
 exports.css_list = function (req, res, next) {
-  if (req.session.sessIdentity == undefined) {
-    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
-    req.session.sessIdentity = req.session.id;
-  }
-  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  assignSessionID(req, __filename);
 
   Css.find({}, 'name labels user created created_formatted')
     .populate('user')
@@ -39,11 +36,15 @@ exports.css_list = function (req, res, next) {
 
 // display details for specific CSS code
 exports.css_detail = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: detail of a specific css code: ' + req.params.id + '\n<br />(css)');
 };
 
 // display Css create form on GET
 exports.css_create_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: display create form\n<br />(css)');
 };
 
@@ -64,6 +65,8 @@ exports.css_delete_post = function (req, res, next) {
 
 // display Css update form on GET
 exports.css_update_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: display update form\n<br />(css)');
 };
 

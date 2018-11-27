@@ -1,7 +1,9 @@
 const express = require('express');
 var router = express.Router;
+const assignSessionID = require('../lib/asssignSessionID');
 
 router.get('/', (req, res) => {
-  console.log('>>> ', __filename, '\'s session ID: ', req.session.sessIdentity, '\n');
+  assignSessionID(req, __filename);
+
   // res.send ...= sass controller
-})
+});

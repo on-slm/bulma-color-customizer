@@ -1,5 +1,6 @@
 const express = require('express');
 const async = require('async');
+const assignSessionID = require('../lib/asssignSessionID');
 
 // primary models = User's own sass and sass to list/del
 const Sass = require('../models/sass');
@@ -7,9 +8,10 @@ const Sass = require('../models/sass');
 // secondary model = User
 const User = require('../models/user');
 
-// display list of user's sasses
+// display NOT list of user's sasses but all sasses
+exports.sass_list = function (req, res, next) {
+  assignSessionID(req, __filename);
 
-exports.sass_list = function(req, res, next) {
   Sass.find()
     .populate('user')
     .sort([['code', 'desc']])
@@ -29,6 +31,8 @@ exports.sass_list = function(req, res, next) {
 
 // display details for specific SASS code
 exports.sass_detail = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   // another playground (ONE async operation to get required operation => then simply render the template in the callback, ie. calback function = count itself)
   Sass.count({ _id: req.params.id }, function(err, count) {
     if (err) throw err;
@@ -50,6 +54,8 @@ exports.sass_detail = function (req, res, next) {
 
 // display Sass create form on GET
 exports.sass_create_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: display create form\n<br />(sass)');
 };
 

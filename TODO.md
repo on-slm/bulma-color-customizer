@@ -6,9 +6,10 @@
 - [ ] TODO Rewrite all the messy code - make it resembling code written according to the BP
 - [ ] TODO Restructure all files in the Views directory - reduce number of files, make them simpler, etc (rule of thumb: max only 2-3 pug files needed for presenting one page of the web)
 - [ ] TODO Insert some mock data into collection `sasslabel`
+- [ ] TODO Or rather completely de novo setup DB's mock data (inspiration - file `populatedb.js`)
 - [ ] TODO Delete all unnecessary files and folders
 - [ ] TODO Remove all unnecessary comments
-- [ ] TODO Add debug, morgan [viz](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website)
+- [ ] TODO Add debug, morgan [viz here](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/skeleton_website)
 - [ ] TODO Proper [error handling](https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Introduction#Handling_errors) everywhere
 - [ ] TODO Upgrade to much better devstack/compiler etc (aka make us of the Webpack)
 - [ ] TODO Make use of ES6 syntax everywhere

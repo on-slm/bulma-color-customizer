@@ -19,6 +19,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
+const assignSessionID = require('./lib/asssignSessionID');
 const cookieParser = require('cookie-parser');
 const parseurl = require('parseurl');
 const session = require('express-session');
@@ -26,7 +27,7 @@ var MemoryStore = require('memorystore')(session);
 const async = require('async');
 // console.log('===================\n', 'app.js', '\n');
 
-// cookie.expires
+// express-session's options for session object
 var sess = {
   resave: false, // edit later, it depends on a session store used
   saveUninitialized: false,
@@ -55,7 +56,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3000;
+const port = 3002;
 const mongoDB = 'mongodb://localhost/bulma_db';
 
 // mongo connection
@@ -95,11 +96,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
 app.get('/customize', function (req, res) {
-  if (req.session.sessIdentity == undefined) {
-    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
-    req.session.sessIdentity = req.session.id;
-  }
-  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  assignSessionID(req, __filename);
 
   res.render('customize', {
     title: 'CUSTOMIZE!',
@@ -113,11 +110,8 @@ app.get('/customize', function (req, res) {
 });
 
 app.post('/customize', (req, res) => {
-  if (req.session.sessIdentity == undefined) {
-    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
-    req.session.sessIdentity = req.session.id;
-  }
-  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  assignSessionID(req, __filename);
+
   res.render('customize', {
     title: 'DONE - RESULTS:',
     devSessionId: req.session.sessIdentity,

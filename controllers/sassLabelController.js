@@ -1,5 +1,6 @@
 const express = require('express');
 const async = require('async');
+const assignSessionID = require('../lib/asssignSessionID');
 
 // primary model = labels of Sasses
 const SassLabel = require('../models/sasslabel');
@@ -9,7 +10,9 @@ const Sass = require('../models/sass');
 
 
 // display list of all sass labels
-exports.sass_label_list = function(req, res, next) {
+exports.sass_label_list = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   SassLabel.find()
     .populate('')
     .sort('label')
@@ -27,7 +30,9 @@ exports.sass_label_list = function(req, res, next) {
 };
 
 // Display detail page for a specific Label.
-exports.sass_label_detail = function(req, res, next) {
+exports.sass_label_detail = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED YET: detail of single sass label: ' + req.params.id);
 
   // tady pokus udelat to samostatne - PAK ZKUSIT DODELAT
@@ -58,6 +63,8 @@ exports.sass_label_detail = function(req, res, next) {
 
   // display Sass label create form on GET
 exports.sass_label_create_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: display create form');
 };
 
@@ -68,6 +75,8 @@ exports.sass_label_create_post = function (req, res, next) {
 
   // display Sass label delete form on GET
 exports.sass_label_delete_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: display delete form');
 };
 
@@ -78,10 +87,13 @@ exports.sass_label_delete_post = function (req, res, next) {
 
   // display Sass label update form on GET
 exports.sass_label_update_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: display update form');
 };
 
   // handle Sass label update form on POST
 exports.sass_label_update_post = function (req, res, next) {
+
   res.send('NOT IMPLEMENTED: handle update form');
 };
