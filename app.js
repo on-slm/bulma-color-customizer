@@ -56,7 +56,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
-const port = 3002;
+const port = 3000;
 const mongoDB = 'mongodb://localhost/bulma_db';
 
 // mongo connection
@@ -70,7 +70,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var defaultSass = fs.readFileSync(path.join(__dirname, 'assets', 'defaultSass.txt'), 'utf8');
 
 // TO DO LATER: assign every user's draft (code inputed) with ordinal number based on his unique cookie, ie. "draft number 1" (first...), "draft number 2" (second), etc
-var assignNumber = Date.now();
+var assignNumber = Date.now(); // BS, remove
 
 var x = Array.from({ length: 5 }, (v, i) => i);
 // [0, 1, 2, 3, 4]
