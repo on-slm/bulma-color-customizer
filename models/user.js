@@ -21,8 +21,7 @@ var UserSchema = new Schema({
   user_cookie_id: { type: String, required: true },
   last_logged: { type: Date, default: Date.now },
   sasses: [{ type: Schema.Types.ObjectId, ref: 'Sass' }],
-  csses: [{ type: Schema.Types.ObjectId, ref: 'Css' }],
-  absolute_url: String // asi pak jako virtual: '/route/' + this.user_cookie_id
+  csses: [{ type: Schema.Types.ObjectId, ref: 'Css' }]
 });
 
 // virtual for generating users urls
@@ -42,7 +41,7 @@ UserSchema
 UserSchema
   .virtual('fullname')
   .get(function () {
-    return this.first + ' ' + this.last;
+    return '' + this.first + ' ' + this.last;
   });
 
 

@@ -19,18 +19,28 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
+const uid = require('uid-safe').sync; // not needed, remove later
 const assignSessionID = require('./lib/asssignSessionID');
-const cookieParser = require('cookie-parser');
+const cookieParser = require('cookie-parser'); // not needed, remove later
 const parseurl = require('parseurl');
 const session = require('express-session');
 var MemoryStore = require('memorystore')(session);
 const async = require('async');
 // console.log('===================\n', 'app.js', '\n');
 
+
 // express-session's options for session object
 var sess = {
   resave: false, // edit later, it depends on a session store used
   saveUninitialized: false,
+  // genid: function (req) {
+  //   function genuuid() {
+  //     var objIdHex = mongoose.Types.ObjectId().valueOf();
+  //     return Buffer.from('' + objIdHex, 'hex').toString('utf8');
+  //   }
+  //   return genuuid();
+  // },
+  genid: req => Buffer.from('' + mongoose.Types.ObjectId().valueOf(), 'hex').toString('hex'), // AFAIK there's no 'this' in this context so I can make use of es6
   secret: 'keyboard cat', // it signs session ID cookie
   store: new MemoryStore({
     checkPeriod: 86400000 // prune expired entries every 24h
