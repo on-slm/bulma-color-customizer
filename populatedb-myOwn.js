@@ -40,7 +40,7 @@ var csslabels = [];
 function boolRand() { return Math.floor(Math.random() * 2) };
 var repValues = ['Public', 'Private'];
 
-function createUser(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, casse, sasse) {
+function createUser(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, casse, sasse, cb) {
   var userInfo = {
     name: nam,
     first: firs,
@@ -53,9 +53,124 @@ function createUser(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, c
     casses: casse,
     sasses: sasse
   };
-  console.log(userInfo);
+  console.log('======================INFO===================');
+  console.log('\n\n New user info: \n' + userInfo + '\n');
+  for (const i in userInfo) {
+    if (userInfo.hasOwnProperty(i)) {
+      console.log(userInfo[i]);
+    }
+  }
+  console.log('\n');
+
+
+
+  var user = new User(userInfo);
+  user.save(function (err) {
+    if (err) {
+      cb(err, null);
+      return;
+    }
+    console.log('======================NEW USER===================');
+    console.log('\n\n New user: \n' + user);
+    console.log('\n');
+    console.log('PUSHING INTO THE MAIN ARRAY - "users">');
+    console.log('\n');
+    users.push(user);
+    cb(null, user);
+  });
   // Object.values(userInfo).forEach(element => { console.log(element); });
 }
 
-// var name = random.firstname();
-// createUser(name.toLowerCase(), name, random.lastname(), random.email({ standard: true }), random.random(), repValues, random.random(), random.date(), random.array(), random.array());
+/*
+var name = random.firstname();
+createUser(name.toLowerCase(), name, random.lastname(), random.email({ standard: true }), random.random(), repValues, random.random(), random.date(), random.array(), random.array(), callback);
+*/
+
+
+// IT THROWS ERROR BUT PERHAPS IT'S NOT CRUCIAL - LET IT BE...
+function createUsersTest(cb) {
+  async.parallel(
+    [
+      (callback) => {
+        var usrRandom = {};
+        var name = random.firstname();
+        usrRandom.nick = name.toLowerCase();
+        usrRandom.name = name;
+        usrRandom.lastname = random.lastname();
+        usrRandom.email = random.email({ standard: true });
+        usrRandom.password = random.random();
+        usrRandom.repo = repValues;
+        usrRandom.cookieId = random.random();
+        usrRandom.logged = random.date();
+        usrRandom.sss = random.array();
+        console.log('----------------\n');
+        console.log('usrRandom.sss : ' + usrRandom.sss);
+        console.log('usrRandom.sss typeof: ' + (typeof usrRandom.sss) + '\n');
+        usrRandom.sass = [];
+        Object.values(usrRandom.sss).forEach(element => {
+          console.log(element);
+          usrRandom.sass.push(element);
+        });
+        console.log('usrRandom.sass typeof: ' + (typeof usrRandom.sass) + '\n');
+
+
+        usrRandom.css = random.array();
+        console.log('----------------\n');
+        console.log('usrRandom.css : ' + usrRandom.css);
+        console.log('usrRandom.css typeof: ' + (typeof usrRandom.css) + '\n');
+        usrRandom.cstylesheet = [];
+        Object.values(usrRandom.css).forEach(element => {
+          console.log(element);
+          usrRandom.cstylesheet.push(element);
+        });
+        console.log('usrRandom.cstylesheet typeof: ' + (typeof usrRandom.cstylesheet) + '\n');
+
+
+        createUser(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, usrRandom.sass, usrRandom.cstylesheet, callback);
+      },
+      (callback) => {
+        var usrRandom = {};
+        var name = random.firstname();
+        usrRandom.nick = name.toLowerCase();
+        usrRandom.name = name;
+        usrRandom.lastname = random.lastname();
+        usrRandom.email = random.email({ standard: true });
+        usrRandom.password = random.random();
+        usrRandom.repo = repValues;
+        usrRandom.cookieId = random.random();
+        usrRandom.logged = random.date();
+        usrRandom.sss = random.array();
+        console.log('----------------\n');
+        console.log('usrRandom.sss : ' + usrRandom.sss);
+        console.log('usrRandom.sss typeof: ' + (typeof usrRandom.sss) + '\n');
+        usrRandom.sass = [];
+        Object.values(usrRandom.sss).forEach(element => {
+          console.log(element);
+          usrRandom.sass.push(element);
+        });
+
+        usrRandom.css = random.array();
+        console.log('----------------\n');
+        console.log('usrRandom.css : ' + usrRandom.css);
+        console.log('usrRandom.css typeof: ' + (typeof usrRandom.css) + '\n');
+        usrRandom.cstylesheet = [];
+        Object.values(usrRandom.css).forEach(element => {
+          console.log(element);
+          usrRandom.cstylesheet.push(element);
+        });
+
+        createUser(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, usrRandom.sass, usrRandom.cstylesheet, callback);
+      }
+    ],
+  cb);
+}
+
+async.series([
+  createUsersTest,
+  createUsersTest
+],
+  function (err, results) {
+    if (err) console.error(err);
+    console.log(users);
+  }
+);

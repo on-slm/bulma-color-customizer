@@ -23,18 +23,18 @@ mongoose.Promise = global.Promise;
 var db = mongoose.connection;
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
-var users = []
-var sasslabels = []
-var sasses = []
-var csses = []
+var users = [];
+var sasslabels = [];
+var sasses = [];
+var csses = [];
 
-var books = []
-var bookinstances = []
+var books = [];
+var bookinstances = [];
 
 // function authorCreate(name, user_cookie_id, last_log, repo, cb) {
 //   authordetail = {name: name, user_cookie_id: user_cookie_id }
 //   if (last_log != false) authordetail.last_logged = last_log
-//   if (repo != false) authordetail.repo = repo;  
+//   if (repo != false) authordetail.repo = repo;
 //   var user = new User(authordetail);
 //   user.save(function (err) {
 //     if (err) {
@@ -50,7 +50,7 @@ var bookinstances = []
 // function genreCreate(label, cb) {
 //   // aka sassLabelCreate
 //   var sassLabel = new SassLabel({ label: label });
-       
+
 //   sassLabel.save(function (err) {
 //     if (err) {
 //       cb(err, null);
@@ -63,15 +63,15 @@ var bookinstances = []
 // } // aka sassLabelCreate
 
 // function bookCreate(name, code, downloadUrl, user, labels, cb) {
-//   bookdetail = { 
+//   bookdetail = {
 //     name: name,
 //     code: code,
 //     user: user,
 //     downloadUrl: downloadUrl
 //   }
 //   if (labels != false) bookdetail.labels = labels
-    
-//   var book = new Sass(bookdetail);    
+
+//   var book = new Sass(bookdetail);
 //   book.save(function (err) {
 //     if (err) {
 //       cb(err, null)
@@ -84,14 +84,14 @@ var bookinstances = []
 // } // aka sassCreate
 
 // function bookInstanceCreate(book, code, created, name, cb) {
-//   bookinstancedetail = { 
+//   bookinstancedetail = {
 //     user: book, // tohle musim referovat na Usera!!!
 //     code: code
-//   }    
+//   }
 //   if (created != false) bookinstancedetail.created = created
 //   if (name != false) bookinstancedetail.name = name
-    
-//   var bookinstance = new Css(bookinstancedetail);    
+
+//   var bookinstance = new Css(bookinstancedetail);
 //   bookinstance.save(function (err) {
 //     if (err) {
 //       console.log('ERROR CREATING Css: ' + bookinstance);
@@ -218,7 +218,7 @@ var bookinstances = []
 //     }
 //     else {
 //         console.log('BOOKInstances: '+csses);
-        
+
 //     }
 //     // All done, disconnect from database
 //     mongoose.connection.close();
@@ -228,13 +228,13 @@ var bookinstances = []
 
  function authorCreate(name, user_cookie_id, last_log, repo, sasses, csses, cb) {
    authordetail =   {
-                    name: name, 
+                    name: name,
                     user_cookie_id: user_cookie_id,
                     sasses: sasses,
                     csses: csses
                     }
    if (last_log != false) authordetail.last_logged = last_log
-   if (repo != false) authordetail.repo = repo;  
+   if (repo != false) authordetail.repo = repo;
    var user = new User(authordetail);
    user.save(function (err) {
      if (err) {
@@ -262,14 +262,14 @@ var bookinstances = []
  }
 
  function bookInstanceCreate(book, code, created, name, cb) {
-   bookinstancedetail = { 
+   bookinstancedetail = {
      user: book,  //tohle musim referovat na Usera!!!
      code: code
-   }    
+   }
    if (created != false) bookinstancedetail.created = created
    if (name != false) bookinstancedetail.name = name
-    
-   var bookinstance = new Css(bookinstancedetail);    
+
+   var bookinstance = new Css(bookinstancedetail);
    bookinstance.save(function (err) {
      if (err) {
        console.log('ERROR CREATING Css: ' + bookinstance);
@@ -284,14 +284,14 @@ var bookinstances = []
 
 
  function bookInstance2Create(book, code, created, name, cb) {
-  bookinstancedetail = { 
+  bookinstancedetail = {
     user: book,  //tohle musim referovat na Usera!!!
     code: code
-  }    
+  }
   if (created != false) bookinstancedetail.created = created
   if (name != false) bookinstancedetail.name = name
-   
-  var bookinstance = new Css(bookinstancedetail);    
+
+  var bookinstance = new Css(bookinstancedetail);
   bookinstance.save(function (err) {
     if (err) {
       console.log('ERROR CREATING Css: ' + bookinstance);
@@ -349,7 +349,7 @@ var bookinstances = []
      }
      else {
          console.log('csess: '+csses);
-       
+
      }
      // All done, disconnect from database
      mongoose.connection.close();
