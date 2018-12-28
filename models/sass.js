@@ -4,10 +4,10 @@ var Schema = mongoose.Schema;
 var SassSchema = new Schema({
   name: String,
   labels: [{ type: Schema.Types.ObjectId, ref: 'SassLabel' }],
-  code: {type: String, required: true},
+  code: { type: String, required: true },
   created: Date,
   downloadUrl: String,
-  user: {type: Schema.Types.ObjectId, ref: 'User', required: true}
+  user: { type: Schema.Types.ObjectId, ref: 'User', required: true }
 });
 
 SassSchema

@@ -2,7 +2,6 @@ const mongoose = require('mongoose');
 const moment = require('moment');
 var Schema = mongoose.Schema;
 
-
 var CssSchema = new Schema({
   name: String,
   labels: [{ type: Schema.Types.ObjectId, ref: 'CssLabel' }],

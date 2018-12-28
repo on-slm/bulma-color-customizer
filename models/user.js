@@ -20,8 +20,8 @@ var UserSchema = new Schema({
   repo: { type: String, required: true, enum: ['Public', 'Private'], default: 'Private' },
   user_cookie_id: { type: String, required: true },
   last_logged: { type: Date, default: Date.now },
-  sasses: [{ type: Schema.Types.ObjectId, ref: 'Sass' }],
-  csses: [{ type: Schema.Types.ObjectId, ref: 'Css' }]
+  sasses: [{ type: Number /*Schema.Types.ObjectId */, ref: 'Sass' }],
+  csses: [{ type: Number /* Schema.Types.ObjectId */, ref: 'Css' }]
 });
 
 // virtual for generating users urls
