@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-console.log('This script populates some test users, csses/sasses and css/sass labels to database. Specified database as argument - e.g.: populatedb mongodb://your_username:your_password@your_dabase_url');
+// console.log('This script populates some test users, csses/sasses and css/sass labels to database. Specified database as argument - e.g.: populatedb mongodb://your_username:your_password@your_dabase_url');
 // mongodb://127.0.0.1:27017/color_customizer_db
 // Get arguments passed on command line
 /*
@@ -10,7 +10,7 @@ if (!userArgs[0].startsWith('mongodb://')) {
   return;
 }
 */
-
+var async = require('async');
 var random = require('random-world');
 const express = require('express');
 const router = express.Router();
@@ -20,7 +20,6 @@ var Sass = require('./models/sass');
 var Css = require('./models/css');
 var SassLabel = require('./models/sasslabel');
 var CssLabel = require('./models/csslabel');
-var async = require('async');
 
 /*
 var mongoose = require('mongoose');
@@ -40,7 +39,7 @@ var csslabels = [];
 function boolRand() { return Math.floor(Math.random() * 2); }
 var repValues = ['Public', 'Private'];
 
-function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, casse, sasse, cb) {
+function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, cb) {
   var userInfo = {
     name: nam,
     first: firs,
@@ -49,9 +48,7 @@ function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, c
     pass: pas,
     repo: rep[boolRand()],
     user_cookie_id: user_cookie_i,
-    last_logged: last_logge,
-    csses: casse,
-    sasses: sasse
+    last_logged: last_logge
   };
   Object.values(userInfo).forEach(el => { console.log(el); });
   console.log('\n');
@@ -86,25 +83,14 @@ function createUsersTest(cb) {
         usrRandom.repo = repValues;
         usrRandom.cookieId = random.random();
         usrRandom.logged = random.date();
-        usrRandom.sass = random.array();
-        usrRandom.cstylesheet = random.array();
 
-        userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, usrRandom.sass, usrRandom.cstylesheet, callback);
+        userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, callback);
       }
     ],
   cb);
 }
 
-async.series([
-  createUsersTest,
-  createUsersTest
-],
-  function (err, results) {
-    if (err) console.error(err);
-    console.log(users);
-  }
-);
-
+/*
 function sassCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
   var sassInfo = {
     name: nam,
@@ -141,3 +127,22 @@ function createSassTest(cb) {
   ],
   cb);
 }
+*/
+
+/*
+// TO THE VERY END:
+async.series([
+  createUsersTest,
+  createUsersTest
+],
+  function (err, results) {
+    if (err) {
+      console.log('\n\n logging error of async series: \n\n');
+      console.error(err);
+    } else {
+      console.log('\n\n logging result of async series: \n\n');
+      console.log(users);
+    }
+  }
+);
+*/
