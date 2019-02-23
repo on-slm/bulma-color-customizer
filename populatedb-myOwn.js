@@ -39,6 +39,11 @@ var csslabels = [];
 function boolRand() { return Math.floor(Math.random() * 2); }
 var repValues = ['Public', 'Private'];
 
+console.log(random.word() + '\n');
+console.log(random.integer({ min: 0, max: 8 }) + '\n');
+
+
+// User
 function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, cb) {
   var userInfo = {
     name: nam,
@@ -51,11 +56,11 @@ function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, c
     last_logged: last_logge
   };
   Object.values(userInfo).forEach(el => { console.log(el); });
-  console.log('\n');
+  console.log('\n\n');
 
   var user = new User(userInfo);
   Object.values(user).forEach(el => { console.log(el); });
-  console.log('\n');
+  console.log('\n\n');
 
   user.save(function (err) {
     if (err) {
@@ -87,6 +92,41 @@ function createUsersTest(cb) {
         userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, callback);
       }
     ],
+  cb);
+}
+
+// SassLabel
+function sassLabelCreate(lbl, cb) {
+  var sassLbl = lbl;
+  console.log('\nSASS LABEL: ' + sassLbl + '\n\n');
+
+  var sassLabel = new SassLabel({ label: sassLbl });
+  // Object.values(sassLabel).forEach(el => { console.log(el); });
+  console.log(sassLabel);
+  console.log('\n\n');
+
+  sassLabel.save(function (err) {
+    if (err) {
+      console.log('Error while saving created SassLabel (Mongoose): \n' + err);
+      console.log('\n\n');
+      cb(err, null);
+      return;
+    }
+    console.log('New SassLabel: \n' + sassLabel);
+    console.log('\n\n');
+    sasslabels.push(sassLabel);
+    cb(null, sassLabel);
+  });
+}
+
+function createSassLabelTest(cb) {
+  async.parallel([
+    function(callback) {
+      var labelRandom = random.word();
+
+      sassLabelCreate(labelRandom, callback);
+    }
+  ],
   cb);
 }
 
@@ -129,11 +169,10 @@ function createSassTest(cb) {
 }
 */
 
-/*
+
 // TO THE VERY END:
 async.series([
-  createUsersTest,
-  createUsersTest
+  createSassLabelTest
 ],
   function (err, results) {
     if (err) {
@@ -141,8 +180,8 @@ async.series([
       console.error(err);
     } else {
       console.log('\n\n logging result of async series: \n\n');
-      console.log(users);
+      // console.log(users);
+      console.log(sasslabels);
     }
   }
 );
-*/
