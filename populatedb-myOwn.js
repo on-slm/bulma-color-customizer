@@ -30,19 +30,19 @@ var db = mongoose.connection;
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB (' + userArgs[0] + ') connection error:'));
 */
 
+// LASTLY I'VE READ: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose#Using_models >> Working with related documents — population
+
 var users = [];
 var sasses = [];
 var sasslabels = [];
+var labels = [];
 var csses = [];
 var csslabels = [];
 
 function boolRand() { return Math.floor(Math.random() * 2); }
 var repValues = ['Public', 'Private'];
 
-console.log(random.word() + '\n');
-console.log(random.integer({ min: 0, max: 8 }) + '\n');
-
-
+// User + SassLabel + CssLabel - every item wiht ASYNC.SERIES
 // User
 function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, cb) {
   var userInfo = {
@@ -55,12 +55,13 @@ function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, c
     user_cookie_id: user_cookie_i,
     last_logged: last_logge
   };
+  console.log('USER OBJECT START ============');
   Object.values(userInfo).forEach(el => { console.log(el); });
-  console.log('\n\n');
+  console.log('USER OBJECT END   ============');
 
   var user = new User(userInfo);
-  Object.values(user).forEach(el => { console.log(el); });
-  console.log('\n\n');
+  console.log(user);
+  console.log('\n');
 
   user.save(function (err) {
     if (err) {
@@ -95,40 +96,128 @@ function createUsersTest(cb) {
   cb);
 }
 
-// SassLabel
-function sassLabelCreate(lbl, cb) {
-  var sassLbl = lbl;
-  console.log('\nSASS LABEL: ' + sassLbl + '\n\n');
+// Label
+function labelCreate(lbl, cb) {
+  var label = lbl;
+  console.log('LABEL VAR START ==========\n' + label + '\nLABEL VAR END   ==========');
 
-  var sassLabel = new SassLabel({ label: sassLbl });
-  // Object.values(sassLabel).forEach(el => { console.log(el); });
-  console.log(sassLabel);
+  var labelInstance = new SassLabel({ label: label });
+  console.log(labelInstance);
   console.log('\n\n');
 
-  sassLabel.save(function (err) {
+  labelInstance.save(function (err) {
+    if (err) {
+      console.log('Error while saving created labelInstance (Mongoose): \n' + err);
+      console.log('\n\n');
+      cb(err, null);
+      return;
+    }
+    console.log('New labelInstance: \n' + labelInstance);
+    console.log('\n\n');
+    labels.push(labelInstance);
+    cb(null, labelInstance);
+  });
+}
+
+function createLabelTest(cb) {
+  async.parallel([
+    function(callback) {
+      var labelRandom = random.word();
+
+      labelCreate(labelRandom, callback);
+    }
+  ],
+  cb);
+}
+
+
+// Css + Sass - both AFTER all users and labels and each item ASYNC.PARALLEL
+function cssCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
+  var cssObject = {
+    name: nam,
+    labels: [].push(lbls[0]),
+    code: cod,
+    created: create,
+    downloadUrl: dwnldUrl,
+    user: [].push(use[0])
+  };
+  console.log('CSS OBJECT START ============');
+  Object.values(cssObject).forEach(el => { console.log(el); });
+  console.log('CSS OBJECT END   ============');
+
+  var cssInstance = new Css(cssObject);
+  console.log(cssInstance);
+  console.log('\n');
+
+  cssInstance.save(function (err) {
+    if (err) {
+      console.log('Error while saving created cssInstance (Mongoose): \n' + err);
+      console.log('\n\n');
+      cb(err, null);
+      return;
+    }
+    console.log('New Css: \n' + cssInstance);
+    console.log('\n\n');
+    csses.push(cssInstance);
+    cb(null, cssInstance);
+  });
+}
+
+function createCssTest(cb) {
+  async.parallel(
+    [
+      function (callback) {
+        var cssRandom = {};
+        cssRandom.name = random.lastname();
+        cssRandom.labels = labels;
+        cssRandom.code = random.sentence();
+        cssRandom.created = new Date();
+        cssRandom.downloadUrl = random.domain();
+        cssRandom.user = users;
+
+        cssCreate(cssRandom.name, cssRandom.labels, cssRandom.code, cssRandom.created, cssRandom.downloadUrl, cssRandom.user, callback);
+      }
+    ],
+  cb);
+}
+
+// CssLabel
+/*
+function cssLabelCreate(lbl, cb) {
+  var cssLbl = lbl;
+  console.log('CSSLABEL VAR START ==========\n' + cssLbl + '\nCSSLABEL VAR END   ==========');
+
+  var cssLabel = new SassLabel({
+    label: cssLbl
+  });
+  console.log(cssLabel);
+  console.log('\n\n');
+
+  cssLabel.save(function (err) {
     if (err) {
       console.log('Error while saving created SassLabel (Mongoose): \n' + err);
       console.log('\n\n');
       cb(err, null);
       return;
     }
-    console.log('New SassLabel: \n' + sassLabel);
+    console.log('New CssLabel: \n' + cssLabel);
     console.log('\n\n');
-    sasslabels.push(sassLabel);
-    cb(null, sassLabel);
+    csslabels.push(cssLabel);
+    cb(null, cssLabel);
   });
 }
 
-function createSassLabelTest(cb) {
+function createCssLabelTest(cb) {
   async.parallel([
-    function(callback) {
-      var labelRandom = random.word();
+      function (callback) {
+        var labelRandom = random.word();
 
-      sassLabelCreate(labelRandom, callback);
-    }
-  ],
-  cb);
+        cssLabelCreate(labelRandom, callback);
+      }
+    ],
+    cb);
 }
+*/
 
 /*
 function sassCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
@@ -170,9 +259,11 @@ function createSassTest(cb) {
 */
 
 
-// TO THE VERY END:
-async.series([
-  createSassLabelTest
+// testing only:
+async.parallel([
+  createUsersTest,
+  createLabelTest,
+  createCssTest
 ],
   function (err, results) {
     if (err) {
@@ -181,7 +272,7 @@ async.series([
     } else {
       console.log('\n\n logging result of async series: \n\n');
       // console.log(users);
-      console.log(sasslabels);
+      console.log(labels);
     }
   }
 );

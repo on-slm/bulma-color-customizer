@@ -31,6 +31,12 @@ var csses = [];
 var books = [];
 var bookinstances = [];
 
+// User.find({ 'repo': 'Private' }, 'name repo pass email', function (err, users) {
+User.count({ 'repo': 'Private' }, function (err, users) {
+  if (err) { console.error(err); }
+  console.dir(users);
+});
+
 // function authorCreate(name, user_cookie_id, last_log, repo, cb) {
 //   authordetail = {name: name, user_cookie_id: user_cookie_id }
 //   if (last_log != false) authordetail.last_logged = last_log
@@ -225,7 +231,7 @@ var bookinstances = [];
 // });
 
 
-
+/*
  function authorCreate(name, user_cookie_id, last_log, repo, sasses, csses, cb) {
    authordetail =   {
                     name: name,
@@ -354,3 +360,4 @@ var bookinstances = [];
      // All done, disconnect from database
      mongoose.connection.close();
  });
+*/
