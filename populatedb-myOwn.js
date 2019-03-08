@@ -21,14 +21,14 @@ var Css = require('./models/css');
 var SassLabel = require('./models/sasslabel');
 var CssLabel = require('./models/csslabel');
 
-/*
+
 var mongoose = require('mongoose');
-var mongoDB = userArgs[0];
+var mongoDB = 'mongodb+srv://onslm:telefon5@bcustomizer-tn0cj.mongodb.net/test02?retryWrites=true';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
-mongoose.connection.on('error', console.error.bind(console, 'MongoDB (' + userArgs[0] + ') connection error:'));
-*/
+mongoose.connection.on('error', console.error.bind(console, 'MongoDB (' + mongoDB + ') connection error:'));
+
 
 // LASTLY I'VE READ: https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/mongoose#Using_models >> Working with related documents — population
 
@@ -75,26 +75,54 @@ function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, c
   });
 }
 
-function createUsersTest(cb) {
-  async.parallel(
-    [
-      (callback) => {
-        var usrRandom = {};
-        var name = random.firstname();
-        usrRandom.nick = name.toLowerCase();
-        usrRandom.name = name;
-        usrRandom.lastname = random.lastname();
-        usrRandom.email = random.email({ standard: true });
-        usrRandom.password = random.random();
-        usrRandom.repo = repValues;
-        usrRandom.cookieId = random.random();
-        usrRandom.logged = random.date();
+function randomUser() {
+  var usrRandom = {};
+  var name = random.firstname();
+  usrRandom.nick = name.toLowerCase();
+  usrRandom.name = name;
+  usrRandom.lastname = random.lastname();
+  usrRandom.email = random.email({
+    standard: true
+  });
+  usrRandom.password = random.random();
+  usrRandom.repo = repValues;
+  usrRandom.cookieId = random.random();
+  usrRandom.logged = random.date();
+  return usrRandom;
+}
 
+
+var count = 0;
+function createUsersTest(cb) {
+  async.series(
+    [
+      function(callback) {
+        var usrRandom = randomUser();
+        console.log('>>>>>>1');
+        count++;
+        userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, callback);
+      },
+      function (callback) {
+        var usrRandom = randomUser();
+        console.log('>>>>>>2');
+        count++;
+        userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, callback);
+      },
+      function (callback) {
+        var usrRandom = randomUser();
+        console.log('>>>>>>3');
+        count++;
         userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, callback);
       }
     ],
   cb);
 }
+console.log('/////////////\n');
+console.log(count);
+createUsersTest();
+console.log('#############\n');
+console.log(count);
+
 
 // Label
 function labelCreate(lbl, cb) {
@@ -119,18 +147,74 @@ function labelCreate(lbl, cb) {
   });
 }
 
+var countLabel = 0;
 function createLabelTest(cb) {
-  async.parallel([
+  async.series([
     function(callback) {
       var labelRandom = random.word();
-
+      console.log('>>>>>>1');
+      countLabel++;
+      labelCreate(labelRandom, callback);
+    },
+    function (callback) {
+      var labelRandom = random.word();
+      console.log('>>>>>>2');
+      countLabel++;
+      labelCreate(labelRandom, callback);
+    },
+    function (callback) {
+      var labelRandom = random.word();
+      console.log('>>>>>>3');
+      countLabel++;
+      labelCreate(labelRandom, callback);
+    },
+    function (callback) {
+      var labelRandom = random.word();
+      console.log('>>>>>>4');
+      countLabel++;
+      labelCreate(labelRandom, callback);
+    },
+    function (callback) {
+      var labelRandom = random.word();
+      console.log('>>>>>>5');
+      countLabel++;
+      labelCreate(labelRandom, callback);
+    },
+    function (callback) {
+      var labelRandom = random.word();
+      console.log('>>>>>>6');
+      countLabel++;
+      labelCreate(labelRandom, callback);
+    },
+    function (callback) {
+      var labelRandom = random.word();
+      console.log('>>>>>>7');
+      countLabel++;
+      labelCreate(labelRandom, callback);
+    },
+    function (callback) {
+      var labelRandom = random.word();
+      console.log('>>>>>>8');
+      countLabel++;
+      labelCreate(labelRandom, callback);
+    },
+    function (callback) {
+      var labelRandom = random.word();
+      console.log('>>>>>>9');
+      countLabel++;
       labelCreate(labelRandom, callback);
     }
   ],
   cb);
 }
 
+console.log('/////////////\n');
+console.log(countLabel);
+createLabelTest();
+console.log('#############\n');
+console.log(countLabel);
 
+/*
 // Css + Sass - both AFTER all users and labels and each item ASYNC.PARALLEL
 function cssCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
   var cssObject = {
@@ -163,16 +247,21 @@ function cssCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
   });
 }
 
+function randomCss() {
+  var cssRandom = {};
+  cssRandom.name = random.lastname();
+  cssRandom.code = random.sentence();
+  cssRandom.created = new Date();
+  cssRandom.downloadUrl = random.domain();
+  return cssRandom;
+}
+
 function createCssTest(cb) {
   async.parallel(
     [
       function (callback) {
-        var cssRandom = {};
-        cssRandom.name = random.lastname();
+        var cssRandom = randomCss();
         cssRandom.labels = labels;
-        cssRandom.code = random.sentence();
-        cssRandom.created = new Date();
-        cssRandom.downloadUrl = random.domain();
         cssRandom.user = users;
 
         cssCreate(cssRandom.name, cssRandom.labels, cssRandom.code, cssRandom.created, cssRandom.downloadUrl, cssRandom.user, callback);
@@ -180,6 +269,7 @@ function createCssTest(cb) {
     ],
   cb);
 }
+*/
 
 // CssLabel
 /*
@@ -258,7 +348,7 @@ function createSassTest(cb) {
 }
 */
 
-
+/*
 // testing only:
 async.parallel([
   createUsersTest,
@@ -276,3 +366,23 @@ async.parallel([
     }
   }
 );
+*/
+
+// MongoDB Atlas - full driver example
+/*
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://onslm:<password>@bcustomizer-tn0cj.mongodb.net/test?retryWrites=true";
+const client = new MongoClient(uri, {
+  useNewUrlParser: true
+});
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+*/
+
+// MongoDB Atlas - connection string only
+/*
+mongodb+srv://onslm:telefon5@bcustomizer-tn0cj.mongodb.net/test01?retryWrites=true
+*/
