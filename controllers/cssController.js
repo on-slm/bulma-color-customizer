@@ -8,7 +8,8 @@ const assignSessionID = require('../lib/asssignSessionID');
 const Css = require('../models/css');
 // secondary model = User
 const User = require('../models/user'); // not sure if needed
-const CssLabel = require('../models/csslabel'); // delete
+const Label = require('./models/label');
+
 
 // display list of all csses in DBs
 exports.css_list = function (req, res, next) {

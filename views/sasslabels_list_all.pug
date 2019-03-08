@@ -10,7 +10,7 @@ block main
       div.column(class='is-four-fifths')
         div.container(class='content')
           ol.is-lower-alpha
-            each val in sasslabelslist
+            each val in labelslist
               li #[a(href=val.url) "#{val.label}"]
                 //- console.log(val.sasses[0]);
                 if (val.sasses[0])

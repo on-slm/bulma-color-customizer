@@ -58,8 +58,8 @@ var sess = {
 var User = require('./models/user');
 var Sass = require('./models/sass');
 var Css = require('./models/css');
-var SassLabel = require('./models/sasslabel');
-var CssLabel = require('./models/csslabel');
+var Label = require('./models/label');
+
 
 // routers
 var indexRouter = require('./routes/index');

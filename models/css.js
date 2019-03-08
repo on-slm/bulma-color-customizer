@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 var CssSchema = new Schema({
   name: String,
-  labels: [{ type: Schema.Types.ObjectId, ref: 'CssLabel' }],
+  labels: [{ type: Schema.Types.ObjectId, ref: 'Label' }],
   code: {type: String, required: true},
   created: Date,
   downloadUrl: String,

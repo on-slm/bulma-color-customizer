@@ -5,7 +5,7 @@
 - [ ] FIX Fix template customize.pug or start over (in FF it renders badly)
 - [ ] TODO Rewrite all the messy code - make it resembling code written according to the BP
 - [ ] TODO Restructure all files in the Views directory - reduce number of files, make them simpler, etc (rule of thumb: max only 2-3 pug files needed for presenting one page of the web)
-- [ ] TODO Insert some mock data into collection `sasslabel`
+- [ ] TODO Insert some mock data into collection `label`
 - [ ] TODO Or rather completely de novo setup DB's mock data (inspiration - file `populatedb.js`)
 - [ ] TODO Delete all unnecessary files and folders
 - [ ] TODO Remove all unnecessary comments

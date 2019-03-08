@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 
 var SassSchema = new Schema({
   name: String,
-  labels: [{ type: Schema.Types.ObjectId, ref: 'SassLabel' }],
+  labels: [{ type: Schema.Types.ObjectId, ref: 'Label' }],
   code: { type: String, required: true },
   created: Date,
   downloadUrl: String,

@@ -12,8 +12,7 @@ var count = 0;
 var user_controller = require('../controllers/userController');
 var css_controller = require('../controllers/cssController');
 var sass_controller = require('../controllers/sassController');
-var sass_label_controller = require('../controllers/sassLabelController');
-var css_label_controller = require('../controllers/cssLabelController');
+var label_controller = require('../controllers/LabelController');
 
 // catalog/ — The home/index page.
 // = '/user' - The home/index page of an user = immediate redirect to /users/<user>/<id>
@@ -85,42 +84,23 @@ router.get('/sass/:id', sass_controller.sass_detail);
 
 router.get('/sasses', sass_controller.sass_list); // currently it lists all css in db
 
-// CSS LABELS ROUTES
+// LABELS ROUTES
 
-router.get('/csslabel/create', css_label_controller.css_label_create_get); // probably not needed here
+router.get('/label/create', label_controller.label_create_get); // probably not needed here
 
-router.post('/csslabel/create', css_label_controller.css_label_create_post); // probably not needed here
+router.post('/label/create', label_controller.label_create_post); // probably not needed here
 
-router.get('/csslbael/:id/delete', css_label_controller.css_label_delete_get); // certainly not needed here on /users/ route
+router.get('/label/:id/delete', label_controller.label_delete_get); // certainly not needed here on /users/ route
 
-router.post('/csslabel/:id/delete', css_label_controller.css_label_delete_post); // dtto
+router.post('/label/:id/delete', label_controller.label_delete_post); // dtto
 
-router.get('/csslabel/:id/update', css_label_controller.css_label_update_get); // dtto
+router.get('/label/:id/update', label_controller.label_update_get); // dtto
 
-router.post('/csslabel/:id/update', css_label_controller.css_label_update_post); // dtto
+router.post('/label/:id/update', label_controller.label_update_post); // dtto
 
-router.get('/csslabel/:id', css_label_controller.css_label_detail); // dont know
+router.get('/label/:id', label_controller.label_detail); // dont know
 
-router.get('/csslabels', css_label_controller.css_label_list); // currently it lists all csslabels in db - NO, it was fail
-
-
-// SaSS LABELS ROUTES
-
-router.get('/sasslabel/create', sass_label_controller.sass_label_create_get); // probably not needed here
-
-router.post('/sasslabel/create', sass_label_controller.sass_label_create_post); // probably not needed here
-
-router.get('/sasslbael/:id/delete', sass_label_controller.sass_label_delete_get); // certainly not needed here on /users/ route
-
-router.post('/sasslabel/:id/delete', sass_label_controller.sass_label_delete_post); // dtto
-
-router.get('/sasslabel/:id/update', sass_label_controller.sass_label_update_get); // dtto
-
-router.post('/sasslabel/:id/update', sass_label_controller.sass_label_update_post); // dtto
-
-router.get('/sasslabel/:id', sass_label_controller.sass_label_detail); // dont know
-
-router.get('/sasslabels', sass_label_controller.sass_label_list); // currently it lists all csslabels in db
+router.get('/labels', label_controller.label_list); // currently it lists all labels in db - NO, it was fail
 
 
 module.exports = router;

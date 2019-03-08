@@ -1,6 +1,6 @@
 #! /usr/bin/env node
 
-// console.log('This script populates some test users, csses/sasses and css/sass labels to database. Specified database as argument - e.g.: populatedb mongodb://your_username:your_password@your_dabase_url');
+// console.log('This script populates some test users, csses/sasses and their labels to database. Specified database as argument - e.g.: populatedb mongodb://your_username:your_password@your_dabase_url');
 // mongodb://127.0.0.1:27017/color_customizer_db
 // Get arguments passed on command line
 /*
@@ -18,8 +18,7 @@ const assignSessionID = require('./lib/asssignSessionID');
 var User = require('./models/user');
 var Sass = require('./models/sass');
 var Css = require('./models/css');
-var SassLabel = require('./models/sasslabel');
-var CssLabel = require('./models/csslabel');
+var Label = require('./models/label');
 
 
 var mongoose = require('mongoose');
@@ -34,15 +33,13 @@ mongoose.connection.on('error', console.error.bind(console, 'MongoDB (' + mongoD
 
 var users = [];
 var sasses = [];
-var sasslabels = [];
-var labels = [];
 var csses = [];
-var csslabels = [];
+var labels = [];
 
 function boolRand() { return Math.floor(Math.random() * 2); }
 var repValues = ['Public', 'Private'];
 
-// User + SassLabel + CssLabel - every item wiht ASYNC.SERIES
+// User + Label - every item wiht ASYNC.SERIES
 // User
 function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, cb) {
   var userInfo = {
@@ -129,7 +126,7 @@ function labelCreate(lbl, cb) {
   var label = lbl;
   console.log('LABEL VAR START ==========\n' + label + '\nLABEL VAR END   ==========');
 
-  var labelInstance = new SassLabel({ label: label });
+  var labelInstance = new Label({ label: label });
   console.log(labelInstance);
   console.log('\n\n');
 
@@ -268,44 +265,6 @@ function createCssTest(cb) {
       }
     ],
   cb);
-}
-*/
-
-// CssLabel
-/*
-function cssLabelCreate(lbl, cb) {
-  var cssLbl = lbl;
-  console.log('CSSLABEL VAR START ==========\n' + cssLbl + '\nCSSLABEL VAR END   ==========');
-
-  var cssLabel = new SassLabel({
-    label: cssLbl
-  });
-  console.log(cssLabel);
-  console.log('\n\n');
-
-  cssLabel.save(function (err) {
-    if (err) {
-      console.log('Error while saving created SassLabel (Mongoose): \n' + err);
-      console.log('\n\n');
-      cb(err, null);
-      return;
-    }
-    console.log('New CssLabel: \n' + cssLabel);
-    console.log('\n\n');
-    csslabels.push(cssLabel);
-    cb(null, cssLabel);
-  });
-}
-
-function createCssLabelTest(cb) {
-  async.parallel([
-      function (callback) {
-        var labelRandom = random.word();
-
-        cssLabelCreate(labelRandom, callback);
-      }
-    ],
-    cb);
 }
 */
 
