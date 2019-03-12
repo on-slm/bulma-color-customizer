@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-
 var async = require('async');
 var random = require('random-world');
 const express = require('express');
@@ -11,7 +10,7 @@ var Css = require('./models/css');
 var Label = require('./models/label');
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://onslm:telefon5@bcustomizer-tn0cj.mongodb.net/test03?retryWrites=true';
+var mongoDB = 'mongodb+srv://onslm:telefon5@bcustomizer-tn0cj.mongodb.net/bcc_db?retryWrites=true';
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -27,7 +26,6 @@ function threeRand() { return Math.floor(Math.random() * 3); }
 function twentyFiveRand() { return Math.floor(Math.random() * 25); }
 var repValues = ['Public', 'Private'];
 
-// User + Label - every item wiht ASYNC.SERIES
 // User
 function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, cb) {
   var userInfo = {
@@ -40,13 +38,8 @@ function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, c
     user_cookie_id: user_cookie_i,
     last_logged: last_logge
   };
-  console.log('USER OBJECT START ============');
-  Object.values(userInfo).forEach(el => { console.log(el); });
-  console.log('USER OBJECT END   ============');
-
   var user = new User(userInfo);
-  console.log(user);
-  console.log('\n');
+  console.log(user + '\n');
 
   user.save(function (err) {
     if (err) {
@@ -54,12 +47,13 @@ function userCreate(nam, firs, las, emai, pas, rep, user_cookie_i, last_logge, c
       cb(err, null);
       return;
     }
-    console.log('New User: \n' + user);
+    console.log('New User: \n' + user + '\n\n');
     users.push(user);
     cb(null, user);
   });
 }
 
+// TODO rewrite with "that one" ES6 syntax... and others similar below
 function randomUser() {
   var usrRandom = {};
   var name = random.firstname();
@@ -252,7 +246,7 @@ function createLabelTest(cb) {
   cb);
 }
 
-// Css + Sass - both AFTER all users and labels and each item ASYNC.PARALLEL
+// Css
 function cssCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
   var cssObject = {
     name: nam,
@@ -262,23 +256,16 @@ function cssCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
     downloadUrl: dwnldUrl,
     user: use
   };
-  console.log('CSS OBJECT START ============');
-  Object.values(cssObject).forEach(el => { console.log(el); });
-  console.log('CSS OBJECT END   ============');
-
   var cssInstance = new Css(cssObject);
-  console.log(cssInstance);
-  console.log('\n');
+  console.log(cssInstance + '\n');
 
   cssInstance.save(function (err) {
     if (err) {
-      console.log('Error while saving created cssInstance (Mongoose): \n' + err);
-      console.log('\n\n');
+      console.log('Error while saving created cssInstance (Mongoose): \n' + err + '\n\n');
       cb(err, null);
       return;
     }
-    console.log('New Css: \n' + cssInstance);
-    console.log('\n\n');
+    console.log('New Css: \n' + cssInstance + '\n\n');
     csses.push(cssInstance);
     cb(null, cssInstance);
   });
@@ -324,11 +311,64 @@ function createCssTest(cb) {
   cb);
 }
 
-console.log('/////////////\n');
+// Sass
+function sassCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
+  var sassObject = {
+    name: nam,
+    labels: lbls,
+    code: cod,
+    created: create,
+    downloadUrl: dwnldUrl,
+    user: use
+  };
+  var sassInstance = new Sass(sassObject);
+  console.log(sassInstance, '\n');
+
+  sassInstance.save(function (err) {
+    if (err) {
+      console.log('Error while saving created cssInstance (Mongoose): \n' + err + '\n\n');
+      cb(err, null);
+      return;
+    }
+    console.log('New Sass: \n' + sassInstance + '\n\n');
+    sasses.push(sassInstance);
+    cb(null, sassInstance);
+  });
+}
+
+function randomSass() {
+  var sassRandom = {};
+  sassRandom.name = random.lastname();
+  sassRandom.code = random.sentence();
+  sassRandom.created = new Date();
+  sassRandom.downloadUrl = random.domain();
+  return sassRandom;
+}
+
+function createSassTest(cb) {
+  async.parallel(
+    [
+      function (callback) {
+        var sassRandom = randomSass();
+        sassCreate(sassRandom.name, [labels[twentyFiveRand()], labels[twentyFiveRand()], labels[twentyFiveRand()], ], sassRandom.code, sassRandom.created, sassRandom.downloadUrl, users[0], callback);
+      },
+      function (callback) {
+        var sassRandom = randomSass();
+        sassCreate(sassRandom.name, [labels[twentyFiveRand()], ], sassRandom.code, sassRandom.created, sassRandom.downloadUrl, users[1], callback);
+      },
+      function (callback) {
+        var sassRandom = randomSass();
+        sassCreate(sassRandom.name, [], sassRandom.code, sassRandom.created, sassRandom.downloadUrl, users[2], callback);
+      }
+    ],
+    cb);
+}
+
 async.series([
   createUsersTest,
   createLabelTest,
-  createCssTest
+  createCssTest,
+  createSassTest
   ],
   function (err, results) {
     if (err) {
@@ -341,8 +381,6 @@ async.series([
     }
   }
 );
-console.log('#############\n');
-
 
 /*
 function sassCreate(nam, lbls, cod, create, dwnldUrl, use, cb) {
