@@ -2,22 +2,18 @@ const express = require('express');
 const async = require('async');
 const assignSessionID = require('../lib/asssignSessionID');
 
-// primary models = User's own sass and sass to list/del
 const Sass = require('../models/sass');
 
-// secondary model = User
-const User = require('../models/user');
-
-// display NOT list of user's sasses but all sasses
+// display list of all sasses but in DB
 exports.sass_list = function (req, res, next) {
   assignSessionID(req, __filename);
 
-  Sass.find()
+  Sass.find({}, 'name labels user created created_formatted')
     .populate('user')
-    .sort([['code', 'desc']])
-    //.sort({ name: -1 })
+    .populate('labels')
+    .sort('name')
     .exec(function (err, list_sasses) {
-      if (err) { return next(err); }
+      if (err) throw err;
       console.log(list_sasses);
       res.render('sass_list_all', {
         title: 'Color Customiser Sass list - sass_list',

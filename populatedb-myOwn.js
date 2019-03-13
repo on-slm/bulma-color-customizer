@@ -75,17 +75,14 @@ function createUsersTest(cb) {
     [
       function(callback) {
         var usrRandom = randomUser();
-        console.log('>>>>>>1');
         userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, callback);
       },
       function (callback) {
         var usrRandom = randomUser();
-        console.log('>>>>>>2');
         userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, callback);
       },
       function (callback) {
         var usrRandom = randomUser();
-        console.log('>>>>>>3');
         userCreate(usrRandom.nick, usrRandom.name, usrRandom.lastname, usrRandom.email, usrRandom.password, usrRandom.repo, usrRandom.cookieId, usrRandom.logged, callback);
       }
     ],
@@ -119,127 +116,102 @@ function createLabelTest(cb) {
   async.series([
     function(callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>1');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>2');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>3');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>4');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>5');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>6');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>7');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>8');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>9');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>10');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>11');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>12');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>13');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>14');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>15');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>16');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>17');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>18');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>19');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>20');
       labelCreate(labelRandom, callback);
     },
     function(callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>21');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>22');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>23');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>24');
       labelCreate(labelRandom, callback);
     },
     function (callback) {
       var labelRandom = random.word();
-      console.log('>>>>>>25');
       labelCreate(labelRandom, callback);
     }
   ],

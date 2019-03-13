@@ -8,18 +8,11 @@ block main
       h2.subtitle= title
     div.columns(class='is-multiline')
       div.column(class='is-four-fifths')
-        div.container(class='content')
-          ol.is-lower-alpha
-            each val in labelslist
-              li #[a(href=val.url) "#{val.label}"]
-                //- console.log(val.sasses[0]);
-                if (val.sasses[0])
-                  | of the following SaSS(es):
-                  ul
-                    each value in val.sasses
-                      li
-                        a(href=value.url) #{value.name} (created: #{value.created_formatted})
-
+        div.box
+          div.tags(class='is-lower-alpha')
+            each label in labelslist
+              span.tag
+                a(href=label.url) #{label.label}
       div.column(class='is-one-fifths')
         div.container
           div.box

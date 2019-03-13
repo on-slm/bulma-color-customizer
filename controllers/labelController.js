@@ -2,24 +2,16 @@ const express = require('express');
 const async = require('async');
 const assignSessionID = require('../lib/asssignSessionID');
 
-// primary model = labels
 const Label = require('../models/label');
-
-// ?? secondary model = sasses themselves
-const Sass = require('../models/sass');
-
 
 // display list of all labels
 exports.label_list = function (req, res, next) {
   assignSessionID(req, __filename);
-
   Label.find()
     .populate('')
     .sort('label')
     .exec(function (err, list_labels) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
       console.log(list_labels);
       res.render('labels_list_all', {
         title: 'List of labels (\'labels_list_all\')',

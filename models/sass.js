@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 var Schema = mongoose.Schema;
 
 var SassSchema = new Schema({
@@ -14,6 +15,12 @@ SassSchema
   .virtual('url')
   .get(function() {
     return '/sasses/' + this._id; // this is BS. REWRITE later!
+  });
+
+SassSchema
+  .virtual('created_formatted')
+  .get(function () {
+    return this.created ? moment(this.created).format('MMMM Do, YYYY') : 'N\/A';
   });
 
 module.exports = mongoose.model('Sass', SassSchema);

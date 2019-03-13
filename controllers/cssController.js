@@ -2,14 +2,7 @@ const express = require('express');
 const async = require('async');
 const assignSessionID = require('../lib/asssignSessionID');
 
-// NEEDS COMPLETE REVISION [2018-10-04] - DONE
-
-// primary models = User's own css and sass to list/del
 const Css = require('../models/css');
-// secondary model = User
-const User = require('../models/user'); // not sure if needed
-const Label = require('./models/label');
-
 
 // display list of all csses in DBs
 exports.css_list = function (req, res, next) {
@@ -31,9 +24,6 @@ exports.css_list = function (req, res, next) {
       });
     });
 };
-
-// TODO
-// display list of one user's csses
 
 // display details for specific CSS code
 exports.css_detail = function (req, res, next) {

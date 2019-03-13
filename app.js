@@ -60,14 +60,13 @@ var Sass = require('./models/sass');
 var Css = require('./models/css');
 var Label = require('./models/label');
 
-
 // routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
 const app = express();
 const port = 3000;
-const mongoDB = 'mongodb://localhost/bulma_db';
+const mongoDB = 'mongodb+srv://onslm:telefon5@bcustomizer-tn0cj.mongodb.net/bcc_db?retryWrites=true';
 
 // mongo connection
 mongoose.connect(mongoDB, { useNewUrlParser: true });

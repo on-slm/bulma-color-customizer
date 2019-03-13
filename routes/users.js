@@ -12,7 +12,7 @@ var count = 0;
 var user_controller = require('../controllers/userController');
 var css_controller = require('../controllers/cssController');
 var sass_controller = require('../controllers/sassController');
-var label_controller = require('../controllers/LabelController');
+var label_controller = require('../controllers/labelController');
 
 // catalog/ — The home/index page.
 // = '/user' - The home/index page of an user = immediate redirect to /users/<user>/<id>
