@@ -8,6 +8,7 @@ const User = require('../models/user');
 // "secondary" models = User's own css and sass to list/del
 const Css = require('../models/css');
 const Sass = require('../models/sass');
+const Label = require('../models/label');
 
 // OBECNE TU PRIJDOU VSECHNY CRUD (budou-li potreba) OPERACE VC VYRENDROVANI PRO /users/:userId
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
@@ -107,12 +108,48 @@ exports.users_list = function (req, res, next) {
 exports.user_detail = function (req, res, next) {
   assignSessionID(req, __filename);
 
-  res.send('NOT IMPLEMENTED: User detail: ' + req.params.id);
-  // ...
-  // findById
-  // vyuzivat req.param.id
-  // vytahnout z db vsechny relevantni informace
-  // nakonec vyrendrovat s res.render (do objektu ty informace)
+  console.log('hello from user_detail');
+  async.parallel(
+    {
+      user: function(callback) {
+        User
+          .findById(req.params.id)
+          .exec(callback);
+      },
+      user_csses: function(callback) {
+        Css
+          .find({ 'user': req.params.id })
+          .populate('labels')
+          .exec(callback);
+      },
+      user_sasses: function (callback) {
+        Sass
+          .find({ 'user': req.params.id })
+          .populate('labels')
+          .exec(callback);
+      }
+    },
+    function (err, results) {
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
+      if (results.user == null) {
+        var err = new Error('User not found');
+        err.status = 404;
+        return next(err);
+      }
+      console.log(results);
+      res.render('user/user_detail', {
+        title: 'User profile',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        user: results.user,
+        csses: results.user_csses, // hopefully it returns all of the user's csses
+        sasses: results.user_sasses // dtto
+      });
+    });
 };
 
 /*

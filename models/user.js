@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const moment = require('moment');
 var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
@@ -26,7 +27,7 @@ var UserSchema = new Schema({
 UserSchema
   .virtual('url')
   .get(function() {
-    return '/users/' + this._id; // virtual property of the model which uses the model instance's _id field to produce a unique URL path
+    return '/users/user/' + this._id; // virtual property of the model which uses the model instance's _id field to produce a unique URL path
   });
 
 // virtual for url "alias" based on session ID
@@ -42,6 +43,11 @@ UserSchema
     return '' + this.first + ' ' + this.last;
   });
 
+UserSchema
+  .virtual('last_logged_formatted')
+  .get(function () {
+    return this.last_logged ? moment(this.last_logged).format('MMMM Do, YYYY') : 'N\/A';
+  });
 
 // !!! Declaring our URLs as a virtual in the schema is a good idea because then the URL for an item only ever needs to be changed in one place.
 

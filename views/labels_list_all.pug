@@ -1,12 +1,12 @@
 extends layout.pug
 block main
-  div.section(class='sass-main')
+  div.section(class='labels-main')
     if error
       h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
     else
       h1.title Color Customiser
       h2.subtitle= title
-    div.columns(class='is-multiline')
+    div.columns(class='is-vcentered')
       div.column(class='is-four-fifths')
         div.box
           div.tags(class='is-lower-alpha')
@@ -14,10 +14,6 @@ block main
               span.tag
                 a(href=label.url) #{label.label}
       div.column(class='is-one-fifths')
-        div.container
-          div.box
-            h3.subtitle(class='is-large has-text-weight-bold has-background-primary has-text-warning has-text-centered') Subtitle
-            p BB
-              span.tag(class='is-info') blabla
-            p with the IP address
-              span.tag(class='is-link') mehmeh
+        div.box
+          h3.subtitle(class='is-large has-text-weight-bold has-background-primary has-text-warning has-text-centered') heading in a box in right 1/5 column
+          p some text in a paragraph in a box in right 1/5 column
