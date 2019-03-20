@@ -14,7 +14,7 @@ var CssSchema = new Schema({
 CssSchema
   .virtual('url')
   .get(function() {
-    return '/csses/' + this._id;
+    return '/css/' + this._id;
   });
 
 CssSchema

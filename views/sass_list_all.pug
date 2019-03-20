@@ -13,7 +13,7 @@ block main
               li
                 div.box
                   a(href=val.user.url) #{val.user.name}
-                  |'s Sass caled: #{val.name} (created: #{val.created_formatted})
+                  |'s Sass caled: #[a(href=val.url) #{val.name}] (created: #{val.created_formatted})
                   div.tags
                     each label in val.labels
                       span.tag

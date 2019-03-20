@@ -1,0 +1,30 @@
+extends ../layout.pug
+block main
+  div.section(class='user-detail-main')
+    if error
+      h1.title(class='is-1 has-text-warning') #[em AN ERROR OCCURED WHEN FETCHING DB]
+      p #{error}
+    else
+      h1.title(class='is-1 has-text-success') #{title}
+    div.columns
+      div.column(class='is-four-fifths')
+        .tile(class='tile is-ancestor')
+          .tile(class='tile is-8 is-vertical is-parent')
+            .tile(class='tile is-child box')
+              h2.title Code preview of your CSS "#[em #{css.name}]"
+              .field
+                .control
+                  label.label(for='cssCode') Code preview of your CSS "#[em #{css.name}]"
+                  textarea(class='textarea' type='text' name='cssCodePreview' id='cssCode' rows='30' required='false' spellcheck='false' placeholder='some placeholder') #{css.code}
+            .tile(class='tile is-child box')
+          .tile(class='tile is-parent')
+            nav.level
+              .level-item(class='has-text-centered')
+                div
+                  h3.heading Created by
+                  p.subtitle #[a(href='mailto:' + css.user.email) #{css.user.name}]
+              .level-item(class='has-text-centered')
+                div
+                  h3.heading Created on
+                  p.subtitle #[code #{css.created_formatted}]
+      div.column(class='is-one-fifths')

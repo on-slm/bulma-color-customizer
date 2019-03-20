@@ -23,7 +23,7 @@ block main
                 figure.media-content
                   article.message
                     div.message-header
-                      p #{value.name}
+                      p #[a(href=value.url) #{value.name}]
                       button.delete(aria-label='delete')
                     div.message-body(class='is-family-code') #{value.code}
                       div.tags

@@ -8,7 +8,6 @@ console.log('===================\n', 'users.js', '\n');
 var count = 0;
 // TO DO: a counting logic for this variable
 
-// for user details page all 5 controllers are needed
 var user_controller = require('../controllers/userController');
 var css_controller = require('../controllers/cssController');
 var sass_controller = require('../controllers/sassController');
@@ -48,21 +47,7 @@ router.get('/list', user_controller.users_list);
 // = /users/<user>/<id>/update - the form to upadate users's details - basically only own custom name
 // = /users/<user>/<id>/delete - the form to delete: 1. user and all its data (hned pak redirect na create), 2. del user's own custom name
 
-// CSS ROUTES
-
-router.get('/css/create', css_controller.css_create_get); // not sure if needed on /users/, probably not
-
-router.post('/css/create', css_controller.css_create_post); // not sure if needed on /users/, probably not
-
-router.get('/css/:id/delete', css_controller.css_delete_get); // maybe... it depends on question: should an user be allowed to delete his csss from /users/ page (aka hp)?
-
-router.post('/css/:id/delete', css_controller.css_delete_post); // maybe... it depends on question: should an user be allowed to delete his csss from /users/ page (aka hp)?
-
-router.get('/css/:id/update', css_controller.css_update_get); // not sure if needed on /users/
-
-router.post('/css/:id/update', css_controller.css_update_post); // dtto
-
-router.get('/css/:id', css_controller.css_detail);
+// CSS
 
 router.get('/csses', css_controller.css_list); // currently it lists all css in db
 

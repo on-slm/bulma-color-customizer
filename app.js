@@ -63,6 +63,7 @@ var Label = require('./models/label');
 // routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var cssRouter = require('./routes/css');
 
 const app = express();
 const port = 3000;
@@ -103,6 +104,7 @@ app.get('/', function (req, res) {
 */
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/css', cssRouter);
 
 app.get('/customize', function (req, res) {
   assignSessionID(req, __filename);

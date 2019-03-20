@@ -146,8 +146,8 @@ exports.user_detail = function (req, res, next) {
         devFilename: req.session.sessIdFirstAssign,
         error: err,
         user: results.user,
-        csses: results.user_csses, // hopefully it returns all of the user's csses
-        sasses: results.user_sasses // dtto
+        csses: results.user_csses,
+        sasses: results.user_sasses
       });
     });
 };
