@@ -7,8 +7,8 @@ const Sass = require('../models/sass');
 // display list of all sasses but in DB
 exports.sass_list = function (req, res, next) {
   assignSessionID(req, __filename);
-
-  Sass.find({}, 'name labels user created created_formatted')
+  Sass
+    .find({}, 'name labels user created created_formatted')
     .populate('user')
     .populate('labels')
     .sort('name')
@@ -28,24 +28,29 @@ exports.sass_list = function (req, res, next) {
 // display details for specific SASS code
 exports.sass_detail = function (req, res, next) {
   assignSessionID(req, __filename);
-
-  // another playground (ONE async operation to get required operation => then simply render the template in the callback, ie. calback function = count itself)
-  Sass.count({ _id: req.params.id }, function(err, count) {
-    if (err) throw err;
-    console.log(req.route);
-    res.render('sass', {
-      title: 'SaSS DB view TEST - returns 1 if there\'s the given SaSS code in the DB',
-      subtitle: req.params.id,
-      hstnm: req.hostname,
-      hstip: req.ip,
-      pth: req.path,
-      sassId: req.params.id,
-      rtOutput: req.route,
-      cnt: count
+  Sass
+    .findById(req.params.id)
+    .populate('user')
+    .populate('labels')
+    .exec(function (err, sassDetail) {
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
+      if (sassDetail == null) {
+        var err = new Error('SASS not found');
+        err.status = 404;
+        return next(err);
+      }
+      console.log(sassDetail);
+      res.render('sass/sass_detail', {
+        title: 'SASS detail',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        sass: sassDetail
+      });
     });
-  });
-
-  // res.send('NOT IMPLEMENTED: detail of a specific css code: ' + req.params.id + '\n<br />(sass)');
 };
 
 // display Sass create form on GET

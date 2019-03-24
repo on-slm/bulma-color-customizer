@@ -14,7 +14,7 @@ var SassSchema = new Schema({
 SassSchema
   .virtual('url')
   .get(function() {
-    return '/sasses/' + this._id; // this is BS. REWRITE later!
+    return '/sass/sass/' + this._id;
   });
 
 SassSchema

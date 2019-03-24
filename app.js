@@ -3,13 +3,6 @@
 // v nem zatim zobrazovat jednu jedinou vec - unikatni session ID, abych zjistil, zda mi to prideleni na zacatku funguje
 // PAK AZ POKRACOVAT TEMI ASYNC CTENIMI DB A DALSI TOUTO LOGIKOU
 
-// where to continue:
-// files: ??
-// last I did: http://localhost:3004/users/sasses
-// link (continue right here): https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Author_list_page#View
-//  from this menu of subarticles:
-//  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Book_list_page
-
 // how to start mongod: sudo service mongod start
 // how to run the app:  nodemon
 // how to connect into db via shell: mongo --host 127.0.0.1:27017[/bulma_db]
@@ -27,7 +20,6 @@ const session = require('express-session');
 var MemoryStore = require('memorystore')(session);
 const async = require('async');
 // console.log('===================\n', 'app.js', '\n');
-
 
 // express-session's options for session object
 var sess = {
@@ -64,6 +56,7 @@ var Label = require('./models/label');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var cssRouter = require('./routes/css');
+var sassRouter = require('./routes/sass');
 
 const app = express();
 const port = 3000;
@@ -105,6 +98,7 @@ app.get('/', function (req, res) {
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/css', cssRouter);
+app.use('/sass', sassRouter);
 
 app.get('/customize', function (req, res) {
   assignSessionID(req, __filename);

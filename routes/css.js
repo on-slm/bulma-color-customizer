@@ -1,11 +1,10 @@
-const express = require('express');
+var express = require('express');
 var router = express.Router();
-const assignSessionID = require('../lib/asssignSessionID');
+var assignSessionID = require('../lib/asssignSessionID');
 
 var css_controller = require('../controllers/cssController');
 
 // CSS ROUTES
-
 router.get('/css/create', css_controller.css_create_get); // not sure if needed on /users/, probably not
 
 router.post('/css/create', css_controller.css_create_post); // not sure if needed on /users/, probably not
@@ -20,6 +19,6 @@ router.post('/css/:id/update', css_controller.css_update_post); // dtto
 
 router.get('/css/:id', css_controller.css_detail);
 
-
+router.get('/list', css_controller.css_list); // currently it lists all css in db
 
 module.exports = router;

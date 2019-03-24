@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 console.log('===================\n', 'users.js', '\n');
 
-
 // values of properties of an object being passed to a view
 // users count in last 7 days
 var count = 0;
@@ -47,30 +46,7 @@ router.get('/list', user_controller.users_list);
 // = /users/<user>/<id>/update - the form to upadate users's details - basically only own custom name
 // = /users/<user>/<id>/delete - the form to delete: 1. user and all its data (hned pak redirect na create), 2. del user's own custom name
 
-// CSS
-
-router.get('/csses', css_controller.css_list); // currently it lists all css in db
-
-// SaSS ROUTES
-
-router.get('/sass/create', sass_controller.sass_create_get); // not sure if needed on /users/, probably not
-
-router.post('/sass/create', sass_controller.sass_create_post); // not sure if needed on /users/, probably not
-
-router.get('/sass/:id/delete', sass_controller.sass_delete_get); // maybe... it depends on question: should an user be allowed to delete his sasss from /users/ page (aka hp)?
-
-router.post('/sass/:id/delete', sass_controller.sass_delete_post); // maybe... it depends on question: should an user be allowed to delete his sasss from /users/ page (aka hp)?
-
-router.get('/sass/:id/update', sass_controller.sass_update_get); // not sure if needed on /users/
-
-router.post('/sass/:id/update', sass_controller.sass_update_post); // dtto
-
-router.get('/sass/:id', sass_controller.sass_detail);
-
-router.get('/sasses', sass_controller.sass_list); // currently it lists all css in db
-
 // LABELS ROUTES
-
 router.get('/label/create', label_controller.label_create_get); // probably not needed here
 
 router.post('/label/create', label_controller.label_create_post); // probably not needed here
@@ -86,6 +62,5 @@ router.post('/label/:id/update', label_controller.label_update_post); // dtto
 router.get('/label/:id', label_controller.label_detail); // dont know
 
 router.get('/labels', label_controller.label_list); // currently it lists all labels in db - NO, it was fail
-
 
 module.exports = router;

@@ -7,8 +7,6 @@ const Css = require('../models/css');
 // display list of all csses in DBs
 exports.css_list = function (req, res, next) {
   assignSessionID(req, __filename);
-
-  console.log('INSIDE CSS_LIST CONTROLLER');
   Css
     .find({}, 'name labels user created created_formatted')
     .populate('user')
@@ -27,13 +25,9 @@ exports.css_list = function (req, res, next) {
     });
 };
 
-  console.log('BEFORE CSS DETAIL CONTROLLER');
-
 // display details for specific CSS code
 exports.css_detail = function (req, res, next) {
   assignSessionID(req, __filename);
-
-  console.log('INSIDE CSS DETAIL CONTROLLER');
   Css
     .findById(req.params.id)
     .populate('user')
@@ -83,8 +77,6 @@ exports.css_delete_post = function (req, res, next) {
 
 // display Css update form on GET
 exports.css_update_get = function (req, res, next) {
-  assignSessionID(req, __filename);
-
   res.send('NOT IMPLEMENTED: display update form\n<br />(css)');
 };
 
