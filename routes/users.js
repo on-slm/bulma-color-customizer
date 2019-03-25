@@ -46,21 +46,4 @@ router.get('/list', user_controller.users_list);
 // = /users/<user>/<id>/update - the form to upadate users's details - basically only own custom name
 // = /users/<user>/<id>/delete - the form to delete: 1. user and all its data (hned pak redirect na create), 2. del user's own custom name
 
-// LABELS ROUTES
-router.get('/label/create', label_controller.label_create_get); // probably not needed here
-
-router.post('/label/create', label_controller.label_create_post); // probably not needed here
-
-router.get('/label/:id/delete', label_controller.label_delete_get); // certainly not needed here on /users/ route
-
-router.post('/label/:id/delete', label_controller.label_delete_post); // dtto
-
-router.get('/label/:id/update', label_controller.label_update_get); // dtto
-
-router.post('/label/:id/update', label_controller.label_update_post); // dtto
-
-router.get('/label/:id', label_controller.label_detail); // dont know
-
-router.get('/labels', label_controller.label_list); // currently it lists all labels in db - NO, it was fail
-
 module.exports = router;

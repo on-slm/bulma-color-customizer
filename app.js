@@ -57,6 +57,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var cssRouter = require('./routes/css');
 var sassRouter = require('./routes/sass');
+var labelRouter = require('./routes/labelRoutes');
 
 const app = express();
 const port = 3000;
@@ -90,15 +91,12 @@ app.locals.doctype = 'html';
 app.use(session(sess));
 
 // ROUTES - 2018-10-04 LETS ASSUME THAT FIRST PAGE PPL OPEN IS USERS aka USER DETAIL (NOT CUSTOMIZER /CUSTOMIZE)
-/*
-app.get('/', function (req, res) {
-  res.redirect('/customize');
-});
-*/
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/css', cssRouter);
 app.use('/sass', sassRouter);
+app.use('/labels', labelRouter);
 
 app.get('/customize', function (req, res) {
   assignSessionID(req, __filename);

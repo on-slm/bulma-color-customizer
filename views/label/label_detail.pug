@@ -1,0 +1,19 @@
+extends ../layout.pug
+block main
+  div.section(class='sass-detail-main')
+    if error
+      h1.title(class='is-1 has-text-warning') #[em AN ERROR OCCURED WHEN FETCHING DB]
+      p #{error}
+    else
+      div.columns(class='is-vcentered')
+        div.column(class='is-narrow')
+          h1.title(class='is-2 has-text-success') #{title}
+        div.column(class='box has-text-centered')
+          span(class='tag is-primary is-large') #{label.label}
+      h2.subtitle(class='is-4 has-text-success') All CSS/SASS tagged by the label:
+    div.columns(class='is-vcentered')
+      div.column
+        div.box
+          div.tags(class='is-lower-alpha')
+            span.tag
+              a(href=label.url) #{label.label}

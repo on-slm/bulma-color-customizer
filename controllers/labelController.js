@@ -26,38 +26,31 @@ exports.label_list = function (req, res, next) {
 // Display detail page for a specific Label.
 exports.label_detail = function (req, res, next) {
   assignSessionID(req, __filename);
-
-  res.send('NOT IMPLEMENTED YET: detail of single label: ' + req.params.id);
-
-  // tady pokus udelat to samostatne - PAK ZKUSIT DODELAT
-  // 2018-10-08 - zatim vzdavam
-  /*
-    async.parallel({
-        label: function(callback) {
-          Label.findById(req.params.id)
-            .exec(callback);
-        },
-        labels_sasses: function(callback) {
-          Sass.find({ 'label': req.params.id }, 'code')
-            .exec(callback);
-        },
-    }, function(err, results) {
-        if (err) { return next(err); } // Error in API usage.
-        if (results.label==null) { // No results.
-            var err = new Error('Label not found');
-            err.status = 404;
-            return next(err);
-        }
-        // Successful, so render.
-        res.render('author_detail', { title: 'Author Detail', label: results.label, labels_sasses: results.labels_sasses } );
+  Label
+    .findById(req.params.id)
+    .exec(function (err, labelDetail) {
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
+      if (labelDetail == null) {
+        var err = new Error('Label not found');
+        err.status = 404;
+        return next(err);
+      }
+      console.log(labelDetail);
+      res.render('label/label_detail', {
+        title: 'Label details',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        label: labelDetail
+      });
     });
-    */
 };
 
 // display label create form on GET
 exports.label_create_get = function (req, res, next) {
-  assignSessionID(req, __filename);
-
   res.send('NOT IMPLEMENTED: display create form');
 };
 
@@ -68,8 +61,6 @@ exports.label_create_post = function (req, res, next) {
 
 // display label delete form on GET
 exports.label_delete_get = function (req, res, next) {
-  assignSessionID(req, __filename);
-
   res.send('NOT IMPLEMENTED: display delete form');
 };
 
@@ -80,13 +71,10 @@ exports.label_delete_post = function (req, res, next) {
 
 // display label update form on GET
 exports.label_update_get = function (req, res, next) {
-  assignSessionID(req, __filename);
-
   res.send('NOT IMPLEMENTED: display update form');
 };
 
 // handle label update form on POST
 exports.label_update_post = function (req, res, next) {
-
   res.send('NOT IMPLEMENTED: handle update form');
 };

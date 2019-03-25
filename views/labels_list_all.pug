@@ -4,8 +4,7 @@ block main
     if error
       h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
     else
-      h1.title Color Customiser
-      h2.subtitle= title
+      h1.title(class='is-1 has-text-success') #{title}
     div.columns(class='is-vcentered')
       div.column(class='is-four-fifths')
         div.box

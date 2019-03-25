@@ -55,8 +55,6 @@ exports.sass_detail = function (req, res, next) {
 
 // display Sass create form on GET
 exports.sass_create_get = function (req, res, next) {
-  assignSessionID(req, __filename);
-
   res.send('NOT IMPLEMENTED: display create form\n<br />(sass)');
 };
 

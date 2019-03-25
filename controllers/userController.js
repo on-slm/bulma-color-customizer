@@ -16,7 +16,6 @@ exports.index = function (req, res, next) {
   assignSessionID(req, __filename);
 
     // TODO logic for a user-specific view counter (and other places) - viz app.js l.132
-
   async.parallel({
     users_count: function (callback) {
       User.countDocuments({}, callback);
@@ -101,7 +100,6 @@ exports.users_list = function (req, res, next) {
     });
   });
 };
-
 
 // detail page for a specific profile
 // (tyhlety exporty pak vlozit do app.get('/users/user/:userId', user_detail))
