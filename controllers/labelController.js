@@ -3,6 +3,8 @@ const async = require('async');
 const assignSessionID = require('../lib/asssignSessionID');
 
 const Label = require('../models/label');
+const Css = require('../models/css');
+const Sass = require('../models/sass');
 
 // display list of all labels
 exports.label_list = function (req, res, next) {
@@ -26,28 +28,48 @@ exports.label_list = function (req, res, next) {
 // Display detail page for a specific Label.
 exports.label_detail = function (req, res, next) {
   assignSessionID(req, __filename);
-  Label
-    .findById(req.params.id)
-    .exec(function (err, labelDetail) {
+
+  async.parallel({
+    label: function (callback) {
+      Label
+        .findById(req.params.id)
+        .exec(callback);
+    },
+    label_css: function (callback) {
+      Css
+        .find({ 'labels': req.params.id })
+        .populate('user')
+        .exec(callback);
+    },
+    label_sass: function (callback) {
+      Sass
+        .find({ 'labels': req.params.id })
+        .populate('user')
+        .exec(callback);
+    }
+  },
+    function (err, results) {
       if (err) {
         console.error(err);
         return next(err);
       }
-      if (labelDetail == null) {
+      if (results.label == null) {
         var err = new Error('Label not found');
         err.status = 404;
         return next(err);
       }
-      console.log(labelDetail);
+      console.log(results);
       res.render('label/label_detail', {
         title: 'Label details',
         devSessionId: req.session.sessIdentity,
         devFilename: req.session.sessIdFirstAssign,
         error: err,
-        label: labelDetail
+        label: results.label,
+        css: results.label_css,
+        sass: results.label_sass
       });
     });
-};
+  };
 
 // display label create form on GET
 exports.label_create_get = function (req, res, next) {

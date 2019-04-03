@@ -10,10 +10,18 @@ block main
           h1.title(class='is-2 has-text-success') #{title}
         div.column(class='box has-text-centered')
           span(class='tag is-primary is-large') #{label.label}
-      h2.subtitle(class='is-4 has-text-success') All CSS/SASS tagged by the label:
-    div.columns(class='is-vcentered')
-      div.column
-        div.box
-          div.tags(class='is-lower-alpha')
-            span.tag
-              a(href=label.url) #{label.label}
+      nav.panel
+        p.panel-heading All CSS/SASS tagged by the label
+        p.panel-tabs
+          a.is-active CSS
+          a SASS
+        each item in css
+          a.panel-block(href=item.url)
+            span.panel-icon
+              i.fab(class='fa-css3')
+            | "#[em #{item.name}]" by #{item.user.name} (created #{item.created_formatted})
+        each item in sass
+          a.panel-block(href=item.url)
+            span.panel-icon
+              i.fab(class='fa-sass')
+            | "#[em #{item.name}]" by #{item.user.name} (created #{item.created_formatted})
