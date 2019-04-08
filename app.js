@@ -61,7 +61,9 @@ var labelRouter = require('./routes/labelRoutes');
 
 const app = express();
 const port = 3000;
-const mongoDB = 'mongodb+srv://onslm:telefon5@bcustomizer-tn0cj.mongodb.net/bcc_db?retryWrites=true';
+
+let passwdSaved = fs.readFileSync(path.join(__dirname, 'assets', 'passwd'), 'utf8').replace('\n', '');
+var mongoDB = `mongodb+srv://onslm:${passwdSaved}@bcustomizer-tn0cj.mongodb.net/bcc_db?retryWrites=true`;
 
 // mongo connection
 mongoose.connect(mongoDB, { useNewUrlParser: true });

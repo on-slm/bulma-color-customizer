@@ -1,6 +1,8 @@
 #! /usr/bin/env node
 var async = require('async');
 var random = require('random-world');
+const path = require('path');
+const fs = require('fs');
 const express = require('express');
 const router = express.Router();
 const assignSessionID = require('./lib/asssignSessionID');
@@ -10,7 +12,8 @@ var Css = require('./models/css');
 var Label = require('./models/label');
 
 var mongoose = require('mongoose');
-var mongoDB = 'mongodb+srv://onslm:telefon5@bcustomizer-tn0cj.mongodb.net/bcc_db?retryWrites=true';
+let passwdSaved = fs.readFileSync(path.join(__dirname, 'assets', 'passwd'), 'utf8').replace('\n', '');
+var mongoDB = `mongodb+srv://onslm:${passwdSaved}@bcustomizer-tn0cj.mongodb.net/bcc_db?retryWrites=true`;
 mongoose.connect(mongoDB);
 mongoose.Promise = global.Promise;
 var db = mongoose.connection;
@@ -391,23 +394,4 @@ function createSassTest(cb) {
   ],
   cb);
 }
-*/
-
-// MongoDB Atlas - full driver example
-/*
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://onslm:<password>@bcustomizer-tn0cj.mongodb.net/test?retryWrites=true";
-const client = new MongoClient(uri, {
-  useNewUrlParser: true
-});
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
-});
-*/
-
-// MongoDB Atlas - connection string only
-/*
-mongodb+srv://onslm:telefon5@bcustomizer-tn0cj.mongodb.net/test01?retryWrites=true
 */
