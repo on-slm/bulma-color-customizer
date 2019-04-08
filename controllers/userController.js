@@ -31,7 +31,7 @@ exports.index = function (req, res, next) {
     }
   }, function (err, results) {
     console.log(results);
-    res.render('users', {
+    res.render('user/users', {
       title: 'Color Customiser Homepage - index',
       devSessionId: req.session.sessIdentity,
       devFilename: req.session.sessIdFirstAssign,
@@ -63,32 +63,17 @@ exports.users_list = function (req, res, next) {
       Sass.countDocuments({}, callback);
     },
     users: function (callback) {
-      User.find({ /* name: 'Ondrej Salamon' */ }, 'name last_logged csses repo')
+      User.find({ /* name: 'Ondrej Salamon' */ }, 'name last_logged repo')
         .populate('csses')
-        // .sort([['repo', 'asc']])
-        // .sort([['repo', -1]])
-        // When uncommented, throws error:
-        /* TypeError: Can 't mix sort syntaxes. Use either array or object: -
-          `.sort([['field', 1], ['test', -1]])` -
-          `.sort({ field: 1, test: -1 })`
-        */
-        .sort({ name: -1 }) // desc = z-a = -1
-        .sort({ name: 1 })  // asc = a-z = 1
-        .sort('last_logged')
-        .sort('-last_logged')
-        .sort({ last_logged: 'desc' })  // or 'descending'
-        .sort({ last_logged: 'asc' })   // or 'ascending'
+        .sort({ last_logged: 'desc' })   // or 'ascending'
         .exec(callback);
-        // without chain syntax:
-        // eg. Room.find({}, null, {sort: '-date'}, function(err, docs) { ... });
-        // eg. Room.find({}, null, {sort: {date: -1}}, function(err, docs) { ... });
     }
   }, function (err, results) {
     console.log(results);
     results.users.forEach(function (el) {
       console.log(el.url);
     });
-    res.render('users', {
+    res.render('user/users', {
       title: 'Color Customiser Homepage - user_list',
       devSessionId: req.session.sessIdentity,
       devFilename: req.session.sessIdFirstAssign,
@@ -106,7 +91,6 @@ exports.users_list = function (req, res, next) {
 exports.user_detail = function (req, res, next) {
   assignSessionID(req, __filename);
 
-  console.log('hello from user_detail');
   async.parallel(
     {
       user: function(callback) {
@@ -116,13 +100,13 @@ exports.user_detail = function (req, res, next) {
       },
       user_csses: function(callback) {
         Css
-          .find({ 'user': req.params.id })
+          .find({ 'user': req.params.id }, 'name code labels')
           .populate('labels')
           .exec(callback);
       },
       user_sasses: function (callback) {
         Sass
-          .find({ 'user': req.params.id })
+          .find({ 'user': req.params.id }, 'name code labels')
           .populate('labels')
           .exec(callback);
       }

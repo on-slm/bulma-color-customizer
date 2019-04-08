@@ -1,4 +1,4 @@
-extends layout.pug
+extends ../layout.pug
 block main
   div.section(class='users-main')
     if error
@@ -38,7 +38,7 @@ block main
                 each user in userlist
                   li
                     a(href=user.url) #{user.name}
-                    | (last login: #{user.last_logged.toLocaleString()})
+                    |  (last login: #{user.last_logged.toLocaleString()})
                     if (user.csses)
                       ul
                         each css in user.csses
