@@ -1,6 +1,6 @@
 extends layout.pug
 block main
-  div.container(class='css-main')
+  div.section(class='css-main')
     if error
       h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
     else
@@ -11,13 +11,12 @@ block main
           ul
             each val in csslist
               li
-                a(href=val.user.url) #{val.user.name}
-                |'s CSS caled: #{val.name} (#{val.created} aka #{val.created_formatted})
-                //- each Css has empty array of labels
-                if(val.labels[0])
-                  ul
+                div.box
+                  a(href=val.user.url) #{val.user.name}
+                  |'s CSS caled: #[a(href=val.url) #{val.name}] (created: #{val.created_formatted})
+                  div.tags
                     each label in val.labels
-                      li
+                      span.tag
                         a(href=label.url) #{label.label}
 
       div.column(class='is-one-fifths')

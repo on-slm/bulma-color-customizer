@@ -22,8 +22,26 @@ div.hero-head(class='is-success')
             hr.navbar-divider
       div.navbar-end
         div.main-menu(class='field is-horizontal')
-          a.navbar-item(href='/') Home
-          a.navbar-item(class='is-hoverable' href='/customize') Start customizing
+          a.navbar-item(href='/')
+            p.
+              #[strong Home] #[br]
+              redir to #[code /users]
+          a.navbar-item(href='/customize')
+            p.
+              #[strong Customize] #[br]
+              #[code /customize]
+          div.navbar-item(class='has-dropdown is-hoverable')
+            a.navbar-link(href='/users')
+              p.
+                #[strong Users] (ie. HP) #[br]
+                #[code /users/]
+            div.navbar-dropdown(class='is-boxed')
+              a.navbar-item(href='#') #[strong Everything below not intended for prod:]
+              hr.navbar-divider
+              a.navbar-item(href='/users/list') #[strong All users] #[code /users/list]
+              a.navbar-item(href='/css/list') #[strong All CSSes] #[code /css/list]
+              a.navbar-item(href='/sass/list') #[strong All SaSSes] #[code /sass/list]
+              a.navbar-item(href='/labels/list') #[strong All Labels] #[code /labels/list]
         div.navbar-item
           a(class='button is-success is-inverted')
             span.icon

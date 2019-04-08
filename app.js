@@ -3,13 +3,6 @@
 // v nem zatim zobrazovat jednu jedinou vec - unikatni session ID, abych zjistil, zda mi to prideleni na zacatku funguje
 // PAK AZ POKRACOVAT TEMI ASYNC CTENIMI DB A DALSI TOUTO LOGIKOU
 
-// where to continue:
-// files: ??
-// last I did: http://localhost:3004/users/sasses
-// link (continue right here): https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Author_list_page#View
-//  from this menu of subarticles:
-//  https://developer.mozilla.org/en-US/docs/Learn/Server-side/Express_Nodejs/Displaying_data/Book_list_page
-
 // how to start mongod: sudo service mongod start
 // how to run the app:  nodemon
 // how to connect into db via shell: mongo --host 127.0.0.1:27017[/bulma_db]
@@ -19,17 +12,27 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
-const cookieParser = require('cookie-parser');
+const uid = require('uid-safe').sync; // not needed, remove later
+const assignSessionID = require('./lib/asssignSessionID');
+const cookieParser = require('cookie-parser'); // not needed, remove later
 const parseurl = require('parseurl');
 const session = require('express-session');
 var MemoryStore = require('memorystore')(session);
 const async = require('async');
 // console.log('===================\n', 'app.js', '\n');
 
-// cookie.expires
+// express-session's options for session object
 var sess = {
   resave: false, // edit later, it depends on a session store used
   saveUninitialized: false,
+  // genid: function (req) {
+  //   function genuuid() {
+  //     var objIdHex = mongoose.Types.ObjectId().valueOf();
+  //     return Buffer.from('' + objIdHex, 'hex').toString('utf8');
+  //   }
+  //   return genuuid();
+  // },
+  genid: req => Buffer.from('' + mongoose.Types.ObjectId().valueOf(), 'hex').toString('hex'), // AFAIK there's no 'this' in this context so I can make use of es6
   secret: 'keyboard cat', // it signs session ID cookie
   store: new MemoryStore({
     checkPeriod: 86400000 // prune expired entries every 24h
@@ -47,16 +50,20 @@ var sess = {
 var User = require('./models/user');
 var Sass = require('./models/sass');
 var Css = require('./models/css');
-var SassLabel = require('./models/sasslabel');
-var CssLabel = require('./models/csslabel');
+var Label = require('./models/label');
 
 // routers
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var cssRouter = require('./routes/css');
+var sassRouter = require('./routes/sass');
+var labelRouter = require('./routes/labelRoutes');
 
 const app = express();
-const port = 3004;
-const mongoDB = 'mongodb://localhost/bulma_db';
+const port = 3000;
+
+let passwdSaved = fs.readFileSync(path.join(__dirname, 'assets', 'passwd'), 'utf8').replace('\n', '');
+var mongoDB = `mongodb+srv://onslm:${passwdSaved}@bcustomizer-tn0cj.mongodb.net/bcc_db?retryWrites=true`;
 
 // mongo connection
 mongoose.connect(mongoDB, { useNewUrlParser: true });
@@ -69,7 +76,7 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 var defaultSass = fs.readFileSync(path.join(__dirname, 'assets', 'defaultSass.txt'), 'utf8');
 
 // TO DO LATER: assign every user's draft (code inputed) with ordinal number based on his unique cookie, ie. "draft number 1" (first...), "draft number 2" (second), etc
-var assignNumber = Date.now();
+var assignNumber = Date.now(); // BS, remove
 
 var x = Array.from({ length: 5 }, (v, i) => i);
 // [0, 1, 2, 3, 4]
@@ -86,20 +93,15 @@ app.locals.doctype = 'html';
 app.use(session(sess));
 
 // ROUTES - 2018-10-04 LETS ASSUME THAT FIRST PAGE PPL OPEN IS USERS aka USER DETAIL (NOT CUSTOMIZER /CUSTOMIZE)
-/*
-app.get('/', function (req, res) {
-  res.redirect('/customize');
-});
-*/
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/css', cssRouter);
+app.use('/sass', sassRouter);
+app.use('/labels', labelRouter);
 
 app.get('/customize', function (req, res) {
-  if (req.session.sessIdentity == undefined) {
-    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
-    req.session.sessIdentity = req.session.id;
-  }
-  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  assignSessionID(req, __filename);
 
   res.render('customize', {
     title: 'CUSTOMIZE!',
@@ -113,11 +115,8 @@ app.get('/customize', function (req, res) {
 });
 
 app.post('/customize', (req, res) => {
-  if (req.session.sessIdentity == undefined) {
-    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
-    req.session.sessIdentity = req.session.id;
-  }
-  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  assignSessionID(req, __filename);
+
   res.render('customize', {
     title: 'DONE - RESULTS:',
     devSessionId: req.session.sessIdentity,

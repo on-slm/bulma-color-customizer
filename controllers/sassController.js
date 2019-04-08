@@ -1,19 +1,19 @@
 const express = require('express');
 const async = require('async');
+const assignSessionID = require('../lib/asssignSessionID');
 
-// primary models = User's own sass and sass to list/del
 const Sass = require('../models/sass');
 
-// secondary model = User
-const User = require('../models/user');
-
-// display list of user's sasses
-exports.sass_list = function(req, res, next) {
-  Sass.find()
+// display list of all sasses but in DB
+exports.sass_list = function (req, res, next) {
+  assignSessionID(req, __filename);
+  Sass
+    .find({}, 'name labels user created created_formatted')
     .populate('user')
-    .sort([['name', 'ascending']])
+    .populate('labels')
+    .sort('name')
     .exec(function (err, list_sasses) {
-      if (err) { return next(err); }
+      if (err) throw err;
       console.log(list_sasses);
       res.render('sass_list_all', {
         title: 'Color Customiser Sass list - sass_list',
@@ -27,23 +27,30 @@ exports.sass_list = function(req, res, next) {
 
 // display details for specific SASS code
 exports.sass_detail = function (req, res, next) {
-  // another playground (ONE async operation to get required operation => then simply render the template in the callback, ie. calback function = count itself)
-  Sass.count({ _id: req.params.id }, function(err, count) {
-    if (err) throw err;
-    console.log(req.route);
-    res.render('sass', {
-      title: 'SaSS DB view TEST - returns 1 if there\'s the given SaSS code in the DB',
-      subtitle: req.params.id,
-      hstnm: req.hostname,
-      hstip: req.ip,
-      pth: req.path,
-      sassId: req.params.id,
-      rtOutput: req.route,
-      cnt: count
+  assignSessionID(req, __filename);
+  Sass
+    .findById(req.params.id)
+    .populate('user')
+    .populate('labels')
+    .exec(function (err, sassDetail) {
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
+      if (sassDetail == null) {
+        var err = new Error('SASS not found');
+        err.status = 404;
+        return next(err);
+      }
+      console.log(sassDetail);
+      res.render('sass/sass_detail', {
+        title: 'SASS detail',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        sass: sassDetail
+      });
     });
-  });
-
-  // res.send('NOT IMPLEMENTED: detail of a specific css code: ' + req.params.id + '\n<br />(sass)');
 };
 
 // display Sass create form on GET
@@ -63,7 +70,7 @@ exports.sass_delete_get = function (req, res, next) {
 
 // handle Sass delete form on POST
 exports.sass_delete_post = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: handle delete form\n<br />(sass)')
+  res.send('NOT IMPLEMENTED: handle delete form\n<br />(sass)');
 };
 
 // display Sass update form on GET

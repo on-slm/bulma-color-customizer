@@ -1,5 +1,6 @@
 const express = require('express');
 const async = require('async');
+const assignSessionID = require('../lib/asssignSessionID');
 console.log('===================\n', 'userController.js', '\n');
 
 // main model = User
@@ -7,17 +8,14 @@ const User = require('../models/user');
 // "secondary" models = User's own css and sass to list/del
 const Css = require('../models/css');
 const Sass = require('../models/sass');
+const Label = require('../models/label');
 
 // OBECNE TU PRIJDOU VSECHNY CRUD (budou-li potreba) OPERACE VC VYRENDROVANI PRO /users/:userId
 // viz pokracilejsi https://expressjs.com/en/guide/routing.html
-exports.index = function (req, res) {
-  if (req.session.sessIdentity == undefined) {
-    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
-    req.session.sessIdentity = req.session.id;
-  }
-  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
-        // TODO logic for a user-specific view counter (and other places) - viz app.js l.132
+exports.index = function (req, res, next) {
+  assignSessionID(req, __filename);
 
+    // TODO logic for a user-specific view counter (and other places) - viz app.js l.132
   async.parallel({
     users_count: function (callback) {
       User.countDocuments({}, callback);
@@ -33,7 +31,7 @@ exports.index = function (req, res) {
     }
   }, function (err, results) {
     console.log(results);
-    res.render('users', {
+    res.render('user/users', {
       title: 'Color Customiser Homepage - index',
       devSessionId: req.session.sessIdentity,
       devFilename: req.session.sessIdFirstAssign,
@@ -49,11 +47,7 @@ exports.index = function (req, res) {
 
 // page listing all users (aka router.get('/list', user_controller.users_list);) aka URL /users/list
 exports.users_list = function (req, res, next) {
-  if (req.session.sessIdentity == undefined) {
-    req.session.sessIdFirstAssign = __filename.replace(process.cwd(), '');
-    req.session.sessIdentity = req.session.id;
-  }
-  console.log('', __filename.replace(process.cwd(), ''), '\'s session ID: ', req.session.sessIdentity, '\n', '(ID was assined in: ', req.session.sessIdFirstAssign.replace(process.cwd(), ''), ')\n');
+  assignSessionID(req, __filename);
 
   async.parallel({
     users_count: function (callback) {
@@ -69,8 +63,9 @@ exports.users_list = function (req, res, next) {
       Sass.countDocuments({}, callback);
     },
     users: function (callback) {
-      User.find({ name: 'Ondrej Salamon' }, 'name last_logged csses')
+      User.find({ /* name: 'Ondrej Salamon' */ }, 'name last_logged repo')
         .populate('csses')
+        .sort({ last_logged: 'desc' })   // or 'ascending'
         .exec(callback);
     }
   }, function (err, results) {
@@ -78,7 +73,7 @@ exports.users_list = function (req, res, next) {
     results.users.forEach(function (el) {
       console.log(el.url);
     });
-    res.render('users', {
+    res.render('user/users', {
       title: 'Color Customiser Homepage - user_list',
       devSessionId: req.session.sessIdentity,
       devFilename: req.session.sessIdFirstAssign,
@@ -91,16 +86,52 @@ exports.users_list = function (req, res, next) {
   });
 };
 
-
 // detail page for a specific profile
 // (tyhlety exporty pak vlozit do app.get('/users/user/:userId', user_detail))
 exports.user_detail = function (req, res, next) {
-  res.send('NOT IMPLEMENTED: User detail: ' + req.params.id);
-  // ...
-  // findById
-  // vyuzivat req.param.id
-  // vytahnout z db vsechny relevantni informace
-  // nakonec vyrendrovat s res.render (do objektu ty informace)
+  assignSessionID(req, __filename);
+
+  async.parallel(
+    {
+      user: function(callback) {
+        User
+          .findById(req.params.id)
+          .exec(callback);
+      },
+      user_csses: function(callback) {
+        Css
+          .find({ 'user': req.params.id }, 'name code labels')
+          .populate('labels')
+          .exec(callback);
+      },
+      user_sasses: function (callback) {
+        Sass
+          .find({ 'user': req.params.id }, 'name code labels')
+          .populate('labels')
+          .exec(callback);
+      }
+    },
+    function (err, results) {
+      if (err) {
+        console.error(err);
+        return next(err);
+      }
+      if (results.user == null) {
+        var err = new Error('User not found');
+        err.status = 404;
+        return next(err);
+      }
+      console.log(results);
+      res.render('user/user_detail', {
+        title: 'User profile',
+        devSessionId: req.session.sessIdentity,
+        devFilename: req.session.sessIdFirstAssign,
+        error: err,
+        user: results.user,
+        csses: results.user_csses,
+        sasses: results.user_sasses
+      });
+    });
 };
 
 /*
@@ -115,6 +146,8 @@ SPATNY NAVRH DESIGNu - OPRAVA - toto pujde pod domain.cz/css[/list]
 
 // display User create FORM on GET
 exports.user_create_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: User creat GET');
 };
 
@@ -125,6 +158,8 @@ exports.user_create_post = function (req, res, next) {
 
 // display User delete FORM on GET
 exports.user_delete_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: User delete GET');
 };
 
@@ -135,6 +170,8 @@ exports.user_delete_post = function (req, res, next) {
 
 // display User update FORM on GET
 exports.user_update_get = function (req, res, next) {
+  assignSessionID(req, __filename);
+
   res.send('NOT IMPLEMENTED: User update GET');
 };
 

@@ -1,0 +1,35 @@
+extends ../layout.pug
+block main
+  div.section(class='css-detail-main')
+    if error
+      h1.title(class='is-1 has-text-warning') #[em AN ERROR OCCURED WHEN FETCHING DB]
+      p #{error}
+    else
+      h1.title(class='is-1 has-text-success') #{title}
+    div
+      nav.level
+        .level-item(class='has-text-centered')
+          div
+            h3.heading Created by
+            p.subtitle #[a(href='mailto:' + css.user.email) #{css.user.name}]
+        .level-item(class='has-text-centered')
+          div
+            h3.heading Created on
+            p.subtitle #[code #{css.created_formatted}]
+      .tile(class='is-ancestor')
+        .tile(class='is-vertical is-8 is-parent')
+          .tile(class='is-child box')
+            .field
+              .control
+                label.label(for='cssCode') Code preview of your CSS "#[em #{css.name}]":
+                textarea(class='textarea' type='text' name='cssCodePreview' id='cssCode' rows='5' required='false' spellcheck='false' placeholder='some placeholder') #{css.code}
+          .tile(class='is-child box')
+            .field(class='is-grouped is-grouped-multiline')
+              each label in css.labels
+                .control
+                  .tags(class='has-addons')
+                    a.tag(class='is-link' href=label.url) #{label.label}
+                    a.tag(class='is-delete')
+        .tile(class='is-parent is-4')
+          .tile(class='is-child box')
+            p.title Treti dlazdice...

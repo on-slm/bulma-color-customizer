@@ -1,0 +1,35 @@
+extends ../layout.pug
+block main
+  div.section(class='sass-detail-main')
+    if error
+      h1.title(class='is-1 has-text-warning') #[em AN ERROR OCCURED WHEN FETCHING DB]
+      p #{error}
+    else
+      h1.title(class='is-1 has-text-success') #{title}
+    div
+      nav.level
+        .level-item(class='has-text-centered')
+          div
+            h3.heading Created by
+            p.subtitle #[a(href='mailto:' + sass.user.email) #{sass.user.name}]
+        .level-item(class='has-text-centered')
+          div
+            h3.heading Created on
+            p.subtitle #[code #{sass.created_formatted}]
+      .tile(class='is-ancestor')
+        .tile(class='is-vertical is-8 is-parent')
+          .tile(class='is-child box')
+            .field
+              .control
+                label.label(for='sassCode') Code preview of your SASS "#[em #{sass.name}]":
+                textarea(class='textarea' type='text' name='sassCodePreview' id='sassCode' rows='8' required='false' spellcheck='false' placeholder='some placeholder') #{sass.code}
+          .tile(class='is-child box')
+            .field(class='is-grouped is-grouped-multiline')
+              each label in sass.labels
+                .control
+                  .tags(class='has-addons')
+                    a.tag(class='is-link' href=label.url) #{label.label}
+                    a.tag(class='is-delete')
+        .tile(class='is-parent is-4')
+          .tile(class='is-child box')
+            p.title Treti dlazdice...

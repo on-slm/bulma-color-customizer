@@ -1,0 +1,27 @@
+extends ../layout.pug
+block main
+  div.section(class='sass-detail-main')
+    if error
+      h1.title(class='is-1 has-text-warning') #[em AN ERROR OCCURED WHEN FETCHING DB]
+      p #{error}
+    else
+      div.columns(class='is-vcentered')
+        div.column(class='is-narrow')
+          h1.title(class='is-2 has-text-success') #{title}
+        div.column(class='box has-text-centered')
+          span(class='tag is-primary is-large') #{label.label}
+      nav.panel
+        p.panel-heading All CSS/SASS tagged by the label
+        p.panel-tabs
+          a.is-active CSS
+          a SASS
+        each item in css
+          a.panel-block(href=item.url)
+            span.panel-icon
+              i.fab(class='fa-css3')
+            | "#[em #{item.name}]" by #{item.user.name} (created #{item.created_formatted})
+        each item in sass
+          a.panel-block(href=item.url)
+            span.panel-icon
+              i.fab(class='fa-sass')
+            | "#[em #{item.name}]" by #{item.user.name} (created #{item.created_formatted})
