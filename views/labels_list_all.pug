@@ -1,18 +1,19 @@
 extends layout.pug
 block main
-  div.section(class='labels-main')
-    if error
-      h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
-    else
-      h1.title(class='is-1 has-text-success') #{title}
-    div.columns(class='is-vcentered')
-      div.column(class='is-four-fifths')
-        div.box
-          div.tags(class='is-lower-alpha')
-            each label in labelslist
-              span.tag
-                a(href=label.url) #{label.label}
-      div.column(class='is-one-fifths')
-        div.box
-          h3.subtitle(class='is-large has-text-weight-bold has-background-primary has-text-warning has-text-centered') heading in a box in right 1/5 column
-          p some text in a paragraph in a box in right 1/5 column
+  section.section(class='label-list-main')
+    div.container
+      if error
+        h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
+      else
+        h1.title(class='is-1 has-text-success') #{title}
+      div.columns(class='is-vcentered')
+        div.column(class='is-four-fifths')
+          div.box
+            div.tags(class='is-lower-alpha')
+              each label in labelslist
+                span.tag
+                  a(href=label.url) #{label.label}
+        div.column(class='is-one-fifths')
+          div.box
+            h3.subtitle(class='is-large has-text-weight-bold has-background-primary has-text-warning has-text-centered') heading in a box in right 1/5 column
+            p some text in a paragraph in a box in right 1/5 column

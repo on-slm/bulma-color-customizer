@@ -1,49 +1,50 @@
-div.hero-head(class='is-success')
-  nav.navbar(role='navigation')
-    div.navbar-brand
-    div.navbar-menu(id='boc-navbar-menu is-active')
-      div.navbar-start
-        div.navbar-item
-          div.field(class='is-grouped-centered')
-            div.field(class='is-horizontal')
-              div.field-label(class='is-small')
-                label.label(class='is-small') sessID
-              div.field-body
-                div.field
-                  p.control(class='is-expanded has-text-white-bis')
-                    input.input(class='is-small is-danger has-text-weight-bold' placeholder=`${devSessionId}` value=`${devSessionId}`)
-            div.field(class='is-horizontal')
-              div.field-label(class='is-small')
-                label.label(class='is-small') assign
-              div.field-body
-                div.field
-                  p.control(class='is-expanded')
-                    input.input(class='is-small is-danger has-text-weight-bold' placeholder=`${devFilename}` value=`${devFilename}`)
-            hr.navbar-divider
-      div.navbar-end
-        div.main-menu(class='field is-horizontal')
-          a.navbar-item(href='/')
-            p.
-              #[strong Home] #[br]
-              redir to #[code /users]
-          a.navbar-item(href='/customize')
-            p.
-              #[strong Customize] #[br]
-              #[code /customize]
-          div.navbar-item(class='has-dropdown is-hoverable')
-            a.navbar-link(href='/users')
-              p.
-                #[strong Users] (ie. HP) #[br]
-                #[code /users/]
-            div.navbar-dropdown(class='is-boxed')
-              a.navbar-item(href='#') #[strong Everything below not intended for prod:]
+section.section(class='is-')
+  div.container
+    nav.navbar(role='navigation')
+      div.navbar-brand
+      div.navbar-menu(id='boc-navbar-menu is-active')
+        div.navbar-start
+          div.navbar-item
+            div.field(class='is-grouped-centered')
+              div.field(class='is-horizontal')
+                div.field-label(class='is-small')
+                  label.label(class='is-small') sessID
+                div.field-body
+                  div.field
+                    p.control(class='is-expanded has-text-white-bis')
+                      input.input(class='is-small is-danger has-text-weight-bold' placeholder=`${devSessionId}` value=`${devSessionId}`)
+              div.field(class='is-horizontal')
+                div.field-label(class='is-small')
+                  label.label(class='is-small') assign
+                div.field-body
+                  div.field
+                    p.control(class='is-expanded')
+                      input.input(class='is-small is-danger has-text-weight-bold' placeholder=`${devFilename}` value=`${devFilename}`)
               hr.navbar-divider
-              a.navbar-item(href='/users/list') #[strong All users] #[code /users/list]
-              a.navbar-item(href='/css/list') #[strong All CSSes] #[code /css/list]
-              a.navbar-item(href='/sass/list') #[strong All SaSSes] #[code /sass/list]
-              a.navbar-item(href='/labels/list') #[strong All Labels] #[code /labels/list]
-        div.navbar-item
-          a(class='button is-success is-inverted')
-            span.icon
-              i(class='fas fa-home')
-            span(class='tag is-info') `#{pageviews} this session`
+        div.navbar-end
+          div.main-menu(class='field is-horizontal')
+            a.navbar-item(href='/')
+              p.
+                #[strong Home] #[br]
+                redir to #[code /users]
+            a.navbar-item(href='/customize')
+              p.
+                #[strong Customize] #[br]
+                #[code /customize]
+            div.navbar-item(class='has-dropdown is-hoverable')
+              a.navbar-link(href='/users')
+                p.
+                  #[strong Users] (ie. HP) #[br]
+                  #[code /users/]
+              div.navbar-dropdown(class='is-boxed')
+                a.navbar-item(href='#') #[strong Everything below not intended for prod:]
+                hr.navbar-divider
+                a.navbar-item(href='/users/list') #[strong All users] #[code /users/list]
+                a.navbar-item(href='/css/list') #[strong All CSSes] #[code /css/list]
+                a.navbar-item(href='/sass/list') #[strong All SaSSes] #[code /sass/list]
+                a.navbar-item(href='/labels/list') #[strong All Labels] #[code /labels/list]
+          div.navbar-item
+            a(class='button is-success is-inverted')
+              span.icon
+                i(class='fas fa-home')
+              span(class='tag is-info') `#{pageviews} this session`

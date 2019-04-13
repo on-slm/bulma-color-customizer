@@ -1,15 +1,14 @@
 extends layout.pug
-
 block main
-  div.container(class='hp-main')
-    div.columns
-      div.column(class='is-four-fifths')
-        div.container
+  section.section(class='index-main')
+    div.container
+      div.columns
+        div.column(class='is-four-fifths')
           h2.subtitle Podnadpis h2 v non-hp sekci main
           p This is homepage
-      div.column
-        div.box
-          a(class='button is-warning is-active is-large' href='/customize')
-            span.icon(class='has-text-danger is-large')
-              i(class='fas fa-terminal')
-            span Do it!
+        div.column
+          div.box
+            a(class='button is-warning is-active is-large' href='/customize')
+              span.icon(class='has-text-danger is-large')
+                i(class='fas fa-terminal')
+              span Do it!

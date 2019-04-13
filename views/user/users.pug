@@ -1,47 +1,43 @@
 extends ../layout.pug
 block main
-  div.section(class='users-main')
-    if error
-      h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
-    else
-      h1.title= title
-    div.columns
-      div.column(class='is-4')
-        div
+  section.section(class='users-main')
+    div.container
+      if error
+        h1.title(class="is-1 has-text-warning") #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
+      else
+        h1.title= title
+      div.columns
+        div.column(class='is-4')
+          div
+            aside.menu
+              if data
+                p.menu-label Stats
+                ul.menu-list
+                  li #[strong CSS] made: !{data.css_count}
+                  li #[strong SaSS] made: !{data.sass_count}
+                  li #[strong User] accounts: !{data.users_count} (!{data.privrepo_count} private / !{data.users_count - data.privrepo_count} public)
+              if userlist
+                p.menu-label A list of users
+                div.box
+                  ul
+                    each user in userlist
+                      li
+                        a(href=user.url) #{user.name}
+                        |  (last login: #{user.last_logged.toLocaleString()})
+                        if (user.csses)
+                          ul
+                            each css in user.csses
+                              li ** #{css.name}: #[code #{css.code}]
+                    else
+                      li There are no users in db.
+        div.column(class='is-8')
           aside.menu
-            if data
-              p.menu-label All-time stats
+            p.menu-label User account
               ul.menu-list
-                li #[strong CSS] count: !{data.css_count}
-                li #[strong SaSS] count: !{data.sass_count}
-                li #[strong Users] count: !{data.users_count} (!{data.privrepo_count} private / !{data.users_count - data.privrepo_count} public)
-            p.menu-label Your profile
-            ul.menu-list
-              li SESSIONinfo - views: !{sessviews}
-              li SESSIONinfo - expires in: !{sessexp}
-            ul.menu-list
-              li Info
-              li CSS
-              li Remove
-              li Log out
-      div.column(class='is-8')
-        if (userlist)
-          div.container(class='')
-            //- div.
-              #[button.delete]
-              blba
-            //- div
-              p #{containerStyle.width}
-              p= containerStyle.width
-            div
-              ul
-                each user in userlist
-                  li
-                    a(href=user.url) #{user.name}
-                    |  (last login: #{user.last_logged.toLocaleString()})
-                    if (user.csses)
-                      ul
-                        each css in user.csses
-                          li ** #{css.name}: #[code #{css.code}]
-                else
-                  li There are no users in db.
+                li SESSIONinfo - views: !{sessviews}
+                li SESSIONinfo - expires in: !{sessexp}
+              ul.menu-list
+                li Info
+                li CSS
+                li Remove
+                li Log out

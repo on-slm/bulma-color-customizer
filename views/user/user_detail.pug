@@ -1,40 +1,41 @@
 extends ../layout.pug
 block main
-  div.section(class='user-detail-main')
-    if error
-      h1.title(class='is-1 has-text-warning') #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
-    else
-      h1.title(class='is-1 has-text-success') #{title}
-    div.columns(class='is-vcentered')
-      div.column(class='is-four-fifths')
-        article.media
-          figure.media-left
-            p.image(class='is-128x128')
-              img(src='https://bulma.io/images/placeholders/128x128.png')
-          figure.media-content
-            div.content
-              h2.subtitle #{user.name}
-              p #[strong #{user.fullname}] #[small #{user.email}] #[br] #[em Last time you logged in:] #[code #{user.last_logged_formatted}]
-            each value in (csses.concat(sasses))
-              article.media
-                figure.media-left
-                  p.image(class='is-64x64')
-                    img(src='https://bulma.io/images/placeholders/64x64.png')
-                figure.media-content
-                  article.message
-                    div.message-header
-                      p #[a(href=value.url) #{value.name}]
-                      button.delete(aria-label='delete')
-                    div.message-body(class='is-family-code') #{value.code}
-                      div.tags
-                        each label in value.labels
-                          span.tag(class='is-success')
-                            a(href=label.url) #{label.label}
-          figure.media-right
-            a.button(href='#')
-              span.icon(class='is-large')
-                i.fas(class='fa-smile')
-      div.column(class='is-one-fifths')
-        div.box
-          h3.subtitle(class='is-large has-text-weight-bold has-background-primary has-text-warning has-text-centered') heading in a box in right 1/5 column
-          p some text in a paragraph in a box in right 1/5 column
+  section.section(class='user-detail-main is-medium')
+    div.container
+      if error
+        h1.title(class='is-1 has-text-warning') #[em AN ERROR] #{error} OCCURED WHEN FETCHING DB
+      else
+        h1.title(class='is-1 has-text-success') #{title}
+      div.columns(class='is-vcentered')
+        div.column(class='is-four-fifths')
+          article.media
+            figure.media-left
+              p.image(class='is-128x128')
+                img(src='https://bulma.io/images/placeholders/128x128.png')
+            figure.media-content
+              div.content
+                h2.subtitle #{user.name}
+                p #[strong #{user.fullname}] #[small #{user.email}] #[br] #[em Last time you logged in:] #[code #{user.last_logged_formatted}]
+              each value in (csses.concat(sasses))
+                article.media
+                  figure.media-left
+                    p.image(class='is-64x64')
+                      img(src='https://bulma.io/images/placeholders/64x64.png')
+                  figure.media-content
+                    article.message
+                      div.message-header
+                        p #[a(href=value.url) #{value.name}]
+                        button.delete(aria-label='delete')
+                      div.message-body(class='is-family-code') #{value.code}
+                        div.tags
+                          each label in value.labels
+                            span.tag(class='is-success')
+                              a(href=label.url) #{label.label}
+            figure.media-right
+              a.button(href='#')
+                span.icon(class='is-large')
+                  i.fas(class='fa-smile')
+        div.column(class='is-one-fifths')
+          div.box
+            h3.subtitle(class='is-large has-text-weight-bold has-background-primary has-text-warning has-text-centered') heading in a box in right 1/5 column
+            p some text in a paragraph in a box in right 1/5 column

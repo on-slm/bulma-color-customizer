@@ -35,7 +35,7 @@ var sess = {
   genid: req => Buffer.from('' + mongoose.Types.ObjectId().valueOf(), 'hex').toString('hex'), // AFAIK there's no 'this' in this context so I can make use of es6
   secret: 'keyboard cat', // it signs session ID cookie
   store: new MemoryStore({
-    checkPeriod: 86400000 // prune expired entries every 24h
+    checkPeriod: 86400000 * 365 // prune expired entries every 24h * 365 d
   }), // use separate Mongo store later
   cookie: {
     path: '/',

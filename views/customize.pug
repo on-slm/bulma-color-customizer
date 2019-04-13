@@ -3,30 +3,64 @@ append head
   script(defer src='src/highlight.js' type='text/javascript')
 block main
   section.section(class='customize-main')
-    h1.title #{title}
-    h2.subtitle Code input was:
-    div.box
-      p
-        code.code #{draftName}
-    h2.subtitle
-    div.box
-      p
-        code.code #{inputAreaCode}
-    div.columns
-      div.column(class='is-10')
-        form(method='POST' action='/customize')
-          div.field
-            div.control
-              label.label(for='draftName') Name your draft:
-              input(class='input is-success is-rounded' type="text" name="draftName" id='draftName' placeholder=`Your draft no.${autoNumbered}` value=`Your draft no.${autoNumbered}`)
-            div.control
-              label.label(for='sassInputArea') Input your code:
-              textarea(class='textarea is-info' type='text' name='inputAreaCode' id='sassInputArea' rows='30' required='true' spellcheck='false' placeholder='placeholder text for textarea') #{defaults}
-            div.control
-              button.button(class='is-danger is-outlined is-link is-1 is-pulled-right' type='submit')
-                span Customize
-                span.icon(class='is-small')
-                    i.fas(class='fa-check')
-      div.column(class='is-4')
-        div.card
-          p(class='is-warning') Right column for help etc.
+    div.container
+      h1.title #{title}
+      h2.subtitle Code input was:
+      div.box
+        p
+          code.code #{draftName}
+      h2.subtitle
+      div.box
+        p
+          code.code #{inputAreaCode}
+      div.columns
+        div.column(class='is-10')
+          form(method='POST' action='/customize')
+            div.field
+              div.control
+                label.label(for='draftName') Name your draft:
+                input(class='input is-success is-rounded' type="text" name="draftName" id='draftName' placeholder=`Your draft no.${autoNumbered}` value=`Your draft no.${autoNumbered}`)
+              div.control
+                label.label(for='sassInputArea') Input your code:
+                textarea(class='textarea is-info' type='text' name='inputAreaCode' id='sassInputArea' rows='30' required='true' spellcheck='false' placeholder='placeholder text for textarea') #{defaults}
+              div.control
+                button.button(class='is-danger is-outlined is-link is-1 is-pulled-right' type='submit')
+                  span Customize
+                  span.icon(class='is-small')
+                      i.fas(class='fa-check')
+        div.column(class='is-4')
+          div.card
+            p(class='is-warning') Right column for help etc.
+
+//- extends layout.pug
+//- append head
+//-   script(defer src='src/highlight.js' type='text/javascript')
+//- block main
+//-   section.section(class='customize-main')
+//-     h1.title #{title}
+//-     h2.subtitle Code input was:
+//-     div.box
+//-       p
+//-         code.code #{draftName}
+//-     h2.subtitle
+//-     div.box
+//-       p
+//-         code.code #{inputAreaCode}
+//-     div.columns
+//-       div.column(class='is-10')
+//-         form(method='POST' action='/customize')
+//-           div.field
+//-             div.control
+//-               label.label(for='draftName') Name your draft:
+//-               input(class='input is-success is-rounded' type="text" name="draftName" id='draftName' placeholder=`Your draft no.${autoNumbered}` value=`Your draft no.${autoNumbered}`)
+//-             div.control
+//-               label.label(for='sassInputArea') Input your code:
+//-               textarea(class='textarea is-info' type='text' name='inputAreaCode' id='sassInputArea' rows='30' required='true' spellcheck='false' placeholder='placeholder text for textarea') #{defaults}
+//-             div.control
+//-               button.button(class='is-danger is-outlined is-link is-1 is-pulled-right' type='submit')
+//-                 span Customize
+//-                 span.icon(class='is-small')
+//-                     i.fas(class='fa-check')
+//-       div.column(class='is-4')
+//-         div.card
+//-           p(class='is-warning') Right column for help etc.
