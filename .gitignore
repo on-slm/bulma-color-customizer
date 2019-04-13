@@ -65,3 +65,5 @@ express-basics/
 
 # db password
 assets/passwd
+
+assets/checkStyles.html
