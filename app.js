@@ -59,6 +59,8 @@ var cssRouter = require('./routes/css');
 var sassRouter = require('./routes/sass');
 var labelRouter = require('./routes/labelRoutes');
 
+var usersApiRouter = require('./routes/api/usersApiRoutes');
+
 const app = express();
 const port = 3000;
 
@@ -96,6 +98,7 @@ app.use(session(sess));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/api/users', usersApiRouter);
 app.use('/css', cssRouter);
 app.use('/sass', sassRouter);
 app.use('/labels', labelRouter);

@@ -37,7 +37,6 @@ exports.index = function (req, res, next) {
       devFilename: req.session.sessIdFirstAssign,
       error: err,
       data: results,
-      containerStyle: flexBoxContainer,   // remove
       userlist: null,
       sessviews: null,  // TODO (again) counter
       sessexp:  null    // dtto
@@ -80,7 +79,6 @@ exports.users_list = function (req, res, next) {
       error: err,
       userlist: results.users,
       data: results,
-      containerStyle: flexBoxContainer,
       sessionId: req.session.sessIdentity
     });
   });
@@ -182,15 +180,3 @@ exports.user_update_post = function (req, res, next) {
 
 // update some of user's info
 // delete user from server (warn him, all css and sass will be lost)
-
-
-var flexBoxContainer = {};
-flexBoxContainer.width = '968px';
-flexBoxContainer.height = '2500px';
-flexBoxContainer['background-color'] = 'yellow';
-flexBoxContainer.display = 'flex';
-flexBoxContainer['flex-wrap'] = 'wrap';
-flexBoxContainer['align-content'] = 'flex-start';
-flexBoxContainer['align-items'] = 'flex-start';
-flexBoxContainer['flex-direction'] = 'column';
-flexBoxContainer['justify-content'] = 'center';

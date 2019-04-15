@@ -12,13 +12,10 @@ var css_controller = require('../controllers/cssController');
 var sass_controller = require('../controllers/sassController');
 var label_controller = require('../controllers/labelController');
 
-// catalog/ — The home/index page.
-// = '/user' - The home/index page of an user = immediate redirect to /users/<user>/<id>
 
 // router.get('/', user_controller.index);
 router.get('/', user_controller.index);
 
-// GET request for creating a User profile (All these "creates" must come before routes displaying what was created; obviously)
 router.get('/user/create', user_controller.user_create_get);
 
 // POST request for creating User profile...
@@ -36,8 +33,14 @@ router.get('/user/:id/update', user_controller.user_update_get);
 // POST update
 router.post('/user/:id/update', user_controller.user_update_get);
 
-// [catalog]/<object>/<id> — The detail page for a specific book, bookinstance, genre, or author with the given _id field value (e.g. /catalog/book/584493c1f4887f06c0e67d37).
-// GET request to display detail of specific user profile
+router.use('/user/:id', function (req, res, next) {
+  console.log('Request URL:', req.originalUrl);
+  next();
+}, function (req, res, next) {
+  console.log('Request Type:', req.method);
+  next();
+});
+
 router.get('/user/:id', user_controller.user_detail);
 
 // = /users/list - list of all users - BUDU MIT NAKONEC

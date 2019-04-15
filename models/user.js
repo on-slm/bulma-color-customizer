@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const moment = require('moment');
-var Schema = mongoose.Schema;
+const Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
   name: { type: String, required: true, minlength: 1, maxlength: 100, trim: true }, // nickname
@@ -17,10 +17,15 @@ var UserSchema = new Schema({
     },
     required: [true, 'User email required']
   },
-  pass: { type: String, minlength: 6, maxlength: 100, required: true, trim: true },
-  repo: { type: String, required: true, enum: ['Public', 'Private'], default: 'Private' },
-  user_cookie_id: { type: String, required: true },
-  last_logged: { type: Date, default: Date.now },
+  pass: { type: String, minlength: 6, maxlength: 200, trim: true },
+  repo: { type: String, enum: ['Public', 'Private'], default: 'Private' },
+  user_cookie_id: { type: String },
+  last_logged: { type: Date, default: Date.now }
+});
+
+// later added to the model for the REST API
+UserSchema.add({
+  permissionLevel: Number
 });
 
 // virtual for generating users urls
@@ -49,6 +54,11 @@ UserSchema
     return this.last_logged ? moment(this.last_logged).format('MMMM Do, YYYY') : 'N\/A';
   });
 
-// !!! Declaring our URLs as a virtual in the schema is a good idea because then the URL for an item only ever needs to be changed in one place.
+// custom document instance method
+exports.createUser = function (userData) {
+  console.log('\ntesttest\ntesttest\n');
+  const user = new User(userData);
+  return user.save();
+};
 
 module.exports = mongoose.model('User', UserSchema);
