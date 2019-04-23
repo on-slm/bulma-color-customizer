@@ -5,7 +5,7 @@ const postData = querystring.stringify({
   "name": "Marcos",
   "first": "Silva",
   "email": "marcos.henrique@toptal.com",
-  "pass": "secret"
+  "pass": "tajneHeslo"
 });
 
 const options = {

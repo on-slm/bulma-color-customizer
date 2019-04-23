@@ -208,3 +208,6 @@ app.listen(port, () => console.log(`${timestampHuman}  Listening on port ${port}
 // napsat si skriptik, ktery posle ten stejny dotaz na vice mist, napr.:
 // Google // DDG // Wiki/tionary // Nyx.cz // GEN LIB RUS EC // Google Groups (apod platformy) // FB? // Twitter // vsude kde neni search enginem Google...
 // problemy napadu: jakym zpusobem prezentovat vysledky; ted otazkou je, jak to tam posilat, jestli maji ty ruzne searche v tech ruznych sluzbach API etc
+
+// DALSI - nejaka toola ktera bude trackovat aktualni stav vsech souboru, ktere ma clovek na ruznych GDrives etc (to je prvni cast); druha cast - bude nabizet
+// moznost uploadu vzdy, kdyz se na nejakych webech objevi form s polickem /upload

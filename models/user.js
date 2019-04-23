@@ -54,11 +54,16 @@ UserSchema
     return this.last_logged ? moment(this.last_logged).format('MMMM Do, YYYY') : 'N\/A';
   });
 
-// custom document instance method
+// Mongoose custom document instance method - NOT WORKING
+// export doesn't work, had to write it in controller directly
+// TODO fix it
+
+/*
 exports.createUser = function (userData) {
   console.log('\ntesttest\ntesttest\n');
   const user = new User(userData);
   return user.save();
 };
+*/
 
 module.exports = mongoose.model('User', UserSchema);

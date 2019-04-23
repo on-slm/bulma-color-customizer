@@ -23,3 +23,9 @@ exports.insert = function (req, res, next) {
       });
     });
 };
+
+exports.getById = function (req, res, next) {
+  User.findById(req.params.id, '-__v').then(function (results) {
+    res.status(200).send(results);
+  });
+};
