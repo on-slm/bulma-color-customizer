@@ -64,10 +64,14 @@ exports.users_list = function (req, res, next) {
     users: function (callback) {
       User.find({ /* name: 'Ondrej Salamon' */ }, 'name last_logged repo')
         .populate('csses')
-        .sort({ last_logged: 'desc' })   // or 'ascending'
+        .sort({ last_logged: 'asc' })   // or 'descending'
         .exec(callback);
     }
   }, function (err, results) {
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
     console.log(results);
     results.users.forEach(function (el) {
       console.log(el.url);
