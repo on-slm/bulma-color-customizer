@@ -68,7 +68,7 @@ exports.users_list = function (req, res, next) {
         .exec(callback);
     }
   }, function (err, results) {
-    if (err) {3
+    if (err) {
       console.error(err);
       return next(err);
     }

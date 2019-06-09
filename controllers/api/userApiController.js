@@ -4,6 +4,7 @@ const crypto = require('crypto');
 
 const User = require('../../models/user');
 
+// methods of the User model used by controllers below
 User.createUser = function (userData) {
   const user = new User(userData);
   return user.save();
@@ -39,6 +40,7 @@ User.list = function (perPage, page) {
   });
 };
 
+// controllers
 exports.insert = function (req, res, next) {
   let salt = crypto.randomBytes(16).toString('base64');
   let hash = crypto.createHmac('sha512', salt).update(req.body.pass).digest("base64"); // .update(req.body.pass)
@@ -50,12 +52,6 @@ exports.insert = function (req, res, next) {
   });
 };
 
-exports.getById = function (req, res, next) {
-  User.findById(req.params.id, '-__v').then(function (results) {
-    res.status(200).send(results);
-  });
-};
-
 exports.patchById = function (req, res, next) {
   if (req.body.pass) {
     let salt = crypto.randomBytes(16).toString('base64');
@@ -63,14 +59,14 @@ exports.patchById = function (req, res, next) {
     req.body.pass = salt + "$" + hash;
   }
   User.patchUser(req.params.id, req.body).then((result) => {
+    console.log('patched user:\n' + result);
     res.status(204).send({});
   });
 };
 
-exports.removeById = function (req, res, next) {
-  User.findByIdAndDelete(req.params.id, function (err, deletedUser) {
-    if (err) throw err;
-    res.status(204).send(deletedUser);
+exports.getById = function (req, res, next) {
+  User.findById(req.params.id, '-__v').then(function (results) {
+    res.status(200).send(results);
   });
 };
 
@@ -85,5 +81,13 @@ exports.listUsers = function (req, res, next) {
   }
   User.list(limit, page).then((result) => {
     res.status(200).send(result);
+  });
+};
+
+exports.removeById = function (req, res, next) {
+  User.findByIdAndDelete(req.params.id, function (err, deletedUser) {
+    if (err) throw err;
+    console.log('deleted user:\n' + deletedUser);
+    res.status(204).send({});
   });
 };

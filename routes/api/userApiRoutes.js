@@ -22,6 +22,6 @@ router.patch('/:id', [
 
 router.delete('/:id', [
   user_apicontroller.removeById
-])
+]);
 
 module.exports = router;
