@@ -1,6 +1,6 @@
 const express = require('express');
 const async = require('async');
-const assignSessionID = require('../lib/asssignSessionID');
+const assignSessionID = require('../common/asssignSessionID');
 
 const Label = require('../models/label');
 const Css = require('../models/css');

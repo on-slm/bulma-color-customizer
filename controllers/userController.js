@@ -1,6 +1,6 @@
 const express = require('express');
 const async = require('async');
-const assignSessionID = require('../lib/asssignSessionID');
+const assignSessionID = require('../common/asssignSessionID');
 console.log('===================\n', 'userController.js', '\n');
 
 // main model = User

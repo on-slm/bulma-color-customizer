@@ -1,6 +1,6 @@
 const express = require('express');
 const async = require('async');
-const assignSessionID = require('../lib/asssignSessionID');
+const assignSessionID = require('../common/asssignSessionID');
 
 const Sass = require('../models/sass');
 
@@ -14,7 +14,6 @@ exports.sass_list = function (req, res, next) {
     .sort('name')
     .exec(function (err, list_sasses) {
       if (err) throw err;
-      console.log(list_sasses);
       res.render('sass_list_all', {
         title: 'Color Customiser Sass list - sass_list',
         devSessionId: req.session.sessIdentity,

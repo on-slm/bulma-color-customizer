@@ -13,7 +13,7 @@ const mongoose = require('mongoose');
 const fs = require('fs');
 const path = require('path');
 const uid = require('uid-safe').sync; // not needed, remove later
-const assignSessionID = require('./lib/asssignSessionID');
+const assignSessionID = require('./common/asssignSessionID');
 const cookieParser = require('cookie-parser'); // not needed, remove later
 const parseurl = require('parseurl');
 const session = require('express-session');
@@ -59,7 +59,8 @@ var cssRouter = require('./routes/css');
 var sassRouter = require('./routes/sass');
 var labelRouter = require('./routes/labelRoutes');
 
-var userApiRouter = require('./routes/api/userApiRoutes');
+const userApiRouter = require('./routes/api/userApiRoutes');
+const authApiRouter = require('./routes/api/authApiRoutes');
 
 const app = express();
 const port = 3000;
@@ -99,6 +100,7 @@ app.use(session(sess));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/api/users', userApiRouter);
+app.use('/api/auth', authApiRouter);
 app.use('/css', cssRouter);
 app.use('/sass', sassRouter);
 app.use('/labels', labelRouter);

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const assignSessionID = require('../lib/asssignSessionID');
+const assignSessionID = require('../common/asssignSessionID');
 console.log('===================\n', 'index.js', '\n');
 
 var arr = [];

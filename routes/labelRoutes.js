@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var assignSessionID = require('../lib/asssignSessionID');
+const assignSessionID = require('../common/asssignSessionID');
 
 var label_controller = require('../controllers/labelController');
 

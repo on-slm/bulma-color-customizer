@@ -10,8 +10,15 @@ var UserSchema = new Schema({
     type: String,
     validate: {
       validator: function (val) {
-        var re = /\S+@\S+\.\S+/;
-        return re.test(val);
+        return new Promise(function (resolve, reject) {
+          var re = /\S+@\S+\.\S+/;
+          var isValid = re.test(val);
+          if (err) {
+            reject(err);
+          } else {
+            resolve(`EMAIL:: ${val} is valid.`);
+          }
+        });
       },
       message: props => `${props.value} is not a valid email address!`
     },
